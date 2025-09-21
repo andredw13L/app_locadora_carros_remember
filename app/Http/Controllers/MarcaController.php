@@ -40,6 +40,11 @@ class MarcaController extends Controller
     public function show(int $id): \Illuminate\Http\JsonResponse
     {
         $marca = $this->marca->find($id);
+
+        if ($marca === null) {
+            return response()->json(['message' => 'Marca não encontrada'], 404);
+        }
+
         return response()->json($marca);
     }
 
@@ -49,6 +54,11 @@ class MarcaController extends Controller
     public function update(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
         $marca = $this->marca->find($id);
+
+        if ($marca === null) {
+            return response()->json(['message' => 'Marca não encontrada'], 404);
+        }
+
         $marca->update($request->all());
         return response()->json($marca);
     }
@@ -59,6 +69,11 @@ class MarcaController extends Controller
     public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
         $marca = $this->marca->find($id);
+
+        if ($marca === null) {
+            return response()->json(['message' => 'Marca não encontrada'], 404);
+        }
+
         $marca->delete();
         return response()->json([
             'message' => 'A marca removida com sucesso!'
