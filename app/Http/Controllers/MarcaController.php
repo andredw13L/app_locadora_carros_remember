@@ -7,54 +7,48 @@ use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+    protected $marca;
+
+    public function __construct(Marca $marca)
+    {
+        $this->marca = $marca;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
-        $marcas = Marca::all();
+        $marcas = $this->marca->all();
         return response()->json($marcas);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
-        $marca = Marca::create($request->all());
+        $marca = $this->marca->create($request->all());
         return response()->json($marca, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Marca $marca)
+    public function show(int $id): \Illuminate\Http\JsonResponse
     {
-        $marca = Marca::find($marca->id);
+        $marca = $this->marca->find($id);
         return response()->json($marca);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Marca $marca)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Marca $marca)
+    public function update(Request $request, int $id): \Illuminate\Http\JsonResponse
     {
+        $marca = $this->marca->find($id);
         $marca->update($request->all());
         return response()->json($marca);
     }
@@ -62,8 +56,9 @@ class MarcaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Marca $marca)
+    public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
+        $marca = $this->marca->find($id);
         $marca->delete();
         return response()->json([
             'message' => 'A marca removida com sucesso!'
