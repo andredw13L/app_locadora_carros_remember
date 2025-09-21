@@ -22,7 +22,7 @@ class MarcaController extends Controller
     public function index(): \Illuminate\Http\JsonResponse
     {
         $marcas = $this->marca->all();
-        return response()->json($marcas);
+        return response()->json($marcas, 200);
     }
 
     /**
@@ -45,7 +45,7 @@ class MarcaController extends Controller
             return response()->json(['message' => 'Marca não encontrada'], 404);
         }
 
-        return response()->json($marca);
+        return response()->json($marca, 200);
     }
 
     /**
@@ -60,7 +60,7 @@ class MarcaController extends Controller
         }
 
         $marca->update($request->all());
-        return response()->json($marca);
+        return response()->json($marca, 200);
     }
 
     /**
