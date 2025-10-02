@@ -31,9 +31,6 @@ test('Store - Deve criar uma nova marca', function () {
     expect($response->status())->toBe(201);
 
     expect($response->json())->toMatchArray($data);
-    
-
-    $marcaCriada = $this->getJson('/api/marca/' . $response->json('id'));
 });
 
 
@@ -61,7 +58,11 @@ test('Show - Deve retornar uma marca existente', function () {
         'id' => 1,
         'nome' => 'Marca Teste',
         'imagem' => 'imagem_teste.jpg'
+    ])->toHaveKeys([
+        'created_at',
+        'updated_at'
     ]);
+
 });
 
 test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
