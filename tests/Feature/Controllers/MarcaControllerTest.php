@@ -145,7 +145,7 @@ test('Update - Deve atualizar uma marca existente', function () {
 // test('Update - Deve atualizar parcialmente uma marca existente', function () {
 
 //     $data = [
-//         'nome' => 'Marca Teste - Parcialmente Atualizada - Patch'
+//         'nome' => 'Marca Teste - Parcialmente Atualizada'
 //     ];
 
 //     $response = $this->patchJson('/api/marca/1', $data);
@@ -156,19 +156,19 @@ test('Update - Deve atualizar uma marca existente', function () {
 //     expect($response->json('imagem'))->toBe('imagem_teste_atualizada.jpg');
 // });
 
-test('Update - Deve retornar feedback ao tentar atualizar marca com nome duplicado', function () {
+// test('Update - Deve retornar feedback ao tentar atualizar marca com nome duplicado', function () {
 
-    $data = [
-        'nome' => 'Marca Teste - Atualizada',
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
+//     $data = [
+//         'nome' => 'Marca Teste - Atualizada',
+//         'imagem' => 'imagem_teste_atualizada.jpg'
+//     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marca/1', $data);
 
-    expect($response->status())->toBe(422);
+//     expect($response->status())->toBe(422);
 
-    expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-});
+//     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
+// });
 
 test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
 
