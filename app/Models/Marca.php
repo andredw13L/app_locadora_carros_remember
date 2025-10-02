@@ -10,4 +10,22 @@ class Marca extends Model
     use HasFactory;
 
     protected $fillable = ['nome', 'imagem']; 
+
+    public function rules(): array
+    {
+        return [
+            'nome' => 'required|unique:marcas,nome|min:2|max:100',
+            'imagem' => 'required'
+        ];
+    }
+
+    public function feedback(): array
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'nome.unique' => 'Já existe uma marca com esse nome: :input',
+            'nome.min' => 'O campo nome deve ter no mínimo 2 caracteres',
+            'nome.max' => 'O campo nome deve ter no máximo 100 caracteres'
+        ];
+    }
 }

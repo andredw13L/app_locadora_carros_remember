@@ -33,6 +33,60 @@ test('Store - Deve criar uma nova marca', function () {
     expect($response->json())->toMatchArray($data);
 });
 
+test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
+
+    $data = [
+        'imagem' => 'imagem_teste.jpg'
+    ];
+
+    $response = $this->postJson('/api/marca', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+});
+
+
+test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
+
+    $data = [
+        'nome' => 'A',
+        'imagem' => 'imagem_teste.jpg'
+    ];
+
+    $response = $this->postJson('/api/marca', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+});
+
+test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
+
+    $data = [
+        'nome' => str_repeat('A', 101),
+        'imagem' => 'imagem_teste.jpg'
+    ];
+
+    $response = $this->postJson('/api/marca', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
+});
+
+test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
+
+    $data = [
+        'nome' => 'Marca Teste'
+    ];
+
+    $response = $this->postJson('/api/marca', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+});
 
 test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
 

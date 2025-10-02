@@ -31,17 +31,7 @@ class MarcaController extends Controller
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
 
-        $regras = [
-            'nome' => 'required|unique:marcas,nome',
-            'imagem' => 'required'
-        ];
-
-        $feedback = [
-            'required' => 'O campo :attribute é obrigatório',
-            'nome.unique' => 'Já existe uma marca com esse nome: :input'
-        ];
-
-        $request->validate($regras, $feedback);
+        $request->validate($this->marca->rules(), $this->marca->feedback());
 
         $marca = $this->marca->create($request->all());
         return response()->json($marca, 201);
