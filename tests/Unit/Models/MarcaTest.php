@@ -22,3 +22,5 @@ test('Verificar os Atributos Fillable', function () {
     //$this->assertContains('imagem', $fillable);
     expect($fillable)->toContain('imagem');
 });
+
+// TODO:Testes para verificar as regras de validação

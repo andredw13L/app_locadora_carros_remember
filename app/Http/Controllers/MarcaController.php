@@ -35,11 +35,13 @@ class MarcaController extends Controller
 
 
         $imagem = $request->file('imagem');
-        $imagem->store('imagens/marcas', 'public');
+        $imagem_urn = $imagem->store('imagens/marcas', 'public');
 
+
+        // TODO: Verificar se a imagem é repetida
         $marca = $this->marca->create([
             'nome' => $request->nome,
-            'imagem' => $imagem->hashName()
+            'imagem' => $imagem_urn
         ]);
 
         return response()->json($marca, 201);
