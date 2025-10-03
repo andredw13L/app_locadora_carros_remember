@@ -1,260 +1,262 @@
 <?php
 
-test('Index - Deve retornar uma lista de marcas', function () {
+// TODO: Reescrever os testes para lidar com upload de arquivos (imagens)
 
-    $response = $this->getJson('/api/marca');
+    test('Index - Deve retornar uma lista de marcas', function () {
 
-    expect($response->status())->toBe(200);
+        $response = $this->getJson('/api/marca');
 
-    expect($response->json())->toBeArray(
-        '*',
-        [
-            'id',
-            'nome',
-            'imagem',
+        expect($response->status())->toBe(200);
+
+        expect($response->json())->toBeArray(
+            '*',
+            [
+                'id',
+                'nome',
+                'imagem',
+                'created_at',
+                'updated_at'
+            ]
+        );
+    });
+
+
+    test('Store - Deve criar uma nova marca', function () {
+
+        $data = [
+            'nome' => 'Marca Teste',
+            'imagem' => 'imagem_teste.jpg'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(201);
+
+        expect($response->json())->toMatchArray($data);
+    });
+
+    test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
+
+        $data = [
+            'imagem' => 'imagem_teste.jpg'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(422);
+
+        expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+    });
+
+
+    test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
+
+        $data = [
+            'nome' => 'A',
+            'imagem' => 'imagem_teste.jpg'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(422);
+
+        expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+    });
+
+    test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
+
+        $data = [
+            'nome' => str_repeat('A', 101),
+            'imagem' => 'imagem_teste.jpg'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(422);
+
+        expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
+    });
+
+    test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
+
+        $data = [
+            'nome' => 'Marca Teste'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(422);
+
+        expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+    });
+
+    test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
+
+        $data = [
+            'nome' => 'Marca Teste',
+            'imagem' => 'imagem_teste.jpg'
+        ];
+
+        $response = $this->postJson('/api/marca', $data);
+
+        expect($response->status())->toBe(422);
+
+        expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
+    });
+
+    test('Show - Deve retornar uma marca existente', function () {
+
+        $response = $this->getJson('/api/marca/1');
+
+        expect($response->status())->toBe(200);
+
+        expect($response->json())->toMatchArray([
+            'id' => 1,
+            'nome' => 'Marca Teste',
+            'imagem' => 'imagem_teste.jpg'
+        ])->toHaveKeys([
             'created_at',
             'updated_at'
-        ]
-    );
-});
+        ]);
 
+    });
 
-test('Store - Deve criar uma nova marca', function () {
+    test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
 
-    $data = [
-        'nome' => 'Marca Teste',
-        'imagem' => 'imagem_teste.jpg'
-    ];
+        $response = $this->getJson('/api/marca/0');
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->status())->toBe(404);
 
-    expect($response->status())->toBe(201);
+        expect($response->json('message'))->toBe('Marca não encontrada');
+    });
 
-    expect($response->json())->toMatchArray($data);
-});
+    test('Update - Deve atualizar uma marca existente', function () {
 
-test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
+        $data = [
+            'nome' => 'Marca Teste - Atualizada',
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-    $data = [
-        'imagem' => 'imagem_teste.jpg'
-    ];
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->status())->toBe(200);
 
-    expect($response->status())->toBe(422);
+        expect($response->json())->toMatchArray($data);
+    });
 
-    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-});
+    test('Update - Deve atualizar parcialmente uma marca existente', function () {
 
+        $data = [
+            'nome' => 'Marca Teste - Parcialmente Atualizada'
+        ];
 
-test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
+        $response = $this->patchJson('/api/marca/1', $data);
 
-    $data = [
-        'nome' => 'A',
-        'imagem' => 'imagem_teste.jpg'
-    ];
+        expect($response->status())->toBe(200);
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->json('nome'))->toBe($data['nome']);
+        expect($response->json('imagem'))->toBe('imagem_teste_atualizada.jpg');
+    });
 
-    expect($response->status())->toBe(422);
+    test('Update - Deve retornar feedback ao tentar atualizar marca com nome duplicado', function () {
 
-    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-});
+        $data = [
+            'nome' => 'Marca Teste - Atualizada',
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $data = [
-        'nome' => str_repeat('A', 101),
-        'imagem' => 'imagem_teste.jpg'
-    ];
+        expect($response->status())->toBe(422);
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
+    });
 
-    expect($response->status())->toBe(422);
+    test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
 
-    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-});
+        $data = [
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $data = [
-        'nome' => 'Marca Teste'
-    ];
+        expect($response->status())->toBe(422);
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+    });
 
-    expect($response->status())->toBe(422);
+    test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
 
-    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-});
+        $data = [
+            'nome' => 'A',
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $data = [
-        'nome' => 'Marca Teste',
-        'imagem' => 'imagem_teste.jpg'
-    ];
+        expect($response->status())->toBe(422);
 
-    $response = $this->postJson('/api/marca', $data);
+        expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+    });
 
-    expect($response->status())->toBe(422);
+    test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
 
-    expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-});
+        $data = [
+            'nome' => str_repeat('A', 101),
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-test('Show - Deve retornar uma marca existente', function () {
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $response = $this->getJson('/api/marca/1');
+        expect($response->status())->toBe(422);
 
-    expect($response->status())->toBe(200);
+        expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
+    });
 
-    expect($response->json())->toMatchArray([
-        'id' => 1,
-        'nome' => 'Marca Teste',
-        'imagem' => 'imagem_teste.jpg'
-    ])->toHaveKeys([
-        'created_at',
-        'updated_at'
-    ]);
+    test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
 
-});
+        $data = [
+            'nome' => 'Marca Teste - Atualizada'
+        ];
 
-test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
+        $response = $this->putJson('/api/marca/1', $data);
 
-    $response = $this->getJson('/api/marca/0');
+        expect($response->status())->toBe(422);
 
-    expect($response->status())->toBe(404);
+        expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+    });
 
-    expect($response->json('message'))->toBe('Marca não encontrada');
-});
+    test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
 
-test('Update - Deve atualizar uma marca existente', function () {
+        $data = [
+            'nome' => 'Marca Teste - Atualizada',
+            'imagem' => 'imagem_teste_atualizada.jpg'
+        ];
 
-    $data = [
-        'nome' => 'Marca Teste - Atualizada',
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
+        $response = $this->putJson('/api/marca/0', $data);
 
-    $response = $this->putJson('/api/marca/1', $data);
+        expect($response->status())->toBe(404);
 
-    expect($response->status())->toBe(200);
+        expect($response->json('message'))->toBe('Marca não encontrada');
+    });
 
-    expect($response->json())->toMatchArray($data);
-});
+    test('Destroy - Deve deletar uma marca existente', function () {
 
-// test('Update - Deve atualizar parcialmente uma marca existente', function () {
+        $response = $this->deleteJson('/api/marca/1');
 
-//     $data = [
-//         'nome' => 'Marca Teste - Parcialmente Atualizada'
-//     ];
+        expect($response->status())->toBe(200);
 
-//     $response = $this->patchJson('/api/marca/1', $data);
+        expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
 
-//     expect($response->status())->toBe(200);
+        $responseGet = $this->getJson('/api/marca/1');
+        expect($responseGet->status())->toBe(404);
+    });
 
-//     expect($response->json('nome'))->toBe($data['nome']);
-//     expect($response->json('imagem'))->toBe('imagem_teste_atualizada.jpg');
-// });
+    test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome duplicado', function () {
+        $response = $this->deleteJson('/api/marca/0');
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => 'imagem_teste_atualizada.jpg'
-//     ];
+        expect($response->status())->toBe(404);
 
-//     $response = $this->putJson('/api/marca/1', $data);
-
-//     expect($response->status())->toBe(422);
-
-//     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-// });
-
-test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
-
-    $data = [
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
-
-    $response = $this->putJson('/api/marca/1', $data);
-
-    expect($response->status())->toBe(422);
-
-    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-});
-
-test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
-
-    $data = [
-        'nome' => 'A',
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
-
-    $response = $this->putJson('/api/marca/1', $data);
-
-    expect($response->status())->toBe(422);
-
-    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-});
-
-test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
-
-    $data = [
-        'nome' => str_repeat('A', 101),
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
-
-    $response = $this->putJson('/api/marca/1', $data);
-
-    expect($response->status())->toBe(422);
-
-    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-});
-
-test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
-
-    $data = [
-        'nome' => 'Marca Teste - Atualizada'
-    ];
-
-    $response = $this->putJson('/api/marca/1', $data);
-
-    expect($response->status())->toBe(422);
-
-    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-});
-
-test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
-
-    $data = [
-        'nome' => 'Marca Teste - Atualizada',
-        'imagem' => 'imagem_teste_atualizada.jpg'
-    ];
-
-    $response = $this->putJson('/api/marca/0', $data);
-
-    expect($response->status())->toBe(404);
-
-    expect($response->json('message'))->toBe('Marca não encontrada');
-});
-
-test('Destroy - Deve deletar uma marca existente', function () {
-
-    $response = $this->deleteJson('/api/marca/1');
-
-    expect($response->status())->toBe(200);
-
-    expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
-
-    $responseGet = $this->getJson('/api/marca/1');
-    expect($responseGet->status())->toBe(404);
-});
-
-test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
-
-    $response = $this->deleteJson('/api/marca/0');
-
-    expect($response->status())->toBe(404);
-
-    expect($response->json('message'))->toBe('Marca não encontrada');
-});
+        expect($response->json('message'))->toBe('Marca não encontrada');
+    });
