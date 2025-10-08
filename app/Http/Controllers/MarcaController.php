@@ -89,18 +89,19 @@ class MarcaController extends Controller
             $request->validate($marca->rules(), $marca->feedback());
         }
 
-        $imagem = $request->file('imagem');
-        $imagem_urn = $imagem->store('imagens/marcas', 'public');
+        $marca->fill($request->all());
 
-        if($request->file('imagem')){
+        if($request->file('imagem')) {
             Storage::disk('public')->delete($marca->imagem);
+
+            // TODO: Verificar se a imagem é repetida
+            $imagem = $request->file('imagem');
+            $imagem_urn = $imagem->store('imagens/marcas', 'public');
+
+            $marca->imagem = $imagem_urn;
         }
 
-        // TODO: Verificar se a imagem é repetida
-        $marca->update([
-            'nome' => $request->nome,
-            'imagem' => $imagem_urn
-        ]);
+        $marca->save();
 
         return response()->json($marca, 200);
     }
