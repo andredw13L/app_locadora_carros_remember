@@ -92,6 +92,7 @@ class MarcaController extends Controller
         $marca->fill($request->all());
 
         if($request->file('imagem')) {
+            // TODO: Remover a imagem do storage
             Storage::disk('public')->delete($marca->imagem);
 
             // TODO: Verificar se a imagem é repetida
