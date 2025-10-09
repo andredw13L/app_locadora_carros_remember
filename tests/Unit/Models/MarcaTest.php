@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Marca;
+
 test('Preencher a Marca', function () {
     $marca = new \App\Models\Marca();
     $marca->nome = 'Marca Teste';
@@ -13,7 +15,7 @@ test('Preencher a Marca', function () {
 });
 
 test('Verificar os Atributos Fillable', function () {
-    $marca = new \App\Models\Marca();
+    $marca = new Marca;
     $fillable = $marca->getFillable();
 
     //$this->assertContains('nome', $fillable);
@@ -23,4 +25,40 @@ test('Verificar os Atributos Fillable', function () {
     expect($fillable)->toContain('imagem');
 });
 
-// TODO:Testes para verificar as regras de validação
+test('Verificar as Regras de Validação', function () {
+    $marca = new Marca;
+    $rules = $marca->rules();
+
+    expect($rules)->toHaveKey('nome');
+
+    expect($rules)->toHaveKey('imagem');
+
+    expect($rules['nome'])->toBe('required|unique:marcas,nome,|min:2|max:100');
+
+    expect($rules['imagem'])->toBe('required|file|mimes:png');
+});
+
+test('Verificar os Feedbacks de Validação', function () {
+    $marca = new Marca;
+    $feedback = $marca->feedback();
+
+    expect($feedback)->toHaveKey('required');
+
+    expect($feedback)->toHaveKey('nome.unique');
+
+    expect($feedback)->toHaveKey('nome.min');
+
+    expect($feedback)->toHaveKey('nome.max');
+
+    expect($feedback)->toHaveKey('imagem.mimes');
+
+    expect($feedback['required'])->toBe('O campo :attribute é obrigatório');
+
+    expect($feedback['nome.unique'])->toBe('Já existe uma marca com esse nome: :input');
+
+    expect($feedback['nome.min'])->toBe('O campo nome deve ter no mínimo 2 caracteres');
+
+    expect($feedback['nome.max'])->toBe('O campo nome deve ter no máximo 100 caracteres');
+
+    expect($feedback['imagem.mimes'])->toBe('A imagem deve ser do tipo PNG');
+});
