@@ -50,9 +50,9 @@ class ModeloController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Modelo $modelo): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $modelo = $this->modelo->find($modelo->id);
+        $modelo = $this->modelo->find($id);
 
         if ($modelo === null) {
             return response()->json(['message' => 'Modelo não encontrado'], 404);
@@ -108,9 +108,9 @@ class ModeloController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Modelo $modelo): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $modelo = $this->modelo->find($modelo->id);
+        $modelo = $this->modelo->find($id);
 
         if ($modelo === null) {
             return response()->json(['message' => 'Modelo não encontrado'], 404);
