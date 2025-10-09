@@ -92,6 +92,8 @@ class MarcaController extends Controller
 
         $marca->fill($request->all());
 
+        // TODO: Corrigir a remoção da imagem antiga 
+
         if($request->file('imagem')) {
             // TODO: Remover a imagem do storage
             Storage::disk('public')->delete($marca->imagem);

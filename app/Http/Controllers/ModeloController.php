@@ -89,6 +89,8 @@ class ModeloController extends Controller
 
         $modelo->fill($request->all());
 
+        // TODO: Corrigir a remoção da imagem antiga 
+
         if ($request->file('imagem')) {
             // TODO: Remover a imagem do storage
             Storage::disk('public')->delete($modelo->imagem);
