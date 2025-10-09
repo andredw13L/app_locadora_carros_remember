@@ -120,7 +120,7 @@ class ModeloController extends Controller
 
         $modelo->delete();
         return response()->json([
-            'message' => 'O Modelo removido com sucesso!'
+            'message' => 'O Modelo foi removido com sucesso!'
         ], 200);
     }
 }
