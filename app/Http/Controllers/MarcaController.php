@@ -73,37 +73,36 @@ class MarcaController extends Controller
         if ($marca === null) {
             return response()->json(['message' => 'Marca não encontrada'], 404);
         }
-        
 
-        if($request->method() === 'PATCH'){
+
+        if ($request->method() === 'PATCH') {
             $regrasDinamicas = [];
 
-            foreach($marca->rules() as $input => $regra){
-                if(array_key_exists($input, $request->all())){
+            foreach ($marca->rules() as $input => $regra) {
+                if (array_key_exists($input, $request->all())) {
                     $regrasDinamicas[$input] = $regra;
                 }
             }
 
             $request->validate($regrasDinamicas, $marca->feedback());
-
         } else {
             $request->validate($marca->rules(), $marca->feedback());
         }
 
-        $marca->fill($request->all());
 
-        // TODO: Corrigir a remoção da imagem antiga 
+        if ($request->file('imagem')) {
 
-        if($request->file('imagem')) {
-            // TODO: Remover a imagem do storage
             Storage::disk('public')->delete($marca->imagem);
-
-            // TODO: Verificar se a imagem é repetida
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens/marcas', 'public');
 
-            $marca->imagem = $imagem_urn;
+        } else {
+
+            $imagem_urn = $marca->imagem;
         }
+
+        $marca->fill($request->all());
+        $marca->imagem = $imagem_urn;
 
         $marca->save();
 

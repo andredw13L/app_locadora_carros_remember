@@ -35,7 +35,7 @@ class ModeloController extends Controller
         $imagem_urn = $imagem->store('imagens/modelos', 'public');
 
         $modelo = $this->modelo->create([
-            'marca_id' => $request->marca_id,
+            'modelo_id' => $request->modelo_id,
             'nome' => $request->nome,
             'imagem' => $imagem_urn,
             'numero_portas' => $request->numero_portas,
@@ -52,7 +52,7 @@ class ModeloController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $modelo = $this->modelo->with('marca')->find($id);
+        $modelo = $this->modelo->with('modelo')->find($id);
 
         if ($modelo === null) {
             return response()->json(['message' => 'Modelo não encontrado'], 404);
@@ -87,20 +87,20 @@ class ModeloController extends Controller
             $request->validate($modelo->rules(), $modelo->feedback());
         }
 
-        $modelo->fill($request->all());
-
-        // TODO: Corrigir a remoção da imagem antiga 
 
         if ($request->file('imagem')) {
-            // TODO: Remover a imagem do storage
-            Storage::disk('public')->delete($modelo->imagem);
 
-            // TODO: Verificar se a imagem é repetida
+            Storage::disk('public')->delete($modelo->imagem);
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens/modelos', 'public');
 
-            $modelo->imagem = $imagem_urn;
+        } else {
+
+            $imagem_urn = $modelo->imagem;
         }
+
+        $modelo->fill($request->all());
+        $modelo->imagem = $imagem_urn;
 
         $modelo->save();
 
