@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Marca extends Model
 {
@@ -28,5 +29,10 @@ class Marca extends Model
             'nome.max' => 'O campo nome deve ter no máximo 100 caracteres',
             'imagem.mimes' => 'A imagem deve ser do tipo PNG'
         ];
+    }
+
+    public function modelos(): HasMany
+    {
+        return $this->hasMany(Modelo::class);
     }
 }

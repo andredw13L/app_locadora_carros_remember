@@ -1,7 +1,7 @@
 <?php
 
 /* TODO: Reescrever os testes de update para lidar com put e patch corretamente
-          e utilizar as factories para criar as marcas de teste
+          e mapear o relacionamento com modelos
 */
 
 use Illuminate\Http\UploadedFile;
