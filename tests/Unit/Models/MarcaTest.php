@@ -62,3 +62,5 @@ test('Verificar os Feedbacks de Validação', function () {
 
     expect($feedback['imagem.mimes'])->toBe('A imagem deve ser do tipo PNG');
 });
+
+// TODO: Adicionar testes para o relacionamento com a tabela Modelos
