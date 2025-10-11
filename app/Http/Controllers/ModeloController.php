@@ -35,7 +35,7 @@ class ModeloController extends Controller
         $imagem_urn = $imagem->store('imagens/modelos', 'public');
 
         $modelo = $this->modelo->create([
-            'modelo_id' => $request->modelo_id,
+            'marca_id' => $request->marca_id,
             'nome' => $request->nome,
             'imagem' => $imagem_urn,
             'numero_portas' => $request->numero_portas,
