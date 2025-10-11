@@ -19,9 +19,21 @@ class ModeloController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json($this->modelo->with('marca')->get(), 200);
+        $modelos = [];
+
+        if ($request->has('atributos')) {
+            /* TODO: Melhorar a segurança e implementar um DTO
+                    para proteção contra SQL Injections */
+            $atributos = explode(',', $request->atributos);
+            $modelos = $this->modelo->select($atributos)->get();
+        } else {
+            
+            $modelos = $this->modelo->with('marca')->get();
+        }
+
+        return response()->json($modelos, 200);
     }
 
     /**
@@ -93,7 +105,6 @@ class ModeloController extends Controller
             Storage::disk('public')->delete($modelo->imagem);
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens/modelos', 'public');
-
         } else {
 
             $imagem_urn = $modelo->imagem;
