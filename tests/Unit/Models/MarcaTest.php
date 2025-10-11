@@ -1,17 +1,18 @@
 <?php
 
 use App\Models\Marca;
+use App\Models\Modelo;
 
 test('Preencher a Marca', function () {
-    $marca = new \App\Models\Marca();
+    $marca = new Marca;
     $marca->nome = 'Marca Teste';
-    $marca->imagem = 'imagem_teste.jpg';
+    $marca->imagem = 'imagem_teste.png';
 
     //$this->assertEquals('Marca Teste', $marca->nome);
     expect($marca->nome)->toBe('Marca Teste');
 
     //$this->assertEquals('imagem_teste.jpg', $marca->imagem);
-    expect($marca->imagem)->toBe('imagem_teste.jpg');
+    expect($marca->imagem)->toBe('imagem_teste.png');
 });
 
 test('Verificar os Atributos Fillable', function () {
@@ -62,5 +63,3 @@ test('Verificar os Feedbacks de Validação', function () {
 
     expect($feedback['imagem.mimes'])->toBe('A imagem deve ser do tipo PNG');
 });
-
-// TODO: Adicionar testes para o relacionamento com a tabela Modelos
