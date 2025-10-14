@@ -25,7 +25,7 @@ class Modelo extends Model
     {
         return [
             'marca_id' => 'exists:marcas,id',
-            'nome' => 'required|unique:modelos,nome,' . $this->id . '|min:2',
+            'nome' => 'required|unique:modelos,nome,' . $this->id . '|min:2|max:255',
             'imagem' => 'required|file|mimes:png,jpeg,jpg',
             'numero_portas' => 'required|integer|digits_between:1,5',
             'lugares' => 'required|integer|digits_between:1,20',
