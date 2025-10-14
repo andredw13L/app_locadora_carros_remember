@@ -23,14 +23,31 @@ class ModeloController extends Controller
     {
         $modelos = [];
 
+        if ($request->has('atributos_marca')) {
+
+            $atributos = explode(',', $request->atributos);
+            $atributos_marca = explode(',', $request->atributos_marca);
+
+            if (!in_array('id', $atributos_marca)) {
+                $atributos_marca[] = 'id';
+            }
+
+            $atributos_marca_str = 'marca:' . implode(',', $atributos_marca);
+
+            $modelos = $this->modelo->with($atributos_marca_str);
+        } else {
+            $modelos = $this->modelo->with('marca');
+        }
+
         if ($request->has('atributos')) {
             /* TODO: Melhorar a segurança e implementar um DTO
                     para proteção contra SQL Injections */
             $atributos = explode(',', $request->atributos);
-            $modelos = $this->modelo->select($atributos)->get();
+
+            $modelos = $modelos->select($atributos)->get();
         } else {
-            
-            $modelos = $this->modelo->with('marca')->get();
+
+            $modelos = $modelos->get();
         }
 
         return response()->json($modelos, 200);
