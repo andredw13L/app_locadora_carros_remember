@@ -23,6 +23,8 @@ class ModeloController extends Controller
     {
         $modelos = [];
 
+        // TODO: Diminuir o uso de ifs encadeados
+
         if ($request->has('atributos_marca')) {
 
             $atributos = explode(',', $request->atributos);
@@ -41,10 +43,14 @@ class ModeloController extends Controller
 
         if ($request->has('filtro')) {
 
-            $condicoes = explode(':', $request->filtro);
-            
-            // TODO: Melhorar essa implementação
-            $modelos = $modelos->where($condicoes[0], $condicoes[1], $condicoes[2]);
+            $filtros = explode(';', $request->filtro);
+
+            foreach ($filtros as $chave => $valor) {
+
+                $condicao = explode(':', $valor);
+
+                $modelos = $modelos->where($condicao[0], $condicao[1], $condicao[2]);
+            }
         }
 
         if ($request->has('atributos')) {
