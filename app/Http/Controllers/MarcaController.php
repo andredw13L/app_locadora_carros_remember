@@ -60,7 +60,7 @@ class MarcaController extends Controller
             $marcas = $marcas->select($atributos)->get();
         } else {
 
-            $modelos = $marcas->get();
+            $marcas = $marcas->get();
         }
 
         return response()->json($marcas, 200);
