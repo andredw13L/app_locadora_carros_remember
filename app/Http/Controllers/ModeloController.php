@@ -26,8 +26,6 @@ class ModeloController extends Controller
         // TODO: Diminuir o uso de ifs encadeados
 
         if ($request->has('atributos_marca')) {
-
-            $atributos = explode(',', $request->atributos);
             $atributos_marca = explode(',', $request->atributos_marca);
 
             if (!in_array('id', $atributos_marca)) {

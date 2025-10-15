@@ -21,9 +21,48 @@ class MarcaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $marcas = $this->marca->with('modelos')->get();
+        $marcas = [];
+
+        if ($request->has('atributos_modelos')) {
+
+            $atributos_modelos = explode(',', $request->atributos_modelos);
+
+            if (!in_array('id', $atributos_modelos)) {
+                $atributos_modelos[] = 'id';
+            }
+
+            $atributos_modelos_str = 'marca:' . implode(',', $atributos_modelos);
+
+            $marcas = $this->marca->with($atributos_modelos_str);
+        } else {
+            $marcas = $this->marca->with('modelos');
+        }
+
+        if ($request->has('filtro')) {
+
+            $filtros = explode(';', $request->filtro);
+
+            foreach ($filtros as $chave => $valor) {
+
+                $condicao = explode(':', $valor);
+
+                $marcas = $marcas->where($condicao[0], $condicao[1], $condicao[2]);
+            }
+        }
+
+        if ($request->has('atributos')) {
+            /* TODO: Melhorar a segurança e implementar um DTO
+                    para proteção contra SQL Injections */
+            $atributos = explode(',', $request->atributos);
+
+            $marcas = $marcas->select($atributos)->get();
+        } else {
+
+            $modelos = $marcas->get();
+        }
+
         return response()->json($marcas, 200);
     }
 
@@ -93,7 +132,6 @@ class MarcaController extends Controller
             Storage::disk('public')->delete($marca->imagem);
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens/marcas', 'public');
-
         } else {
 
             $imagem_urn = $marca->imagem;
