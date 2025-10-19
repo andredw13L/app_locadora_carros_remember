@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Repositories\MarcaRepository;
 use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
@@ -23,7 +24,9 @@ class MarcaController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $marcas = [];
+
+        $marcaRepository = new MarcaRepository($this->marca);
+
 
         if ($request->has('atributos_modelos')) {
 
@@ -33,23 +36,18 @@ class MarcaController extends Controller
                 $atributos_modelos[] = 'id';
             }
 
-            $atributos_modelos_str = 'marca:' . implode(',', $atributos_modelos);
+            $atributos_modelos_str = 'modelos:' . implode(',', $atributos_modelos);
 
-            $marcas = $this->marca->with($atributos_modelos_str);
+            $marcaRepository->selectAtributosRegistrosRelacionados(
+                $atributos_modelos_str
+            );
+
         } else {
-            $marcas = $this->marca->with('modelos');
+            $marcaRepository->selectAtributosRegistrosRelacionados('modelos');
         }
 
         if ($request->has('filtro')) {
-
-            $filtros = explode(';', $request->filtro);
-
-            foreach ($filtros as $chave => $valor) {
-
-                $condicao = explode(':', $valor);
-
-                $marcas = $marcas->where($condicao[0], $condicao[1], $condicao[2]);
-            }
+            $marcaRepository->filtro($request->filtro);
         }
 
         if ($request->has('atributos')) {
@@ -57,13 +55,10 @@ class MarcaController extends Controller
                     para proteção contra SQL Injections */
             $atributos = explode(',', $request->atributos);
 
-            $marcas = $marcas->select($atributos)->get();
-        } else {
-
-            $marcas = $marcas->get();
+            $marcaRepository->selectAtributos($atributos);
         }
 
-        return response()->json($marcas, 200);
+        return response()->json($marcaRepository->getResultado(), 200);
     }
 
     /**
