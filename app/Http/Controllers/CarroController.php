@@ -7,7 +7,6 @@ use App\Models\Carro;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\CarroRepository;
-use Illuminate\Support\Facades\Storage;
 
 class CarroController extends Controller
 {
@@ -65,7 +64,7 @@ class CarroController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $request->validate($this->carro->rules());
+        $request->validate($this->carro->rules(), $this->carro->feedback());
 
         $carro = $this->carro->create([
             'modelo_id' => $request->modelo_id,
@@ -113,7 +112,7 @@ class CarroController extends Controller
 
             $request->validate($regrasDinamicas, $carro->feedback());
         } else {
-            $request->validate($carro->rules());
+            $request->validate($carro->rules(), $carro->feedback());
         }
 
         $carro->fill($request->all());
