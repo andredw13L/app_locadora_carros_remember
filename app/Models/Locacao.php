@@ -7,8 +7,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class Locacao extends Model
 {
-    /** @use HasFactory<\Database\Factories\LocacaoFactory> */
+    
     use HasFactory;
 
     protected $table = 'locacoes';
+
+    protected $fillable = [
+        'cliente_id', 
+        'carro_id', 
+        'data_inicio_periodo', 
+        'data_final_previsto_periodo',
+        'data_final_realizado_periodo',
+        'valor_diaria',
+        'km_inicial',
+        'km_final'
+    ];
+
+
+    public function rules(): array
+    {
+        return [
+            'cliente_id' => 'exists:clientes,id',
+            'carro_id' => 'exists:carros,id'
+        ];
+    }
+
+
+    public function feedback(): array
+    {
+        return [
+            'cliente_id.exists' => 'O cliente informado não existe',
+            'carro_id.exists' => 'O carro informado não existe'
+        ];
+    }
 }
