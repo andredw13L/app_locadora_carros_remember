@@ -13,4 +13,9 @@ services:
       - ./mysql_data:/var/lib/mysql
 volumes:
   mysql_data:
+  
+# TODO: Mapear o diretório de imagens em volume docker
+
 # docker compose up -d
+
+
