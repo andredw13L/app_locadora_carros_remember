@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ModeloController extends Controller
 {
-    protected $modelo;
 
-    public function __construct(Modelo $modelo)
+    public function __construct(protected Modelo $modelo)
     {
-        $this->modelo = $modelo;
     }
 
     /**

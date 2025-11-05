@@ -10,12 +10,9 @@ use App\Repositories\CarroRepository;
 
 class CarroController extends Controller
 {
-    protected $carro;
 
-
-    public function __construct(Carro $carro)
+    public function __construct(protected Carro $carro)
     {
-        $this->carro = $carro;
     }
 
 

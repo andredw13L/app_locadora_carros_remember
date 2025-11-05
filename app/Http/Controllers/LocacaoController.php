@@ -11,11 +11,8 @@ use Illuminate\Http\Request;
 class LocacaoController extends Controller
 {
 
-    protected $locacao;
-
-    public function __construct(Locacao $locacao)
+    public function __construct(protected Locacao $locacao)
     {
-        $this->locacao = $locacao;
     }
 
     /**

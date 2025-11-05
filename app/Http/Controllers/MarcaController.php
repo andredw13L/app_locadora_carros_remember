@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
 {
-    protected $marca;
 
-    public function __construct(Marca $marca)
+    public function __construct(protected Marca $marca)
     {
-        $this->marca = $marca;
     }
 
 

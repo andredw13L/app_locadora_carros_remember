@@ -10,11 +10,8 @@ use Illuminate\Http\JsonResponse;
 class ClienteController extends Controller
 {
 
-    protected $cliente;
-
-    public function __construct(Cliente $cliente)
+    public function __construct(protected Cliente $cliente)
     {
-        $this->cliente = $cliente;
     }
 
 
