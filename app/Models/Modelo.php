@@ -7,6 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $id
+ * @property int $marca_id
+ * @property string $nome
+ * @property string $imagem Imagem do modelo
+ * @property int $numero_portas
+ * @property int $lugares
+ * @property int $air_bag
+ * @property int $abs
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Marca $marca
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereAbs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereAirBag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereImagem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereLugares($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereMarcaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereNome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereNumeroPortas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modelo whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Modelo extends Model
 {
     use HasFactory;

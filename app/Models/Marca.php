@@ -6,6 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $nome
+ * @property string $imagem Logo da marca
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Modelo> $modelos
+ * @property-read int|null $modelos_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca whereImagem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca whereNome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Marca whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Marca extends Model
 {
     use HasFactory;
