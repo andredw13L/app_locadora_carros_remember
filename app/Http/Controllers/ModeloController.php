@@ -85,7 +85,7 @@ class ModeloController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $modelo = $this->modelo->with('modelo')->find($id);
+        $modelo = $this->modelo->with('marca')->find($id);
 
         if ($modelo === null) {
             return response()->json(['message' => 'Modelo não encontrado'], 404);
