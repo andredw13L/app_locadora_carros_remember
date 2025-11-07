@@ -36,7 +36,7 @@ test('Verificar as Regras de Validação', function () {
 
     expect($rules)->toHaveKey('marca_id');
 
-    expect($rules['nome'])->toBe('required|unique:modelos,nome,|min:2');
+    expect($rules['nome'])->toBe('required|unique:modelos,nome,|min:2|max:255');
 
     expect($rules['imagem'])->toBe('required|file|mimes:png,jpeg,jpg');
 
