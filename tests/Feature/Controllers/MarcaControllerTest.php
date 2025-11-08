@@ -1,8 +1,5 @@
 <?php
 
-/* TODO: Reescrever os testes de update para lidar com put e patch corretamente
-          e mapear o relacionamento com modelos
-*/
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

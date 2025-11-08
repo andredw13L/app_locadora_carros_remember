@@ -67,6 +67,7 @@ class Modelo extends Model
             'required' => 'O campo :attribute é obrigatório',
             'nome.unique' => 'Já existe um modelo com esse nome: :input',
             'nome.min' => 'O campo nome deve ter no mínimo 2 caracteres',
+            'nome.max' => 'O campo nome deve ter no máximo 255 caracteres',
             'marca_id.exists' => 'A marca informada não existe',
             'imagem.mimes' => 'A imagem deve ser do tipo PNG, JPEG ou JPG',
             'numero_portas.digits_between' => 'O número de portas deve estar entre 1 e 5',
