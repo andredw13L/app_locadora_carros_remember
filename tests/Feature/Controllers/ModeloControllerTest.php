@@ -7,7 +7,7 @@ test('Index - Deve retornar uma lista de modelos', function () {
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/modelo');
+    $response = $this->getJson('/api/modelos');
 
     expect($response->status())->toBe(200);
 
@@ -39,13 +39,13 @@ test('Store - Deve criar um novo modelo', function () {
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response_marca = $this->postJson('/api/marca', $data_marca);
+    $response_marca = $this->postJson('/api/marcas', $data_marca);
 
 
     expect($response_marca->status())->toBe(201);
 
 
-    $marca_id= $this->getJson('/api/marca/');
+    $marca_id= $this->getJson('/api/marcas/');
 
     expect($marca_id->status())->toBe(200);
 
@@ -60,7 +60,7 @@ test('Store - Deve criar um novo modelo', function () {
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(201);
 
@@ -86,7 +86,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo só com a imagem', f
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -102,7 +102,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marca/');
+    $marca_id = $this->getJson('/api/marcas/');
 
     expect($marca_id->status())->toBe(200);
 
@@ -116,7 +116,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -127,7 +127,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marca/');
+    $marca_id = $this->getJson('/api/marcas/');
 
     expect($marca_id->status())->toBe(200);
 
@@ -141,7 +141,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -152,7 +152,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marca/');
+    $marca_id = $this->getJson('/api/marcas/');
 
     expect($marca_id->status())->toBe(200);
 
@@ -165,7 +165,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -176,7 +176,7 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marca/');
+    $marca_id = $this->getJson('/api/marcas/');
 
     expect($marca_id->status())->toBe(200);
 
@@ -191,7 +191,7 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
 
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -216,7 +216,7 @@ test('Store - Deve existir a marca do modelo', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelo', $data);
+    $response = $this->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -236,7 +236,7 @@ test('Store - Deve existir a marca do modelo', function () {
 
 //     Storage::fake('public');
 
-//     $response = $this->getJson('/api/marca/1');
+//     $response = $this->getJson('/api/marcas/1');
 
 //     expect($response->status())->toBe(200);
 
@@ -254,7 +254,7 @@ test('Store - Deve existir a marca do modelo', function () {
 
 //     Storage::fake('public');
 
-//     $response = $this->getJson('/api/marca/0');
+//     $response = $this->getJson('/api/marcas/0');
 
 //     expect($response->status())->toBe(404);
 
@@ -270,7 +270,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
 //     ];
 
-//     $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marcas/1', $data);
 
 //     expect($response->status())->toBe(200);
 
@@ -293,7 +293,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'nome' => 'Marca Teste - Patch'
 //     ];
 
-//     $response = $this->patchJson('/api/marca/1', $data);
+//     $response = $this->patchJson('/api/marcas/1', $data);
 
 
 //     expect($response->status())->toBe(200);
@@ -316,7 +316,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
 //     ];
 
-//     $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marcas/1', $data);
 
 //     expect($response->status())->toBe(422);
 
@@ -332,7 +332,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
 //     ];
 
-//     $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marcas/1', $data);
 
 //     expect($response->status())->toBe(422);
 
@@ -348,7 +348,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
 //     ];
 
-//     $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marcas/1', $data);
 
 //     expect($response->status())->toBe(422);
 
@@ -363,7 +363,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'nome' => 'Marca Teste - Atualizada'
 //     ];
 
-//     $response = $this->putJson('/api/marca/1', $data);
+//     $response = $this->putJson('/api/marcas/1', $data);
 
 //     expect($response->status())->toBe(422);
 
@@ -379,7 +379,7 @@ test('Store - Deve existir a marca do modelo', function () {
 //         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
 //     ];
 
-//     $response = $this->putJson('/api/marca/0', $data);
+//     $response = $this->putJson('/api/marcas/0', $data);
 
 //     expect($response->status())->toBe(404);
 
@@ -390,13 +390,13 @@ test('Store - Deve existir a marca do modelo', function () {
 
 //     Storage::fake('public');
 
-//     $response = $this->deleteJson('/api/marca/1');
+//     $response = $this->deleteJson('/api/marcas/1');
 
 //     expect($response->status())->toBe(200);
 
 //     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
 
-//     $responseGet = $this->getJson('/api/marca/1');
+//     $responseGet = $this->getJson('/api/marcas/1');
 //     expect($responseGet->status())->toBe(404);
 // });
 
@@ -404,7 +404,7 @@ test('Store - Deve existir a marca do modelo', function () {
 
 //     Storage::fake('public');
 
-//     $response = $this->deleteJson('/api/marca/0');
+//     $response = $this->deleteJson('/api/marcas/0');
 
 //     expect($response->status())->toBe(404);
 

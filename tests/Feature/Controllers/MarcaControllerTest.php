@@ -8,7 +8,7 @@ test('Index - Deve retornar uma lista de marcas', function () {
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/marca');
+    $response = $this->getJson('/api/marcas');
 
     expect($response->status())->toBe(200);
 
@@ -34,7 +34,7 @@ test('Store - Deve criar uma nova marca', function () {
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
 
     expect($response->status())->toBe(201);
@@ -57,7 +57,7 @@ test('Store - Deve retornar feedback ao tentar criar marca sem nome', function (
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
     expect($response->status())->toBe(422);
 
@@ -74,7 +74,7 @@ test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto'
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
     expect($response->status())->toBe(422);
 
@@ -90,7 +90,7 @@ test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo'
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
     expect($response->status())->toBe(422);
 
@@ -105,7 +105,7 @@ test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function
         'nome' => 'Marca Teste'
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
     expect($response->status())->toBe(422);
 
@@ -121,7 +121,7 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/marca', $data);
+    $response = $this->postJson('/api/marcas', $data);
 
     expect($response->status())->toBe(422);
 
@@ -132,7 +132,7 @@ test('Show - Deve retornar uma marca existente', function () {
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/marca/1');
+    $response = $this->getJson('/api/marcas/1');
 
     expect($response->status())->toBe(200);
 
@@ -150,7 +150,7 @@ test('Show - Deve retornar erro ao tentar acessar marca inexistente', function (
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/marca/0');
+    $response = $this->getJson('/api/marcas/0');
 
     expect($response->status())->toBe(404);
 
@@ -166,7 +166,7 @@ test('Update - Deve atualizar uma marca existente', function () {
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+    $response = $this->putJson('/api/marcas/1', $data);
 
     expect($response->status())->toBe(200);
 
@@ -189,7 +189,7 @@ test('Update - Deve atualizar parcialmente uma marca existente', function () {
         'nome' => 'Marca Teste - Patch'
     ];
 
-    $response = $this->patchJson('/api/marca/1', $data);
+    $response = $this->patchJson('/api/marcas/1', $data);
 
 
     expect($response->status())->toBe(200);
@@ -212,7 +212,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', funct
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+    $response = $this->putJson('/api/marcas/1', $data);
 
     expect($response->status())->toBe(422);
 
@@ -228,7 +228,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito c
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+    $response = $this->putJson('/api/marcas/1', $data);
 
     expect($response->status())->toBe(422);
 
@@ -244,7 +244,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+    $response = $this->putJson('/api/marcas/1', $data);
 
     expect($response->status())->toBe(422);
 
@@ -259,7 +259,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', fun
         'nome' => 'Marca Teste - Atualizada'
     ];
 
-    $response = $this->putJson('/api/marca/1', $data);
+    $response = $this->putJson('/api/marcas/1', $data);
 
     expect($response->status())->toBe(422);
 
@@ -275,7 +275,7 @@ test('Update - Deve retornar erro ao tentar atualizar marca inexistente', functi
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marca/0', $data);
+    $response = $this->putJson('/api/marcas/0', $data);
 
     expect($response->status())->toBe(404);
 
@@ -286,13 +286,13 @@ test('Destroy - Deve deletar uma marca existente', function () {
 
     Storage::fake('public');
 
-    $response = $this->deleteJson('/api/marca/1');
+    $response = $this->deleteJson('/api/marcas/1');
 
     expect($response->status())->toBe(200);
 
     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
 
-    $responseGet = $this->getJson('/api/marca/1');
+    $responseGet = $this->getJson('/api/marcas/1');
     expect($responseGet->status())->toBe(404);
 });
 
@@ -300,7 +300,7 @@ test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', functio
 
     Storage::fake('public');
 
-    $response = $this->deleteJson('/api/marca/0');
+    $response = $this->deleteJson('/api/marcas/0');
 
     expect($response->status())->toBe(404);
 
