@@ -206,23 +206,6 @@ test('Update - Deve atualizar parcialmente uma marca existente', function () {
     ]);
 });
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome duplicado', function () {
-
-//     Storage::fake('public');
-
-//     $marca = $this->getJson('/api/marca/1');
-
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => $marca->json('imagem')
-//     ];
-
-//     $response = $this->putJson('/api/marca/1', $data);
-
-//     expect($response->status())->toBe(422);
-
-//     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-// });
 
 test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
 

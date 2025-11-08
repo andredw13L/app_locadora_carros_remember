@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,7 +21,9 @@ class ModeloSeeder extends Seeder
             'numero_portas' => 4,
             'lugares' => 5,
             'air_bag' => 1,
-            'abs' => 1
+            'abs' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
     }
 }
