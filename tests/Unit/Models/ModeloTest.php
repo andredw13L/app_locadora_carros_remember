@@ -52,8 +52,8 @@ test('Verificar os Feedbacks de Validação', function () {
     expect($feedback)->toHaveKey('nome.min');
     expect($feedback)->toHaveKey('marca_id.exists');
     expect($feedback)->toHaveKey('imagem.mimes');
-    expect($feedback)->toHaveKey('numero_portas.digits_between');
-    expect($feedback)->toHaveKey('lugares.digits_between');
+    expect($feedback)->toHaveKey('numero_portas.between');
+    expect($feedback)->toHaveKey('lugares.between');
     expect($feedback)->toHaveKey('air_bag.boolean');
     expect($feedback)->toHaveKey('abs.boolean');
     expect($feedback['required'])->toBe('O campo :attribute é obrigatório');
@@ -61,8 +61,8 @@ test('Verificar os Feedbacks de Validação', function () {
     expect($feedback['nome.min'])->toBe('O campo nome deve ter no mínimo 2 caracteres');
     expect($feedback['marca_id.exists'])->toBe('A marca informada não existe');
     expect($feedback['imagem.mimes'])->toBe('A imagem deve ser do tipo PNG, JPEG ou JPG');
-    expect($feedback['numero_portas.digits_between'])->toBe('O número de portas deve estar entre 1 e 5');
-    expect($feedback['lugares.digits_between'])->toBe('O número de lugares deve estar entre 1 e 20');
+    expect($feedback['numero_portas.between'])->toBe('O número de portas deve estar entre 1 e 5');
+    expect($feedback['lugares.between'])->toBe('O número de lugares deve estar entre 1 e 20');
     expect($feedback['air_bag.boolean'])->toBe('O campo air_bag deve ser verdadeiro ou falso');
     expect($feedback['abs.boolean'])->toBe('O campo abs deve ser verdadeiro ou falso');
 });

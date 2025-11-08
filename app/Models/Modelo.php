@@ -54,8 +54,8 @@ class Modelo extends Model
             'marca_id' => 'exists:marcas,id',
             'nome' => 'required|unique:modelos,nome,' . $this->id . '|min:2|max:255',
             'imagem' => 'required|file|mimes:png,jpeg,jpg',
-            'numero_portas' => 'required|integer|digits_between:1,5',
-            'lugares' => 'required|integer|digits_between:1,20',
+            'numero_portas' => 'required|integer|between:1,5',
+            'lugares' => 'required|integer|between:1,20',
             'air_bag' => 'required|boolean',
             'abs' => 'required|boolean'
         ];
@@ -70,8 +70,8 @@ class Modelo extends Model
             'nome.max' => 'O campo nome deve ter no máximo 255 caracteres',
             'marca_id.exists' => 'A marca informada não existe',
             'imagem.mimes' => 'A imagem deve ser do tipo PNG, JPEG ou JPG',
-            'numero_portas.digits_between' => 'O número de portas deve estar entre 1 e 5',
-            'lugares.digits_between' => 'O número de lugares deve estar entre 1 e 20',
+            'numero_portas.between' => 'O número de portas deve estar entre 1 e 5',
+            'lugares.between' => 'O número de lugares deve estar entre 1 e 20',
             'air_bag.boolean' => 'O campo air_bag deve ser verdadeiro ou falso',
             'abs.boolean' => 'O campo abs deve ser verdadeiro ou falso'
         ];

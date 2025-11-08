@@ -172,7 +172,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
 });
 
-test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
+test('Store - Deve retornar erro ao tentar criar modelo com nome duplicado', function () {
 
     Storage::fake('public');
 
@@ -225,11 +225,41 @@ test('Store - Deve existir a marca do modelo', function () {
 });
 
 /* TODO: Criar testes para:            
-            'numero_portas' => 'required|integer|digits_between:1,5',
-            'lugares' => 'required|integer|digits_between:1,20',
+            'numero_portas' => 'required|integer|between:1,5',
+            'lugares' => 'required|integer|between:1,20',
             'air_bag' => 'required|boolean',
             'abs' => 'required|boolean'
 */
+
+
+test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugares',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 0,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.lugares.0'))->toBe('O número de lugares deve estar entre 1 e 20');
+
+});
 
 
 // test('Show - Deve retornar uma marca existente', function () {
