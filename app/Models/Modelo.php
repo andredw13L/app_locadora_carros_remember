@@ -71,7 +71,9 @@ class Modelo extends Model
             'marca_id.exists' => 'A marca informada não existe',
             'imagem.mimes' => 'A imagem deve ser do tipo PNG, JPEG ou JPG',
             'numero_portas.between' => 'O número de portas deve estar entre 1 e 5',
+            'numero_portas.integer' => 'O número de portas precisa ser do tipo inteiro',
             'lugares.between' => 'O número de lugares deve estar entre 1 e 20',
+            'lugares.integer' => 'O número de lugares precisa ser do tipo inteiro',
             'air_bag.boolean' => 'O campo air_bag deve ser verdadeiro ou falso',
             'abs.boolean' => 'O campo abs deve ser verdadeiro ou falso'
         ];

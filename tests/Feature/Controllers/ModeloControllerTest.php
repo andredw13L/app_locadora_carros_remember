@@ -232,6 +232,37 @@ test('Store - Deve existir a marca do modelo', function () {
 */
 
 
+test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja do tipo inteiro', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo lugar sem int',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 2.5,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.lugares.0'))->toBe('O número de lugares precisa ser do tipo inteiro');
+
+});
+
+
+
 test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', function() {
 
     Storage::fake('public');
@@ -258,6 +289,124 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', 
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.lugares.0'))->toBe('O número de lugares deve estar entre 1 e 20');
+
+});
+
+
+test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo com muitos lugares',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 21,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.lugares.0'))->toBe('O número de lugares deve estar entre 1 e 20');
+
+});
+
+test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja do tipo inteiro', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo porta sem int',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2.5,
+        'lugares' => 2,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.numero_portas.0'))->toBe('O número de portas precisa ser do tipo inteiro');
+
+});
+
+test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem portas',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 0,
+        'lugares' => 2,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.numero_portas.0'))->toBe('O número de portas deve estar entre 1 e 5');
+
+});
+
+
+test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo com muitas portas',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 6,
+        'lugares' => 2,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.numero_portas.0'))->toBe('O número de portas deve estar entre 1 e 5');
 
 });
 
