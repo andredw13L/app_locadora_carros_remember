@@ -224,12 +224,34 @@ test('Store - Deve existir a marca do modelo', function () {
 
 });
 
-/* TODO: Criar testes para:            
-            'numero_portas' => 'required|integer|between:1,5',
-            'lugares' => 'required|integer|between:1,20',
-            'air_bag' => 'required|boolean',
-            'abs' => 'required|boolean'
-*/
+
+test('Store - Deve retornar erro ao criar modelo sem lugar', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.lugares.0'))->toBe('O campo lugares é obrigatório');
+
+});
 
 
 test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja do tipo inteiro', function() {
@@ -322,6 +344,34 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares',
 
 });
 
+test('Store - Deve retornar erro ao criar modelo sem porta', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'lugares' => 2,
+        'air_bag' => 0,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.numero_portas.0'))->toBe('O campo numero portas é obrigatório');
+
+});
+
 test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja do tipo inteiro', function() {
 
     Storage::fake('public');
@@ -407,6 +457,122 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', f
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.numero_portas.0'))->toBe('O número de portas deve estar entre 1 e 5');
+
+});
+
+
+test('Store - Deve retornar erro ao criar modelo sem air bag', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 2,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.air_bag.0'))->toBe('O campo air bag é obrigatório');
+
+});
+
+test('Store - Deve retornar erro ao criar modelo com air bag que não seja do tipo boolean', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 2,
+        'air_bag' => 3,
+        'abs' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.air_bag.0'))->toBe('O campo air bag deve ser verdadeiro ou falso');
+
+});
+
+
+test('Store - Deve retornar erro ao criar modelo sem abs', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 2,
+        'air_bag' => 0
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.abs.0'))->toBe('O campo abs é obrigatório');
+
+});
+
+test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo boolean', function() {
+
+    Storage::fake('public');
+
+
+    $marca_id = $this->getJson('/api/marcas/');
+
+    expect($marca_id->status())->toBe(200);
+
+    $data = [
+        'nome' => 'Modelo sem lugar',
+        'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
+        'marca_id' => $marca_id->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 2,
+        'air_bag' => 0,
+        'abs' => 3
+
+    ];
+
+    $response = $this->postJson('/api/modelos', $data);
+
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.abs.0'))->toBe('O campo abs deve ser verdadeiro ou falso');
 
 });
 

@@ -63,7 +63,7 @@ test('Verificar os Feedbacks de Validação', function () {
     expect($feedback['imagem.mimes'])->toBe('A imagem deve ser do tipo PNG, JPEG ou JPG');
     expect($feedback['numero_portas.between'])->toBe('O número de portas deve estar entre 1 e 5');
     expect($feedback['lugares.between'])->toBe('O número de lugares deve estar entre 1 e 20');
-    expect($feedback['air_bag.boolean'])->toBe('O campo air_bag deve ser verdadeiro ou falso');
+    expect($feedback['air_bag.boolean'])->toBe('O campo air bag deve ser verdadeiro ou falso');
     expect($feedback['abs.boolean'])->toBe('O campo abs deve ser verdadeiro ou falso');
 });
 

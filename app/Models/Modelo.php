@@ -74,7 +74,7 @@ class Modelo extends Model
             'numero_portas.integer' => 'O número de portas precisa ser do tipo inteiro',
             'lugares.between' => 'O número de lugares deve estar entre 1 e 20',
             'lugares.integer' => 'O número de lugares precisa ser do tipo inteiro',
-            'air_bag.boolean' => 'O campo air_bag deve ser verdadeiro ou falso',
+            'air_bag.boolean' => 'O campo air bag deve ser verdadeiro ou falso',
             'abs.boolean' => 'O campo abs deve ser verdadeiro ou falso'
         ];
     }
