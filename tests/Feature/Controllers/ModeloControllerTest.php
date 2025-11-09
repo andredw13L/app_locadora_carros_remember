@@ -45,14 +45,14 @@ test('Store - Deve criar um novo modelo', function () {
     expect($response_marca->status())->toBe(201);
 
 
-    $marca_id= $this->getJson('/api/marcas/');
+    $marca= $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
 
     $data = [
         'nome' => 'Modelo Teste',
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
         'numero_portas' => 2,
         'lugares' => 4,
@@ -102,13 +102,13 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'M',
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
         'numero_portas' => 2,
         'lugares' => 4,
@@ -127,13 +127,13 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => str_repeat('M', 256),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
         'numero_portas' => 2,
         'lugares' => 4,
@@ -152,13 +152,13 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo - sem imagem',
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 4,
         'air_bag' => 0,
@@ -176,14 +176,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com nome duplicado', fun
 
     Storage::fake('public');
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo Teste',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 4,
         'air_bag' => 0,
@@ -230,14 +230,14 @@ test('Store - Deve retornar erro ao criar modelo sem lugar', function() {
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'air_bag' => 0,
         'abs' => 0
@@ -259,14 +259,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja 
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo lugar sem int',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 2.5,
         'air_bag' => 0,
@@ -290,14 +290,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', 
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugares',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 0,
         'air_bag' => 0,
@@ -320,14 +320,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares',
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo com muitos lugares',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 21,
         'air_bag' => 0,
@@ -349,14 +349,14 @@ test('Store - Deve retornar erro ao criar modelo sem porta', function() {
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'lugares' => 2,
         'air_bag' => 0,
         'abs' => 0
@@ -377,14 +377,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja 
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo porta sem int',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2.5,
         'lugares' => 2,
         'air_bag' => 0,
@@ -406,14 +406,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta',
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem portas',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 0,
         'lugares' => 2,
         'air_bag' => 0,
@@ -436,14 +436,14 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', f
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo com muitas portas',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 6,
         'lugares' => 2,
         'air_bag' => 0,
@@ -466,14 +466,14 @@ test('Store - Deve retornar erro ao criar modelo sem air bag', function() {
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 2,
         'abs' => 0
@@ -494,14 +494,14 @@ test('Store - Deve retornar erro ao criar modelo com air bag que não seja do ti
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 2,
         'air_bag' => 3,
@@ -524,14 +524,14 @@ test('Store - Deve retornar erro ao criar modelo sem abs', function() {
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 2,
         'air_bag' => 0
@@ -552,14 +552,14 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
     Storage::fake('public');
 
 
-    $marca_id = $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
-    expect($marca_id->status())->toBe(200);
+    expect($marca->status())->toBe(200);
 
     $data = [
         'nome' => 'Modelo sem lugar',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
-        'marca_id' => $marca_id->json()[0]['id'],
+        'marca_id' => $marca->json()[0]['id'],
         'numero_portas' => 2,
         'lugares' => 2,
         'air_bag' => 0,
@@ -577,23 +577,37 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
 });
 
 
-// test('Show - Deve retornar uma marca existente', function () {
+test('Show - Deve retornar um modelo existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $response = $this->getJson('/api/marcas/1');
 
-//     expect($response->status())->toBe(200);
+    $marca = $this->getJson('/api/marcas/');
 
-//     expect($response->json())->toMatchArray([
-//         'nome' => 'Marca Teste',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'id',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    expect($marca->status())->toBe(200);
+
+    $marca = $marca;
+
+    $modelo_id = $marca->json()[0]['modelos'][0]['id'];
+
+    $response = $this->getJson("/api/modelos/{$modelo_id}");
+
+    expect($response->status())->toBe(200);
+
+    expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
+        'nome' => 'Modelo Teste',
+        'imagem' => $response->json('imagem'),
+        'marca_id' => $marca->json()[0]['id'],
+        'numero_portas' => 2,
+        'lugares' => 4,
+        'air_bag' => 0,
+        'abs' => 0
+    ])->toHaveKeys([
+            'created_at',
+            'updated_at'
+    ]);
+});
 
 // test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
 
