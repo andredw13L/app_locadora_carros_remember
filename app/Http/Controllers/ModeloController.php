@@ -99,7 +99,7 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
 
         if ($modelo === null) {
-            return response()->json(['message' => 'Modelo não encontrada'], 404);
+            return response()->json(['message' => 'Modelo não encontrado'], 404);
         }
 
 

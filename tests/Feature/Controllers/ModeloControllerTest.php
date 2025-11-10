@@ -598,7 +598,9 @@ test('Show - Deve retornar erro ao tentar acessar modelo inexistente', function 
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/modelos/0');
+    $modelo_rand = random_int(10, 255);
+
+    $response = $this->getJson("/api/modelos/{$modelo_rand}");
 
     expect($response->status())->toBe(404);
 
@@ -720,7 +722,7 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito 
     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
 });
 
-test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
+test('Update - Deve retornar feedback ao tentar atualizar um modelo com nome muito longo', function () {
 
     Storage::fake('public');
 
@@ -740,38 +742,44 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 255 caracteres');
 });
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
+test('Update - Deve retornar feedback ao tentar atualizar modelo sem imagem', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada'
-//     ];
+    $data = [
+        'nome' => 'Modelo Teste - Atualizado'
+    ];
 
-//     $response = $this->putJson('/api/marcas/1', $data);
+    $modelos = $this->getJson('/api/modelos/');
 
-//     expect($response->status())->toBe(422);
+    $modelo_id = $modelos->json()[0]['id'];
 
-//     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-// });
+    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
 
-// test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
+    expect($response->status())->toBe(422);
 
-//     Storage::fake('public');
+    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+});
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+test('Update - Deve retornar erro ao tentar atualizar modelo inexistente', function () {
 
-//     $response = $this->putJson('/api/marcas/0', $data);
+    Storage::fake('public');
 
-//     expect($response->status())->toBe(404);
+    $data = [
+        'nome' => 'Modelo Teste - Atualizado',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    $modelo_rand = random_int(10, 255);
 
-// test('Destroy - Deve deletar uma marca existente', function () {
+    $response = $this->putJson("/api/modelos/{$modelo_rand}", $data);
+
+    expect($response->status())->toBe(404);
+
+    expect($response->json('message'))->toBe('Modelo não encontrado');
+});
+
+// test('Destroy - Deve deletar uma modelo existente', function () {
 
 //     Storage::fake('public');
 

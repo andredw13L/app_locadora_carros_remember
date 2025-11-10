@@ -152,6 +152,8 @@ test('Show - Deve retornar erro ao tentar acessar marca inexistente', function (
 
     Storage::fake('public');
 
+    // TODO: Gerar marcas aleatórias
+
     $response = $this->getJson('/api/marcas/0');
 
     expect($response->status())->toBe(404);
