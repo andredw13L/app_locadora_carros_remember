@@ -779,27 +779,35 @@ test('Update - Deve retornar erro ao tentar atualizar modelo inexistente', funct
     expect($response->json('message'))->toBe('Modelo não encontrado');
 });
 
-// test('Destroy - Deve deletar uma modelo existente', function () {
+test('Destroy - Deve deletar um modelo existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $response = $this->deleteJson('/api/marcas/1');
+    $modelos = $this->getJson('/api/modelos/');
 
-//     expect($response->status())->toBe(200);
+    $modelo_id = $modelos->json()[0]['id'];
 
-//     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
+    $response = $this->deleteJson("/api/modelos/{$modelo_id}");
 
-//     $responseGet = $this->getJson('/api/marcas/1');
-//     expect($responseGet->status())->toBe(404);
-// });
+    expect($response->status())->toBe(200);
 
-// test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
+    expect($response->json('message'))->toBe('O Modelo foi removido com sucesso!');
 
-//     Storage::fake('public');
+    $responseGet = $this->getJson("/api/modelos/{$modelo_id}");
 
-//     $response = $this->deleteJson('/api/marcas/0');
 
-//     expect($response->status())->toBe(404);
+    expect($responseGet->status())->toBe(404);
+});
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+test('Destroy - Deve retornar erro ao tentar deletar modelo inexistente', function () {
+
+    Storage::fake('public');
+
+    $modelo_rand = random_int(10, 255);
+
+    $response = $this->deleteJson("/api/modelos/{$modelo_rand}");
+
+    expect($response->status())->toBe(404);
+
+    expect($response->json('message'))->toBe('Modelo não encontrado');
+});
