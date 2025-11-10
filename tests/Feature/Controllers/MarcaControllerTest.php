@@ -128,6 +128,8 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
 });
 
+// TODO: ID dinâmico com base no array retornado
+
 test('Show - Deve retornar uma marca existente', function () {
 
     Storage::fake('public');
@@ -137,10 +139,10 @@ test('Show - Deve retornar uma marca existente', function () {
     expect($response->status())->toBe(200);
 
     expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
         'nome' => 'Marca Teste',
         'imagem' => $response->json('imagem')
     ])->toHaveKeys([
-        'id',
         'created_at',
         'updated_at'
     ]);
@@ -172,10 +174,10 @@ test('Update - Deve atualizar uma marca existente', function () {
 
 
     expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
         'nome' => 'Marca Teste - Atualizada',
         'imagem' => $response->json('imagem')
     ])->toHaveKeys([
-        'id',
         'created_at',
         'updated_at'
     ]);

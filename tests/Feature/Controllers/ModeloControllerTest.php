@@ -45,7 +45,7 @@ test('Store - Deve criar um novo modelo', function () {
     expect($response_marca->status())->toBe(201);
 
 
-    $marca= $this->getJson('/api/marcas/');
+    $marca = $this->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -72,9 +72,9 @@ test('Store - Deve criar um novo modelo', function () {
         'air_bag' => $data['air_bag'],
         'abs' => $data['abs']
     ])->toHaveKeys([
-            'id',
-            'created_at',
-            'updated_at'
+        'id',
+        'created_at',
+        'updated_at'
     ]);
 });
 
@@ -204,8 +204,8 @@ test('Store - Deve existir a marca do modelo', function () {
 
     Storage::fake('public');
 
-    
-        $data = [
+
+    $data = [
         'nome' => 'Modelo Teste - Marca inexistente',
         'imagem' => UploadedFile::fake()->image('modelo_teste.png'),
         'marca_id' => random_int(10, 255),
@@ -221,11 +221,10 @@ test('Store - Deve existir a marca do modelo', function () {
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.marca_id.0'))->toBe('A marca informada não existe');
-
 });
 
 
-test('Store - Deve retornar erro ao criar modelo sem lugar', function() {
+test('Store - Deve retornar erro ao criar modelo sem lugar', function () {
 
     Storage::fake('public');
 
@@ -250,11 +249,10 @@ test('Store - Deve retornar erro ao criar modelo sem lugar', function() {
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.lugares.0'))->toBe('O campo lugares é obrigatório');
-
 });
 
 
-test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja do tipo inteiro', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja do tipo inteiro', function () {
 
     Storage::fake('public');
 
@@ -280,12 +278,11 @@ test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja 
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.lugares.0'))->toBe('O número de lugares precisa ser do tipo inteiro');
-
 });
 
 
 
-test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', function () {
 
     Storage::fake('public');
 
@@ -311,11 +308,10 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', 
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.lugares.0'))->toBe('O número de lugares deve estar entre 1 e 20');
-
 });
 
 
-test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares', function () {
 
     Storage::fake('public');
 
@@ -341,10 +337,9 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares',
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.lugares.0'))->toBe('O número de lugares deve estar entre 1 e 20');
-
 });
 
-test('Store - Deve retornar erro ao criar modelo sem porta', function() {
+test('Store - Deve retornar erro ao criar modelo sem porta', function () {
 
     Storage::fake('public');
 
@@ -369,10 +364,9 @@ test('Store - Deve retornar erro ao criar modelo sem porta', function() {
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.numero_portas.0'))->toBe('O campo numero portas é obrigatório');
-
 });
 
-test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja do tipo inteiro', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja do tipo inteiro', function () {
 
     Storage::fake('public');
 
@@ -398,10 +392,9 @@ test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja 
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.numero_portas.0'))->toBe('O número de portas precisa ser do tipo inteiro');
-
 });
 
-test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta', function () {
 
     Storage::fake('public');
 
@@ -427,11 +420,10 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta',
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.numero_portas.0'))->toBe('O número de portas deve estar entre 1 e 5');
-
 });
 
 
-test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', function() {
+test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', function () {
 
     Storage::fake('public');
 
@@ -457,11 +449,10 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', f
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.numero_portas.0'))->toBe('O número de portas deve estar entre 1 e 5');
-
 });
 
 
-test('Store - Deve retornar erro ao criar modelo sem air bag', function() {
+test('Store - Deve retornar erro ao criar modelo sem air bag', function () {
 
     Storage::fake('public');
 
@@ -486,10 +477,9 @@ test('Store - Deve retornar erro ao criar modelo sem air bag', function() {
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.air_bag.0'))->toBe('O campo air bag é obrigatório');
-
 });
 
-test('Store - Deve retornar erro ao criar modelo com air bag que não seja do tipo boolean', function() {
+test('Store - Deve retornar erro ao criar modelo com air bag que não seja do tipo boolean', function () {
 
     Storage::fake('public');
 
@@ -515,11 +505,10 @@ test('Store - Deve retornar erro ao criar modelo com air bag que não seja do ti
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.air_bag.0'))->toBe('O campo air bag deve ser verdadeiro ou falso');
-
 });
 
 
-test('Store - Deve retornar erro ao criar modelo sem abs', function() {
+test('Store - Deve retornar erro ao criar modelo sem abs', function () {
 
     Storage::fake('public');
 
@@ -544,10 +533,9 @@ test('Store - Deve retornar erro ao criar modelo sem abs', function() {
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.abs.0'))->toBe('O campo abs é obrigatório');
-
 });
 
-test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo boolean', function() {
+test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo boolean', function () {
 
     Storage::fake('public');
 
@@ -573,7 +561,6 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.abs.0'))->toBe('O campo abs deve ser verdadeiro ou falso');
-
 });
 
 
@@ -585,8 +572,6 @@ test('Show - Deve retornar um modelo existente', function () {
     $marca = $this->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
-
-    $marca = $marca;
 
     $modelo_id = $marca->json()[0]['modelos'][0]['id'];
 
@@ -604,83 +589,113 @@ test('Show - Deve retornar um modelo existente', function () {
         'air_bag' => 0,
         'abs' => 0
     ])->toHaveKeys([
-            'created_at',
-            'updated_at'
+        'created_at',
+        'updated_at'
     ]);
 });
 
-// test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
+test('Show - Deve retornar erro ao tentar acessar modelo inexistente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $response = $this->getJson('/api/marcas/0');
+    $response = $this->getJson('/api/modelos/0');
 
-//     expect($response->status())->toBe(404);
+    expect($response->status())->toBe(404);
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    expect($response->json('message'))->toBe('Modelo não encontrado');
+});
 
-// test('Update - Deve atualizar uma marca existente', function () {
+test('Update - Deve atualizar um modelo existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $marca = $this->getJson('/api/marcas/');
 
-//     $response = $this->putJson('/api/marcas/1', $data);
+    expect($marca->status())->toBe(200);
 
-//     expect($response->status())->toBe(200);
+    $modelo_id = $marca->json()[0]['modelos'][0]['id'];
 
+    $data = [
+        'nome' => 'Modelo Teste - Atualizado',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png'),
+        'numero_portas' => 4,
+        'lugares' => 20,
+        'air_bag' => 1,
+        'abs' => 1
+    ];
 
-//     expect($response->json())->toMatchArray([
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'id',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
 
-// test('Update - Deve atualizar parcialmente uma marca existente', function () {
-
-//     Storage::fake('public');
-
-//     $data = [
-//         'nome' => 'Marca Teste - Patch'
-//     ];
-
-//     $response = $this->patchJson('/api/marcas/1', $data);
+    expect($response->status())->toBe(200);
 
 
-//     expect($response->status())->toBe(200);
+    expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
+        'nome' => 'Modelo Teste - Atualizado',
+        'imagem' => $response->json('imagem'),
+        'marca_id' => $marca->json()[0]['id'],
+        'numero_portas' => 4,
+        'lugares' => 20,
+        'air_bag' => 1,
+        'abs' => 1
+    ])->toHaveKeys([
+        'created_at',
+        'updated_at'
+    ]);
+});
 
-//     expect($response->json('nome'))->toBe($data['nome']);
-//     expect($response->json())->toHaveKeys([
-//         'id',
-//         'imagem',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
 
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
 
-//     Storage::fake('public');
+test('Update - Deve atualizar parcialmente um modelo existente', function () {
 
-//     $data = [
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    Storage::fake('public');
 
-//     $response = $this->putJson('/api/marcas/1', $data);
+    $data = [
+        'nome' => 'Modelo Teste - Patch'
+    ];
 
-//     expect($response->status())->toBe(422);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-// });
+    $modelos = $this->getJson('/api/modelos/');
+
+    $modelo_id = $modelos->json()[0]['id'];
+
+    $response = $this->patchJson("/api/modelos/{$modelo_id}", $data);
+
+    expect($response->status())->toBe(200);
+
+    expect($response->json('nome'))->toBe($data['nome']);
+    expect($response->json())->toHaveKeys([
+        'id',
+        'imagem',
+        'marca_id',
+        'numero_portas',
+        'lugares',
+        'air_bag',
+        'abs'
+    ]);
+});
+
+
+test('Update - Deve retornar feedback ao tentar atualizar um modelo só com imagem', function () {
+
+    Storage::fake('public');
+
+    $data = [
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
+
+    $modelos = $this->getJson('/api/modelos/');
+
+    $modelo_id = $modelos->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+});
 
 // test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
 

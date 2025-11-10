@@ -11,16 +11,14 @@ use Illuminate\Support\Facades\Storage;
 class ModeloController extends Controller
 {
 
-    public function __construct(protected Modelo $modelo)
-    {
-    }
+    public function __construct(protected Modelo $modelo) {}
 
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): JsonResponse
     {
-        
+
         $modeloRepository = new ModeloRepository($this->modelo);
 
 
@@ -37,7 +35,6 @@ class ModeloController extends Controller
             $modeloRepository->selectAtributosRegistrosRelacionados(
                 $atributos_marca_str
             );
-
         } else {
             $modeloRepository->selectAtributosRegistrosRelacionados('marca');
         }
@@ -110,31 +107,30 @@ class ModeloController extends Controller
             $regrasDinamicas = [];
 
             foreach ($modelo->rules() as $input => $regra) {
-                if (array_key_exists($input, $request->all())) {
+                if ($request->has($input)) { 
                     $regrasDinamicas[$input] = $regra;
                 }
             }
 
-            $request->validate($regrasDinamicas, $modelo->feedback());
-        } else {
-            $request->validate($modelo->rules(), $modelo->feedback());
-        }
+            $dadosValidados = $request->validate($regrasDinamicas, $modelo->feedback());
 
+        } else {
+
+            $dadosValidados = $request->validate($modelo->rules(), $modelo->feedback());
+        }
 
         if ($request->file('imagem')) {
 
             Storage::disk('public')->delete($modelo->imagem);
-            $imagem = $request->file('imagem');
-            $imagem_urn = $imagem->store('imagens/modelos', 'public');
-        } else {
 
-            $imagem_urn = $modelo->imagem;
+            $imagem = $request->file('imagem');
+            $dadosValidados['imagem'] = $imagem->store('imagens/modelos', 'public');
+        } else {
+            
+            $dadosValidados['imagem'] = $modelo->imagem;
         }
 
-        $modelo->fill($request->all());
-        $modelo->imagem = $imagem_urn;
-
-        $modelo->save();
+        $modelo->fill($dadosValidados)->save();
 
         return response()->json($modelo, 200);
     }

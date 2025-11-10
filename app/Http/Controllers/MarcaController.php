@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class MarcaController extends Controller
 {
 
-    public function __construct(protected Marca $marca)
-    {
-    }
+    public function __construct(protected Marca $marca) {}
 
 
 
@@ -39,7 +37,6 @@ class MarcaController extends Controller
             $marcaRepository->selectAtributosRegistrosRelacionados(
                 $atributos_modelos_str
             );
-
         } else {
             $marcaRepository->selectAtributosRegistrosRelacionados('modelos');
         }
@@ -106,34 +103,35 @@ class MarcaController extends Controller
 
 
         if ($request->method() === 'PATCH') {
+
             $regrasDinamicas = [];
 
             foreach ($marca->rules() as $input => $regra) {
-                if (array_key_exists($input, $request->all())) {
+                if ($request->has($input)) {
                     $regrasDinamicas[$input] = $regra;
                 }
             }
 
-            $request->validate($regrasDinamicas, $marca->feedback());
+            $dadosValidados = $request->validate($regrasDinamicas, $marca->feedback());
+
         } else {
-            $request->validate($marca->rules(), $marca->feedback());
+
+            $dadosValidados = $request->validate($marca->rules(), $marca->feedback());
         }
 
 
         if ($request->file('imagem')) {
 
             Storage::disk('public')->delete($marca->imagem);
-            $imagem = $request->file('imagem');
-            $imagem_urn = $imagem->store('imagens/marcas', 'public');
-        } else {
 
-            $imagem_urn = $marca->imagem;
+            $imagem = $request->file('imagem');
+            $dadosValidados['imagem'] = $imagem->store('imagens/marcas', 'public');
+        } else {
+            
+            $dadosValidados['imagem'] = $marca->imagem;
         }
 
-        $marca->fill($request->all());
-        $marca->imagem = $imagem_urn;
-
-        $marca->save();
+        $marca->fill($dadosValidados)->save();
 
         return response()->json($marca, 200);
     }
