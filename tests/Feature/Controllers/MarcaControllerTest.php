@@ -134,6 +134,8 @@ test('Show - Deve retornar uma marca existente', function () {
 
     $marcas = $this->getJson('/api/marcas');
 
+    expect($marcas->status())->toBe(200);
+
     $marca_id = $marcas->json()[0]['id'];
 
     $response = $this->getJson("/api/marcas/{$marca_id}");
@@ -175,6 +177,8 @@ test('Update - Deve atualizar uma marca existente', function () {
 
     $marcas = $this->getJson('/api/marcas');
 
+    expect($marcas->status())->toBe(200);
+
     $marca_id = $marcas->json()[0]['id'];
 
 
@@ -202,6 +206,8 @@ test('Update - Deve atualizar parcialmente uma marca existente', function () {
     ];
 
     $marcas = $this->getJson('/api/marcas');
+
+    expect($marcas->status())->toBe(200);
 
     $marca_id = $marcas->json()[0]['id'];
 
@@ -231,6 +237,8 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', funct
 
     $marcas = $this->getJson('/api/marcas');
 
+    expect($marcas->status())->toBe(200);
+
     $marca_id = $marcas->json()[0]['id'];
 
 
@@ -251,6 +259,8 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito c
     ];
 
     $marcas = $this->getJson('/api/marcas');
+
+    expect($marcas->status())->toBe(200);
 
     $marca_id = $marcas->json()[0]['id'];
 
@@ -273,6 +283,8 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
 
     $marcas = $this->getJson('/api/marcas');
 
+    expect($marcas->status())->toBe(200);
+
     $marca_id = $marcas->json()[0]['id'];
 
 
@@ -292,6 +304,8 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', fun
     ];
 
     $marcas = $this->getJson('/api/marcas');
+
+    expect($marcas->status())->toBe(200);
 
     $marca_id = $marcas->json()[0]['id'];
 
@@ -326,6 +340,8 @@ test('Destroy - Deve deletar uma marca existente', function () {
     Storage::fake('public');
 
     $marcas = $this->getJson('/api/marcas');
+
+    expect($marcas->status())->toBe(200);
 
     $marca_id = $marcas->json()[0]['id'];
     

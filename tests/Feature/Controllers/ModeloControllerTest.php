@@ -660,6 +660,8 @@ test('Update - Deve atualizar parcialmente um modelo existente', function () {
 
     $modelos = $this->getJson('/api/modelos/');
 
+    expect($modelos->status())->toBe(200);
+
     $modelo_id = $modelos->json()[0]['id'];
 
     $response = $this->patchJson("/api/modelos/{$modelo_id}", $data);
@@ -689,6 +691,8 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo só com imag
 
     $modelos = $this->getJson('/api/modelos/');
 
+    expect($modelos->status())->toBe(200);
+
     $modelo_id = $modelos->json()[0]['id'];
 
     $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
@@ -713,6 +717,8 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito 
 
     $modelos = $this->getJson('/api/modelos/');
 
+    expect($modelos->status())->toBe(200);
+
     $modelo_id = $modelos->json()[0]['id'];
 
     $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
@@ -733,6 +739,8 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo com nome mui
 
     $modelos = $this->getJson('/api/modelos/');
 
+    expect($modelos->status())->toBe(200);
+
     $modelo_id = $modelos->json()[0]['id'];
 
     $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
@@ -751,6 +759,8 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo sem imagem', fu
     ];
 
     $modelos = $this->getJson('/api/modelos/');
+
+    expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
@@ -784,6 +794,8 @@ test('Destroy - Deve deletar um modelo existente', function () {
     Storage::fake('public');
 
     $modelos = $this->getJson('/api/modelos/');
+
+    expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
