@@ -32,6 +32,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('modelos', function (Blueprint $table) {
+            $table->dropForeign(['marca_id']);
+        });
+
         Schema::dropIfExists('modelos');
     }
 };

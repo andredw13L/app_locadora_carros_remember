@@ -689,45 +689,56 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo só com imag
 
     $modelo_id = $modelos->json()[0]['id'];
 
-
     $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(422);
 
     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+    expect($response->json('errors.numero_portas.0'))->toBe('O campo numero portas é obrigatório');
+    expect($response->json('errors.lugares.0'))->toBe('O campo lugares é obrigatório');
+    expect($response->json('errors.air_bag.0'))->toBe('O campo air bag é obrigatório');
+    expect($response->json('errors.abs.0'))->toBe('O campo abs é obrigatório');
 });
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
+test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito curto', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'A',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $data = [
+        'nome' => 'A',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     $response = $this->putJson('/api/marcas/1', $data);
+    $modelos = $this->getJson('/api/modelos/');
 
-//     expect($response->status())->toBe(422);
+    $modelo_id = $modelos->json()[0]['id'];
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-// });
+    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
+    expect($response->status())->toBe(422);
 
-//     Storage::fake('public');
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+});
 
-//     $data = [
-//         'nome' => str_repeat('A', 101),
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
 
-//     $response = $this->putJson('/api/marcas/1', $data);
+    Storage::fake('public');
 
-//     expect($response->status())->toBe(422);
+    $data = [
+        'nome' => str_repeat('A', 256),
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-// });
+    $modelos = $this->getJson('/api/modelos/');
+
+    $modelo_id = $modelos->json()[0]['id'];
+
+    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 255 caracteres');
+});
 
 // test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
 
