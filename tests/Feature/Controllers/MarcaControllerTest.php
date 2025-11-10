@@ -128,13 +128,15 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
 });
 
-// TODO: ID dinâmico com base no array retornado
-
 test('Show - Deve retornar uma marca existente', function () {
 
     Storage::fake('public');
 
-    $response = $this->getJson('/api/marcas/1');
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+    $response = $this->getJson("/api/marcas/{$marca_id}");
 
     expect($response->status())->toBe(200);
 
@@ -152,9 +154,10 @@ test('Show - Deve retornar erro ao tentar acessar marca inexistente', function (
 
     Storage::fake('public');
 
-    // TODO: Gerar marcas aleatórias
 
-    $response = $this->getJson('/api/marcas/0');
+    $marcas_rand = random_int(10, 255);
+
+    $response = $this->getJson("/api/marcas/{$marcas_rand}");
 
     expect($response->status())->toBe(404);
 
@@ -170,7 +173,12 @@ test('Update - Deve atualizar uma marca existente', function () {
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
     expect($response->status())->toBe(200);
 
@@ -193,7 +201,12 @@ test('Update - Deve atualizar parcialmente uma marca existente', function () {
         'nome' => 'Marca Teste - Patch'
     ];
 
-    $response = $this->patchJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->patchJson("/api/marcas/{$marca_id}", $data);
 
 
     expect($response->status())->toBe(200);
@@ -216,7 +229,12 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', funct
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -232,7 +250,12 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito c
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -248,7 +271,12 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -263,7 +291,12 @@ test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', fun
         'nome' => 'Marca Teste - Atualizada'
     ];
 
-    $response = $this->putJson('/api/marcas/1', $data);
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+
+
+    $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -279,7 +312,9 @@ test('Update - Deve retornar erro ao tentar atualizar marca inexistente', functi
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $response = $this->putJson('/api/marcas/0', $data);
+    $marcas_rand = random_int(10, 255);
+
+    $response = $this->putJson("/api/marcas/{$marcas_rand}", $data);
 
     expect($response->status())->toBe(404);
 
@@ -290,13 +325,19 @@ test('Destroy - Deve deletar uma marca existente', function () {
 
     Storage::fake('public');
 
-    $response = $this->deleteJson('/api/marcas/1');
+    $marcas = $this->getJson('/api/marcas');
+
+    $marca_id = $marcas->json()[0]['id'];
+    
+
+    $response = $this->deleteJson("/api/marcas/{$marca_id}");
 
     expect($response->status())->toBe(200);
 
     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
 
-    $responseGet = $this->getJson('/api/marcas/1');
+    $responseGet = $this->getJson("/api/marcas/{$marca_id}");
+
     expect($responseGet->status())->toBe(404);
 });
 
@@ -304,7 +345,9 @@ test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', functio
 
     Storage::fake('public');
 
-    $response = $this->deleteJson('/api/marcas/0');
+    $marcas_rand = random_int(10, 255);
+
+    $response = $this->deleteJson("/api/marcas/{$marcas_rand}");
 
     expect($response->status())->toBe(404);
 
