@@ -38,7 +38,7 @@ class AtualizarModelo
             $dadosValidados['imagem'] = $modelo->imagem;
         }
 
-        $modelo->fill($dadosValidados)->save();
+        $modelo->update($dadosValidados);
 
         return $modelo;
 

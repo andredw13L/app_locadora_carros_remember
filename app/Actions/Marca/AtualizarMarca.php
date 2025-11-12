@@ -40,7 +40,7 @@ class AtualizarMarca
             $dadosValidados['imagem'] = $marca->imagem;
         }
 
-        $marca->fill($dadosValidados)->save();
+        $marca->update($dadosValidados);
 
         return $marca;
     }

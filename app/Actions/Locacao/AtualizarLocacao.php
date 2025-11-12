@@ -25,7 +25,7 @@ class AtualizarLocacao
             $dadosValidados = $request->validate($locacao->rules(), $locacao->feedback());
         }
 
-        $locacao->fill($dadosValidados)->save();
+        $locacao->update($dadosValidados);
 
         return $locacao;
         
