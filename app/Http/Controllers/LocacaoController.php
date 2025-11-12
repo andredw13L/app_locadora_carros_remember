@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Actions\ListarLocacoes;
 use App\Models\Locacao;
 use App\Repositories\LocacaoRepository;
 use Illuminate\Http\JsonResponse;
@@ -18,22 +18,12 @@ class LocacaoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ListarLocacoes $listarLocacoes): JsonResponse
     {
-        $locacaoRepository = new LocacaoRepository($this->locacao);
 
-        
-        if ($request->has('filtro')) {
-            $locacaoRepository->filtro($request->filtro);
-        }
+        $locacoes = $listarLocacoes->execute($request, $this->locacao);
 
-        if ($request->has('atributos')) {
-            $atributos = explode(',', $request->atributos);
-
-            $locacaoRepository->selectAtributos($atributos);
-        }
-
-        return response()->json($locacaoRepository->getResultado(), 200);
+        return response()->json($locacoes, 200);
     }
 
 

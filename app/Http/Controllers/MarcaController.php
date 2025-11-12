@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ListarMarcas;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -18,40 +19,12 @@ class MarcaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ListarMarcas $listarMarcas): JsonResponse
     {
 
-        $marcaRepository = new MarcaRepository($this->marca);
+        $marcas = $listarMarcas->execute($request, $this->marca);
 
-        
-        if ($request->has('atributos_modelos')) {
-
-            $atributos_modelos = explode(',', $request->atributos_modelos);
-
-            if (!in_array('id', $atributos_modelos)) {
-                $atributos_modelos[] = 'id';
-            }
-
-            $atributos_modelos_str = 'modelos:' . implode(',', $atributos_modelos);
-
-            $marcaRepository->selectAtributosRegistrosRelacionados(
-                $atributos_modelos_str
-            );
-        } else {
-            $marcaRepository->selectAtributosRegistrosRelacionados('modelos');
-        }
-
-        if ($request->has('filtro')) {
-            $marcaRepository->filtro($request->filtro);
-        }
-
-        if ($request->has('atributos')) {
-            $atributos = explode(',', $request->atributos);
-
-            $marcaRepository->selectAtributos($atributos);
-        }
-
-        return response()->json($marcaRepository->getResultado(), 200);
+        return response()->json($marcas, 200);
     }
 
     /**
