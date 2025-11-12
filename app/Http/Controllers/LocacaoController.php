@@ -22,14 +22,12 @@ class LocacaoController extends Controller
     {
         $locacaoRepository = new LocacaoRepository($this->locacao);
 
+        
         if ($request->has('filtro')) {
             $locacaoRepository->filtro($request->filtro);
         }
 
         if ($request->has('atributos')) {
-
-            /* TODO: Melhorar a segurança e implementar um DTO
-                    para proteção contra SQL Injections */
             $atributos = explode(',', $request->atributos);
 
             $locacaoRepository->selectAtributos($atributos);

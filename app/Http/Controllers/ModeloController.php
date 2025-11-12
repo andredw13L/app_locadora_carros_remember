@@ -21,7 +21,7 @@ class ModeloController extends Controller
 
         $modeloRepository = new ModeloRepository($this->modelo);
 
-
+        
         if ($request->has('atributos_marca')) {
 
             $atributos_marca = explode(',', $request->atributos_marca);
@@ -44,8 +44,6 @@ class ModeloController extends Controller
         }
 
         if ($request->has('atributos')) {
-            /* TODO: Melhorar a segurança e implementar um DTO
-                    para proteção contra SQL Injections */
             $atributos = explode(',', $request->atributos);
 
             $modeloRepository->selectAtributos($atributos);
