@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Modelo\AtualizarModelo;
 use App\Actions\Modelo\ListarModelos;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ class ModeloController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, AtualizarModelo $atualizarModelo): JsonResponse
     {
         $modelo = $this->modelo->find($id);
 
@@ -73,36 +74,8 @@ class ModeloController extends Controller
             return response()->json(['message' => 'Modelo não encontrado'], 404);
         }
 
-
-        if ($request->method() === 'PATCH') {
-            $regrasDinamicas = [];
-
-            foreach ($modelo->rules() as $input => $regra) {
-                if ($request->has($input)) { 
-                    $regrasDinamicas[$input] = $regra;
-                }
-            }
-
-            $dadosValidados = $request->validate($regrasDinamicas, $modelo->feedback());
-
-        } else {
-
-            $dadosValidados = $request->validate($modelo->rules(), $modelo->feedback());
-        }
-
-        if ($request->file('imagem')) {
-
-            Storage::disk('public')->delete($modelo->imagem);
-
-            $imagem = $request->file('imagem');
-            $dadosValidados['imagem'] = $imagem->store('imagens/modelos', 'public');
-        } else {
-            
-            $dadosValidados['imagem'] = $modelo->imagem;
-        }
-
-        $modelo->fill($dadosValidados)->save();
-
+        $modelo = $atualizarModelo->execute($request, $modelo);
+        
         return response()->json($modelo, 200);
     }
 

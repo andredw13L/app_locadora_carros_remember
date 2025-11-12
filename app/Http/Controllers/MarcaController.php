@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Marca\AtualizarMarca;
 use App\Actions\Marca\ListarMarcas;
 use App\Models\Marca;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class MarcaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, AtualizarMarca $atualizarMarca): JsonResponse
     {
         $marca = $this->marca->find($id);
 
@@ -71,37 +72,7 @@ class MarcaController extends Controller
             return response()->json(['message' => 'Marca não encontrada'], 404);
         }
 
-
-        if ($request->method() === 'PATCH') {
-
-            $regrasDinamicas = [];
-
-            foreach ($marca->rules() as $input => $regra) {
-                if ($request->has($input)) {
-                    $regrasDinamicas[$input] = $regra;
-                }
-            }
-
-            $dadosValidados = $request->validate($regrasDinamicas, $marca->feedback());
-
-        } else {
-
-            $dadosValidados = $request->validate($marca->rules(), $marca->feedback());
-        }
-
-
-        if ($request->file('imagem')) {
-
-            Storage::disk('public')->delete($marca->imagem);
-
-            $imagem = $request->file('imagem');
-            $dadosValidados['imagem'] = $imagem->store('imagens/marcas', 'public');
-        } else {
-            
-            $dadosValidados['imagem'] = $marca->imagem;
-        }
-
-        $marca->fill($dadosValidados)->save();
+        $marca = $atualizarMarca->execute($request, $marca);
 
         return response()->json($marca, 200);
     }

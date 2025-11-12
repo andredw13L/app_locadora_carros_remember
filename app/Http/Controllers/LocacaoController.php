@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Locacao\AtualizarLocacao;
 use App\Actions\Locacao\ListarLocacoes;
 use App\Models\Locacao;
 use Illuminate\Http\JsonResponse;
@@ -64,7 +65,7 @@ class LocacaoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, AtualizarLocacao $atualizarLocacao): JsonResponse
     {
         $locacao = $this->locacao->find($id);
 
@@ -73,22 +74,7 @@ class LocacaoController extends Controller
             return response()->json(['message' => 'Locação não encontrada'], 404);
         }
 
-        if ($request->method() === 'PATCH') {
-            $regrasDinamicas = [];
-
-            foreach ($locacao->rules() as $input => $regra) {
-                if (array_key_exists($input, $request->all())) {
-                    $regrasDinamicas[$input] = $regra;
-                }
-            }
-
-            $request->validate($regrasDinamicas, $locacao->feedback());
-        } else {
-            $request->validate($locacao->rules(), $locacao->feedback());
-        }
-
-        $locacao->fill($request->all());
-        $locacao->save();
+        $locacao = $atualizarLocacao($request, $locacao);
 
         return response()->json($locacao, 200);
     }
