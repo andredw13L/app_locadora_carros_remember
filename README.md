@@ -51,9 +51,9 @@ Edite o arquivo `.env` com suas credenciais de banco de dados:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=locadora_carros
+DB_DATABASE=example_db
 DB_USERNAME=root
-DB_PASSWORD=Senha123
+DB_PASSWORD=example_password
 ```
 
 ### 6. Execute as migrações
