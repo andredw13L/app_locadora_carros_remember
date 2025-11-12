@@ -43,7 +43,13 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-### 5. Configure o banco de dados
+### 5. Subir o Banco de dados com Docker
+
+```bash
+docker-compose up -d
+```
+
+### 6. Configure o banco de dados
 
 Edite o arquivo `.env` com suas credenciais de banco de dados:
 
@@ -56,26 +62,26 @@ DB_USERNAME=root
 DB_PASSWORD=example_password
 ```
 
-### 6. Execute as migrações
+### 7. Execute as migrações
 
 ```bash
 php artisan migrate
 ```
 
-### 7. (Opcional) Popule o banco com dados de teste
+### 8. (Opcional) Popule o banco com dados de teste
 
 ```bash
 php artisan db:seed --class=MarcaSeeder
 php artisan db:seed --class=ModeloSeeder
 ```
 
-### 8. Compile os assets frontend
+### 9. Compile os assets frontend
 
 ```bash
 npm run build
 ```
 
-### 9. Inicie o servidor Octane
+### 10. Inicie o servidor Octane
 
 ```bash
 php artisan octane:start
