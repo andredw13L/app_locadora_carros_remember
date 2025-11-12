@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ListarLocacoes;
+use App\Actions\Locacao\ListarLocacoes;
 use App\Models\Locacao;
-use App\Repositories\LocacaoRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

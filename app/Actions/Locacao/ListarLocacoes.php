@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Locacao;
 
 use App\Models\Locacao;
 use App\Repositories\LocacaoRepository;

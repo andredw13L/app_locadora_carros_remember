@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ListarMarcas;
+use App\Actions\Marca\ListarMarcas;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\MarcaRepository;
 use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller

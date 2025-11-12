@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Marca;
 
 use App\Models\Marca;
 use App\Repositories\MarcaRepository;

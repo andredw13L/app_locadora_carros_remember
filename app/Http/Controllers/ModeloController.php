@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ListarModelos;
+use App\Actions\Modelo\ListarModelos;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\ModeloRepository;
 use Illuminate\Support\Facades\Storage;
 
 class ModeloController extends Controller

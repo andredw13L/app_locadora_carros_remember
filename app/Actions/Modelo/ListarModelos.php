@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Modelo;
 
 use App\Models\Modelo;
 use App\Repositories\ModeloRepository;
