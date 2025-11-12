@@ -75,7 +75,7 @@ php artisan db:seed --class=MarcaSeeder
 php artisan db:seed --class=ModeloSeeder
 ```
 
-### 9. Compile os assets frontend
+### 9. Compile os assets do frontend
 
 ```bash
 npm run build
