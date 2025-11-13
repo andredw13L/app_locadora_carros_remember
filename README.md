@@ -109,3 +109,9 @@ O projeto segue a arquitetura MVC do Laravel, com camadas adicionais para separa
 ## Monitoramento
 
 O **Laravel Telescope** é utilizado **apenas em ambiente de desenvolvimento** para inspecionar requisições, exceções, logs e queries, auxiliando no diagnóstico e na melhoria do desempenho da aplicação.
+
+
+## Status do Projeto
+
+Este projeto ainda está em desenvolvimento ativo.
+Novas funcionalidades, testes e melhorias de arquitetura estão sendo implementadas gradualmente.
