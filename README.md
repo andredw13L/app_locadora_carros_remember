@@ -122,7 +122,6 @@ Após iniciar o servidor, abra no navegador:
 
 `http://localhost:8000/docs`
 
-
 ### Como interagir
 
 A interface da documentação permite:
@@ -134,10 +133,7 @@ A interface da documentação permite:
 
 A documentação ainda está em evolução, mas já pode ser usada para consultar e testar a API durante o desenvolvimento.
 
-
 ## Status do Projeto
 
 Este projeto ainda está em desenvolvimento ativo.
 Novas funcionalidades, testes e melhorias de arquitetura estão sendo implementadas gradualmente.
-
-
