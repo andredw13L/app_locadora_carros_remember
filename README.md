@@ -16,6 +16,7 @@ O projeto representa uma **evolução de um sistema anterior**, com foco em **bo
 | ORM | Eloquent |
 | Monitoramento | Laravel Telescope |
 | Testes | Pest |
+| Documentação | Scribe |
 
 ## Pré-requisitos
 
