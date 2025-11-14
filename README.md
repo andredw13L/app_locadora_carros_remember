@@ -110,8 +110,33 @@ O projeto segue a arquitetura MVC do Laravel, com camadas adicionais para separa
 
 O **Laravel Telescope** é utilizado **apenas em ambiente de desenvolvimento** para inspecionar requisições, exceções, logs e queries, auxiliando no diagnóstico e na melhoria do desempenho da aplicação.
 
+## Documentação da API
+
+Este projeto utiliza o **Scribe** para gerar a documentação da API.  
+A documentação é acessível em ambiente local e permite visualizar e testar os endpoints da aplicação.
+
+### Acessar
+
+Após iniciar o servidor, abra no navegador:
+
+`http://localhost:8000/docs`
+
+
+### Como interagir
+
+A interface da documentação permite:
+
+- Navegar por todos os endpoints organizados por módulos.
+- Visualizar exemplos de requisição e resposta.
+- Ver parâmetros obrigatórios e opcionais.
+- Enviar requisições diretamente pela própria página (quando habilitado).
+
+A documentação ainda está em evolução, mas já pode ser usada para consultar e testar a API durante o desenvolvimento.
+
 
 ## Status do Projeto
 
 Este projeto ainda está em desenvolvimento ativo.
 Novas funcionalidades, testes e melhorias de arquitetura estão sendo implementadas gradualmente.
+
+
