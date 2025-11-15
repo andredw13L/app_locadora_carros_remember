@@ -27,8 +27,7 @@ class ClienteController extends Controller
         }
 
         if ($request->has('atributos')) {
-            /* TODO: Melhorar a segurança e implementar um DTO
-                    para proteção contra SQL Injections */
+            
             $atributos = explode(',', $request->atributos);
 
             $clienteRepository->selectAtributos($atributos);
