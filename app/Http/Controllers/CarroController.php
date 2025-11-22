@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Actions\Carro\AtualizarCarro;
+use App\Actions\Carro\ListarCarros;
 use App\Models\Carro;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -30,40 +31,11 @@ class CarroController extends Controller
      * @queryParam atributos_modelo string Lista de atributos do modelo relacionado. Separados por vírgula. Exemplo: nome,imagem,id No-example
      * @queryParam filtro string Filtros no formato campo:operador:valor. Múltiplos filtros separados por ponto e vírgula. Exemplo: placa:=:ABC1D34; No-example
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ListarCarros $listarCarros): JsonResponse
     {
+        $carros = $listarCarros->execute($request);
 
-        $carroRepository = new CarroRepository($this->carro);
-
-        if ($request->has('atributos_modelo')) {
-
-            $atributo_modelo = explode(',', $request->atributos_modelo);
-
-            if (!in_array('id', $atributo_modelo)) {
-                $atributos_modelo[] = 'id';
-            }
-
-            $atributos_modelo_str = 'modelo:' . implode(',', $atributos_modelo);
-
-            $carroRepository->selectAtributosRegistrosRelacionados(
-                $atributos_modelo_str
-            );
-        } else {
-            $carroRepository->selectAtributosRegistrosRelacionados('modelo');
-        }
-
-        if ($request->has('filtro')) {
-            $carroRepository->filtro($request->filtro);
-        }
-
-        if ($request->has('atributos')) {
-            
-            $atributos = explode(',', $request->atributos);
-
-            $carroRepository->selectAtributos($atributos);
-        }
-
-        return response()->json($carroRepository->getResultado(), 200);
+        return response()->json($carros, 200);
     }
 
     /**
@@ -122,7 +94,7 @@ class CarroController extends Controller
      * @bodyParam disponivel boolean Indica se o carro está disponível para locação. Exemplo: false No-example
      * @bodyParam km integer Quilometragem atual do veículo. Exemplo: 20300 No-example
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, AtualizarCarro $atualizarCarro): JsonResponse
     {
         $carro = $this->carro->find($id);
 
@@ -130,24 +102,10 @@ class CarroController extends Controller
             return response()->json(['message' => 'Carro não encontrado'], 404);
         }
 
-        if ($request->method() === 'PATCH') {
-            $regrasDinamicas = [];
-
-            foreach ($carro->rules() as $input => $regra) {
-                if (array_key_exists($input, $request->all())) {
-                    $regrasDinamicas[$input] = $regra;
-                }
-            }
-
-            $request->validate($regrasDinamicas, $carro->feedback());
-        } else {
-            $request->validate($carro->rules(), $carro->feedback());
-        }
-
-        $carro->fill($request->all());
-        $carro->save();
+        $carro = $atualizarCarro->execute($request, $carro);
 
         return response()->json($carro, 200);
+
     }
 
     /**
