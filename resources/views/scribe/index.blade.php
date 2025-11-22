@@ -126,35 +126,49 @@
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-locacoes--id-">
                                 <a href="#endpoints-DELETEapi-locacoes--id-">Remove the specified resource from storage.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-marcas">
-                                <a href="#endpoints-GETapi-marcas">Display a listing of the resource.</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-marcas" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="marcas">
+                    <a href="#marcas">Marcas</a>
+                </li>
+                                    <ul id="tocify-subheader-marcas" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="marcas-GETapi-marcas">
+                                <a href="#marcas-GETapi-marcas">Listar Marcas</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-marcas">
-                                <a href="#endpoints-POSTapi-marcas">Store a newly created resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="marcas-POSTapi-marcas">
+                                <a href="#marcas-POSTapi-marcas">Criar uma nova marca</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-marcas--id-">
-                                <a href="#endpoints-GETapi-marcas--id-">Display the specified resource.</a>
+                                                                                <li class="tocify-item level-2" data-unique="marcas-GETapi-marcas--id-">
+                                <a href="#marcas-GETapi-marcas--id-">Exibir uma marca</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTapi-marcas--id-">
-                                <a href="#endpoints-PUTapi-marcas--id-">Update the specified resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="marcas-PUTapi-marcas--id-">
+                                <a href="#marcas-PUTapi-marcas--id-">Atualizar uma marca</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-marcas--id-">
-                                <a href="#endpoints-DELETEapi-marcas--id-">Remove the specified resource from storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="marcas-DELETEapi-marcas--id-">
+                                <a href="#marcas-DELETEapi-marcas--id-">Remover uma marca</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-modelos">
-                                <a href="#endpoints-GETapi-modelos">Display a listing of the resource.</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-modelos" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="modelos">
+                    <a href="#modelos">Modelos</a>
+                </li>
+                                    <ul id="tocify-subheader-modelos" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="modelos-GETapi-modelos">
+                                <a href="#modelos-GETapi-modelos">Listar modelos</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-modelos">
-                                <a href="#endpoints-POSTapi-modelos">Store a newly created resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="modelos-POSTapi-modelos">
+                                <a href="#modelos-POSTapi-modelos">Criar um novo modelo</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-modelos--id-">
-                                <a href="#endpoints-GETapi-modelos--id-">Display the specified resource.</a>
+                                                                                <li class="tocify-item level-2" data-unique="modelos-GETapi-modelos--id-">
+                                <a href="#modelos-GETapi-modelos--id-">Exibir um modelo</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTapi-modelos--id-">
-                                <a href="#endpoints-PUTapi-modelos--id-">Update the specified resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="modelos-PUTapi-modelos--id-">
+                                <a href="#modelos-PUTapi-modelos--id-">Atualizar um modelo</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-modelos--id-">
-                                <a href="#endpoints-DELETEapi-modelos--id-">Remove the specified resource from storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="modelos-DELETEapi-modelos--id-">
+                                <a href="#modelos-DELETEapi-modelos--id-">Remover um modelo</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -2192,12 +2206,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-marcas">Display a listing of the resource.</h2>
+                <h1 id="marcas">Marcas</h1>
+
+    <p>Gerenciamento de marcas</p>
+
+                                <h2 id="marcas-GETapi-marcas">Listar Marcas</h2>
 
 <p>
 </p>
 
-
+<p>Retorna a lista de marcas cadastradas, permitindo filtros,
+seleção de atributos específicos e exibição de atributos do modelo relacionado.</p>
 
 <span id="example-requests-GETapi-marcas">
 <blockquote>Example request:</blockquote>
@@ -2338,12 +2357,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-marcas">Store a newly created resource in storage.</h2>
+                    <h2 id="marcas-POSTapi-marcas">Criar uma nova marca</h2>
 
 <p>
 </p>
 
-
+<p>Registra uma nova marca no sistema, processando dados enviados
+pelo cliente e aplicando validações antes da criação.</p>
 
 <span id="example-requests-POSTapi-marcas">
 <blockquote>Example request:</blockquote>
@@ -2448,12 +2468,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-marcas--id-">Display the specified resource.</h2>
+                    <h2 id="marcas-GETapi-marcas--id-">Exibir uma marca</h2>
 
 <p>
 </p>
 
-
+<p>Retorna os detalhes de uma marca específico com base no ID informado.</p>
 
 <span id="example-requests-GETapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -2605,12 +2625,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-marcas--id-">Update the specified resource in storage.</h2>
+                    <h2 id="marcas-PUTapi-marcas--id-">Atualizar uma marca</h2>
 
 <p>
 </p>
 
-
+<p>Atualiza os dados de uma marca existente. Permite atualização total (PUT)
+ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <span id="example-requests-PUTapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -2732,12 +2753,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-DELETEapi-marcas--id-">Remove the specified resource from storage.</h2>
+                    <h2 id="marcas-DELETEapi-marcas--id-">Remover uma marca</h2>
 
 <p>
 </p>
 
-
+<p>Exclui uma marca do sistema com base no ID informado.</p>
 
 <span id="example-requests-DELETEapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -2855,12 +2876,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-modelos">Display a listing of the resource.</h2>
+                <h1 id="modelos">Modelos</h1>
+
+    <p>Gerenciamento de modelos</p>
+
+                                <h2 id="modelos-GETapi-modelos">Listar modelos</h2>
 
 <p>
 </p>
 
-
+<p>Retorna a lista de modelos cadastrados, permitindo filtros,
+seleção de atributos específicos e exibição de atributos do modelo relacionado.</p>
 
 <span id="example-requests-GETapi-modelos">
 <blockquote>Example request:</blockquote>
@@ -2999,12 +3025,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-modelos">Store a newly created resource in storage.</h2>
+                    <h2 id="modelos-POSTapi-modelos">Criar um novo modelo</h2>
 
 <p>
 </p>
 
-
+<p>Registra um novo modelo no sistema, processando dados enviados
+pelo cliente e aplicando validações antes da criação.</p>
 
 <span id="example-requests-POSTapi-modelos">
 <blockquote>Example request:</blockquote>
@@ -3109,12 +3136,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-modelos--id-">Display the specified resource.</h2>
+                    <h2 id="modelos-GETapi-modelos--id-">Exibir um modelo</h2>
 
 <p>
 </p>
 
-
+<p>Retorna os detalhes de um modelo específico com base no ID informado.</p>
 
 <span id="example-requests-GETapi-modelos--id-">
 <blockquote>Example request:</blockquote>
@@ -3264,12 +3291,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-modelos--id-">Update the specified resource in storage.</h2>
+                    <h2 id="modelos-PUTapi-modelos--id-">Atualizar um modelo</h2>
 
 <p>
 </p>
 
-
+<p>Atualiza os dados de um modelo existente. Permite atualização total (PUT)
+ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <span id="example-requests-PUTapi-modelos--id-">
 <blockquote>Example request:</blockquote>
@@ -3391,12 +3419,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-DELETEapi-modelos--id-">Remove the specified resource from storage.</h2>
+                    <h2 id="modelos-DELETEapi-modelos--id-">Remover um modelo</h2>
 
 <p>
 </p>
 
-
+<p>Exclui um modelo do sistema com base no ID informado.</p>
 
 <span id="example-requests-DELETEapi-modelos--id-">
 <blockquote>Example request:</blockquote>

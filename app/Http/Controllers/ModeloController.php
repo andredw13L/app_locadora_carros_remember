@@ -9,13 +9,21 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group Modelos
+ *
+ * Gerenciamento de modelos
+ */
 class ModeloController extends Controller
 {
 
     public function __construct(protected Modelo $modelo) {}
 
     /**
-     * Display a listing of the resource.
+     * Listar modelos
+     *
+     * Retorna a lista de modelos cadastrados, permitindo filtros,
+     * seleção de atributos específicos e exibição de atributos do modelo relacionado.
      */
     public function index(Request $request, ListarModelos $listarModelos): JsonResponse
     {
@@ -27,7 +35,10 @@ class ModeloController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Criar um novo modelo
+     *
+     * Registra um novo modelo no sistema, processando dados enviados
+     * pelo cliente e aplicando validações antes da criação.
      */
     public function store(Request $request): JsonResponse
     {
@@ -50,7 +61,9 @@ class ModeloController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Exibir um modelo
+     *
+     * Retorna os detalhes de um modelo específico com base no ID informado.
      */
     public function show(int $id): JsonResponse
     {
@@ -64,7 +77,10 @@ class ModeloController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar um modelo
+     *
+     * Atualiza os dados de um modelo existente. Permite atualização total (PUT)
+     * ou parcial (PATCH), incluindo manipulação de atributos específicos.
      */
     public function update(Request $request, int $id, AtualizarModelo $atualizarModelo): JsonResponse
     {
@@ -80,7 +96,9 @@ class ModeloController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remover um modelo
+     *
+     * Exclui um modelo do sistema com base no ID informado.
      */
     public function destroy(int $id): JsonResponse
     {
