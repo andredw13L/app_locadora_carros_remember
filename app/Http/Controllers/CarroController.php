@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\CarroRepository;
 
+/**
+ * @group Carros
+ *
+ * Gerenciamento de carros
+ */
 class CarroController extends Controller
 {
 
@@ -17,7 +22,10 @@ class CarroController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * Listar carros
+     *
+     * Retorna a lista de carros cadastrados, permitindo filtros,
+     * seleção de atributos específicos e exibição de atributos do modelo relacionado.
      */
     public function index(Request $request): JsonResponse
     {
@@ -56,7 +64,10 @@ class CarroController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Criar um novo carro
+     *
+     * Registra um novo carro no sistema, processando dados enviados
+     * pelo cliente e aplicando validações antes da criação.
      */
     public function store(Request $request): JsonResponse
     {
@@ -73,7 +84,9 @@ class CarroController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Exibir um carro
+     *
+     * Retorna os detalhes de um carro específico com base no ID informado.
      */
     public function show(int $id)
     {
@@ -87,7 +100,10 @@ class CarroController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar um carro
+     *
+     * Atualiza os dados de um carro existente. Permite atualização total (PUT)
+     * ou parcial (PATCH), incluindo manipulação de atributos específicos.
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -118,7 +134,9 @@ class CarroController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remover um carro
+     *
+     * Exclui um carro do sistema com base no ID informado.
      */
     public function destroy(int $id): JsonResponse
     {
