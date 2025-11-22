@@ -111,20 +111,27 @@
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-clientes--id-">
                                 <a href="#endpoints-DELETEapi-clientes--id-">Remove the specified resource from storage.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-locacoes">
-                                <a href="#endpoints-GETapi-locacoes">Display a listing of the resource.</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-locacoes" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="locacoes">
+                    <a href="#locacoes">Locações</a>
+                </li>
+                                    <ul id="tocify-subheader-locacoes" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="locacoes-GETapi-locacoes">
+                                <a href="#locacoes-GETapi-locacoes">Listar locações</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-locacoes">
-                                <a href="#endpoints-POSTapi-locacoes">Store a newly created resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="locacoes-POSTapi-locacoes">
+                                <a href="#locacoes-POSTapi-locacoes">Criar uma nova locação</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-locacoes--id-">
-                                <a href="#endpoints-GETapi-locacoes--id-">Display the specified resource.</a>
+                                                                                <li class="tocify-item level-2" data-unique="locacoes-GETapi-locacoes--id-">
+                                <a href="#locacoes-GETapi-locacoes--id-">Exibir uma locação</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTapi-locacoes--id-">
-                                <a href="#endpoints-PUTapi-locacoes--id-">Update the specified resource in storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="locacoes-PUTapi-locacoes--id-">
+                                <a href="#locacoes-PUTapi-locacoes--id-">Atualizar uma locação</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-locacoes--id-">
-                                <a href="#endpoints-DELETEapi-locacoes--id-">Remove the specified resource from storage.</a>
+                                                                                <li class="tocify-item level-2" data-unique="locacoes-DELETEapi-locacoes--id-">
+                                <a href="#locacoes-DELETEapi-locacoes--id-">Remover uma locação</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -1583,12 +1590,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-locacoes">Display a listing of the resource.</h2>
+                <h1 id="locacoes">Locações</h1>
+
+    <p>Gerenciamento de locações</p>
+
+                                <h2 id="locacoes-GETapi-locacoes">Listar locações</h2>
 
 <p>
 </p>
 
-
+<p>Retorna a lista de locações cadastradas, permitindo filtros,
+seleção de atributos específicos e exibição de atributos do locação relacionado.</p>
 
 <span id="example-requests-GETapi-locacoes">
 <blockquote>Example request:</blockquote>
@@ -1707,12 +1719,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-locacoes">Store a newly created resource in storage.</h2>
+                    <h2 id="locacoes-POSTapi-locacoes">Criar uma nova locação</h2>
 
 <p>
 </p>
 
-
+<p>Registra uma nova locação no sistema, processando dados enviados
+pelo cliente e aplicando validações antes da criação.</p>
 
 <span id="example-requests-POSTapi-locacoes">
 <blockquote>Example request:</blockquote>
@@ -1817,12 +1830,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-locacoes--id-">Display the specified resource.</h2>
+                    <h2 id="locacoes-GETapi-locacoes--id-">Exibir uma locação</h2>
 
 <p>
 </p>
 
-
+<p>Retorna os detalhes de uma locação específico com base no ID informado.</p>
 
 <span id="example-requests-GETapi-locacoes--id-">
 <blockquote>Example request:</blockquote>
@@ -1956,12 +1969,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-locacoes--id-">Update the specified resource in storage.</h2>
+                    <h2 id="locacoes-PUTapi-locacoes--id-">Atualizar uma locação</h2>
 
 <p>
 </p>
 
-
+<p>Atualiza os dados de uma locação existente. Permite atualização total (PUT)
+ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <span id="example-requests-PUTapi-locacoes--id-">
 <blockquote>Example request:</blockquote>
@@ -2083,12 +2097,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-DELETEapi-locacoes--id-">Remove the specified resource from storage.</h2>
+                    <h2 id="locacoes-DELETEapi-locacoes--id-">Remover uma locação</h2>
 
 <p>
 </p>
 
-
+<p>Exclui uma locação do sistema com base no ID informado.</p>
 
 <span id="example-requests-DELETEapi-locacoes--id-">
 <blockquote>Example request:</blockquote>

@@ -8,6 +8,11 @@ use App\Models\Locacao;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @group Locações
+ *
+ * Gerenciamento de locações
+ */
 class LocacaoController extends Controller
 {
 
@@ -15,8 +20,13 @@ class LocacaoController extends Controller
     {
     }
 
+
+
     /**
-     * Display a listing of the resource.
+     * Listar locações
+     *
+     * Retorna a lista de locações cadastradas, permitindo filtros,
+     * seleção de atributos específicos e exibição de atributos do locação relacionado.
      */
     public function index(Request $request, ListarLocacoes $listarLocacoes): JsonResponse
     {
@@ -28,7 +38,10 @@ class LocacaoController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Criar uma nova locação
+     *
+     * Registra uma nova locação no sistema, processando dados enviados
+     * pelo cliente e aplicando validações antes da criação.
      */
     public function store(Request $request): JsonResponse
     {
@@ -49,7 +62,9 @@ class LocacaoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Exibir uma locação
+     *
+     * Retorna os detalhes de uma locação específico com base no ID informado.
      */
     public function show(int $id): JsonResponse
     {
@@ -63,7 +78,10 @@ class LocacaoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar uma locação
+     *
+     * Atualiza os dados de uma locação existente. Permite atualização total (PUT)
+     * ou parcial (PATCH), incluindo manipulação de atributos específicos.
      */
     public function update(Request $request, int $id, AtualizarLocacao $atualizarLocacao): JsonResponse
     {
@@ -80,7 +98,9 @@ class LocacaoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remover uma locação
+     *
+     * Exclui uma locação do sistema com base no ID informado.
      */
     public function destroy(int $id): JsonResponse
     {
