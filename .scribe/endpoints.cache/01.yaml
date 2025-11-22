@@ -62,8 +62,10 @@ endpoints:
         Gerenciamento de carros
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
+      title: 'Criar um novo carro'
+      description: |-
+        Registra um novo carro no sistema, processando dados enviados
+        pelo cliente e aplicando validações antes da criação.
       authenticated: false
       deprecated: false
     headers:
@@ -95,8 +97,8 @@ endpoints:
         Gerenciamento de carros
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
+      title: 'Exibir um carro'
+      description: 'Retorna os detalhes de um carro específico com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -150,8 +152,10 @@ endpoints:
         Gerenciamento de carros
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
-      description: ''
+      title: 'Atualizar um carro'
+      description: |-
+        Atualiza os dados de um carro existente. Permite atualização total (PUT)
+        ou parcial (PATCH), incluindo manipulação de atributos específicos.
       authenticated: false
       deprecated: false
     headers:
@@ -195,8 +199,8 @@ endpoints:
         Gerenciamento de carros
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
-      description: ''
+      title: 'Remover um carro'
+      description: 'Exclui um carro do sistema com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:

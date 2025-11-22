@@ -75,16 +75,16 @@
                                 <a href="#carros-GETapi-carros">Listar carros</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="carros-POSTapi-carros">
-                                <a href="#carros-POSTapi-carros">Store a newly created resource in storage.</a>
+                                <a href="#carros-POSTapi-carros">Criar um novo carro</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="carros-GETapi-carros--id-">
-                                <a href="#carros-GETapi-carros--id-">Display the specified resource.</a>
+                                <a href="#carros-GETapi-carros--id-">Exibir um carro</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="carros-PUTapi-carros--id-">
-                                <a href="#carros-PUTapi-carros--id-">Update the specified resource in storage.</a>
+                                <a href="#carros-PUTapi-carros--id-">Atualizar um carro</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="carros-DELETEapi-carros--id-">
-                                <a href="#carros-DELETEapi-carros--id-">Remove the specified resource from storage.</a>
+                                <a href="#carros-DELETEapi-carros--id-">Remover um carro</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -315,12 +315,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="carros-POSTapi-carros">Store a newly created resource in storage.</h2>
+                    <h2 id="carros-POSTapi-carros">Criar um novo carro</h2>
 
 <p>
 </p>
 
-
+<p>Registra um novo carro no sistema, processando dados enviados
+pelo cliente e aplicando validações antes da criação.</p>
 
 <span id="example-requests-POSTapi-carros">
 <blockquote>Example request:</blockquote>
@@ -425,12 +426,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="carros-GETapi-carros--id-">Display the specified resource.</h2>
+                    <h2 id="carros-GETapi-carros--id-">Exibir um carro</h2>
 
 <p>
 </p>
 
-
+<p>Retorna os detalhes de um carro específico com base no ID informado.</p>
 
 <span id="example-requests-GETapi-carros--id-">
 <blockquote>Example request:</blockquote>
@@ -564,12 +565,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="carros-PUTapi-carros--id-">Update the specified resource in storage.</h2>
+                    <h2 id="carros-PUTapi-carros--id-">Atualizar um carro</h2>
 
 <p>
 </p>
 
-
+<p>Atualiza os dados de um carro existente. Permite atualização total (PUT)
+ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <span id="example-requests-PUTapi-carros--id-">
 <blockquote>Example request:</blockquote>
@@ -691,12 +693,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="carros-DELETEapi-carros--id-">Remove the specified resource from storage.</h2>
+                    <h2 id="carros-DELETEapi-carros--id-">Remover um carro</h2>
 
 <p>
 </p>
 
-
+<p>Exclui um carro do sistema com base no ID informado.</p>
 
 <span id="example-requests-DELETEapi-carros--id-">
 <blockquote>Example request:</blockquote>

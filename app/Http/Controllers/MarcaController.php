@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group Marcas
+ *
+ * Gerenciamento de marcas
+ */
+
 class MarcaController extends Controller
 {
 
@@ -17,7 +23,10 @@ class MarcaController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * Listar Marcas
+     *
+     * Retorna a lista de marcas cadastradas, permitindo filtros,
+     * seleção de atributos específicos e exibição de atributos do modelo relacionado.
      */
     public function index(Request $request, ListarMarcas $listarMarcas): JsonResponse
     {
@@ -28,7 +37,10 @@ class MarcaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Criar uma nova marca
+     *
+     * Registra uma nova marca no sistema, processando dados enviados
+     * pelo cliente e aplicando validações antes da criação.
      */
     public function store(Request $request): JsonResponse
     {
@@ -48,7 +60,9 @@ class MarcaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Exibir uma marca
+     *
+     * Retorna os detalhes de uma marca específico com base no ID informado.
      */
     public function show(int $id): JsonResponse
     {
@@ -62,7 +76,10 @@ class MarcaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar uma marca
+     *
+     * Atualiza os dados de uma marca existente. Permite atualização total (PUT)
+     * ou parcial (PATCH), incluindo manipulação de atributos específicos.
      */
     public function update(Request $request, int $id, AtualizarMarca $atualizarMarca): JsonResponse
     {
@@ -78,7 +95,9 @@ class MarcaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remover uma marca
+     *
+     * Exclui uma marca do sistema com base no ID informado.
      */
     public function destroy(int $id): JsonResponse
     {
