@@ -1,24 +1,24 @@
-name: Modelos
+name: Marcas
 description: |-
 
-  Gerenciamento de modelos
+  Gerenciamento de marcas
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/modelos
+    uri: api/marcas
     metadata:
       custom: []
-      groupName: Modelos
+      groupName: Marcas
       groupDescription: |-
 
-        Gerenciamento de modelos
+        Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Listar modelos'
+      title: 'Listar Marcas'
       description: |-
-        Retorna a lista de modelos cadastrados, permitindo filtros,
+        Retorna a lista de marcas cadastradas, permitindo filtros,
         seleção de atributos específicos e exibição de atributos do modelo relacionado.
       authenticated: false
       deprecated: false
@@ -36,7 +36,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '[{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z","marca":{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z"}}]'
+        content: '[{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z","modelos":[{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z"}]}]'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -51,18 +51,18 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/modelos
+    uri: api/marcas
     metadata:
       custom: []
-      groupName: Modelos
+      groupName: Marcas
       groupDescription: |-
 
-        Gerenciamento de modelos
+        Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Criar um novo modelo'
+      title: 'Criar uma nova marca'
       description: |-
-        Registra um novo modelo no sistema, processando dados enviados
+        Registra uma nova marca no sistema, processando dados enviados
         pelo cliente e aplicando validações antes da criação.
       authenticated: false
       deprecated: false
@@ -86,17 +86,17 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/modelos/{id}'
+    uri: 'api/marcas/{id}'
     metadata:
       custom: []
-      groupName: Modelos
+      groupName: Marcas
       groupDescription: |-
 
-        Gerenciamento de modelos
+        Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Exibir um modelo'
-      description: 'Retorna os detalhes de um modelo específico com base no ID informado.'
+      title: 'Exibir uma marca'
+      description: 'Retorna os detalhes de uma marca específico com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -106,7 +106,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'The ID of the marca.'
         required: true
         example: 1
         type: integer
@@ -125,7 +125,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z","marca":{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z"}}'
+        content: '{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z","modelos":[{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -141,18 +141,18 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'api/modelos/{id}'
+    uri: 'api/marcas/{id}'
     metadata:
       custom: []
-      groupName: Modelos
+      groupName: Marcas
       groupDescription: |-
 
-        Gerenciamento de modelos
+        Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Atualizar um modelo'
+      title: 'Atualizar uma marca'
       description: |-
-        Atualiza os dados de um modelo existente. Permite atualização total (PUT)
+        Atualiza os dados de uma marca existente. Permite atualização total (PUT)
         ou parcial (PATCH), incluindo manipulação de atributos específicos.
       authenticated: false
       deprecated: false
@@ -163,7 +163,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'The ID of the marca.'
         required: true
         example: 1
         type: integer
@@ -188,17 +188,17 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/modelos/{id}'
+    uri: 'api/marcas/{id}'
     metadata:
       custom: []
-      groupName: Modelos
+      groupName: Marcas
       groupDescription: |-
 
-        Gerenciamento de modelos
+        Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remover um modelo'
-      description: 'Exclui um modelo do sistema com base no ID informado.'
+      title: 'Remover uma marca'
+      description: 'Exclui uma marca do sistema com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -208,7 +208,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'The ID of the marca.'
         required: true
         example: 1
         type: integer

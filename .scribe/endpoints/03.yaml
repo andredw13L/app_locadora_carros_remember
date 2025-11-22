@@ -1,25 +1,25 @@
-name: Marcas
+name: Locações
 description: |-
 
-  Gerenciamento de marcas
+  Gerenciamento de locações
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/marcas
+    uri: api/locacoes
     metadata:
       custom: []
-      groupName: Marcas
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de marcas
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Listar Marcas'
+      title: 'Listar locações'
       description: |-
-        Retorna a lista de marcas cadastradas, permitindo filtros,
-        seleção de atributos específicos e exibição de atributos do modelo relacionado.
+        Retorna a lista de locações cadastradas, permitindo filtros,
+        seleção de atributos específicos e exibição de atributos do locação relacionado.
       authenticated: false
       deprecated: false
     headers:
@@ -36,7 +36,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '[{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z","modelos":[{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z"}]}]'
+        content: '[]'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -51,18 +51,18 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/marcas
+    uri: api/locacoes
     metadata:
       custom: []
-      groupName: Marcas
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de marcas
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Criar uma nova marca'
+      title: 'Criar uma nova locação'
       description: |-
-        Registra uma nova marca no sistema, processando dados enviados
+        Registra uma nova locação no sistema, processando dados enviados
         pelo cliente e aplicando validações antes da criação.
       authenticated: false
       deprecated: false
@@ -86,17 +86,17 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/marcas/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Marcas
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de marcas
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Exibir uma marca'
-      description: 'Retorna os detalhes de uma marca específico com base no ID informado.'
+      title: 'Exibir uma locação'
+      description: 'Retorna os detalhes de uma locação específico com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -106,16 +106,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'The ID of the locaco.'
         required: true
-        example: 1
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -124,8 +124,11 @@ endpoints:
     responses:
       -
         custom: []
-        status: 200
-        content: '{"id":1,"nome":"Hyundai","imagem":"imagens\/marcas\/hyundai.png","created_at":"2025-11-12T08:35:42.000000Z","updated_at":"2025-11-12T08:35:42.000000Z","modelos":[{"id":1,"marca_id":1,"nome":"Hyundai HB20 1.0","imagem":"imagens\/modelos\/hyundai_hb20_1_0.png","numero_portas":4,"lugares":5,"air_bag":1,"abs":1,"created_at":"2025-11-12T08:36:01.000000Z","updated_at":"2025-11-12T08:36:01.000000Z"}]}'
+        status: 500
+        content: |-
+          {
+              "message": "Server Error"
+          }
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -141,18 +144,18 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'api/marcas/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Marcas
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de marcas
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Atualizar uma marca'
+      title: 'Atualizar uma locação'
       description: |-
-        Atualiza os dados de uma marca existente. Permite atualização total (PUT)
+        Atualiza os dados de uma locação existente. Permite atualização total (PUT)
         ou parcial (PATCH), incluindo manipulação de atributos específicos.
       authenticated: false
       deprecated: false
@@ -163,16 +166,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'The ID of the locaco.'
         required: true
-        example: 1
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -188,17 +191,17 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/marcas/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Marcas
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de marcas
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remover uma marca'
-      description: 'Exclui uma marca do sistema com base no ID informado.'
+      title: 'Remover uma locação'
+      description: 'Exclui uma locação do sistema com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -208,16 +211,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'The ID of the locaco.'
         required: true
-        example: 1
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

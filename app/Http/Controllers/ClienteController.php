@@ -7,6 +7,12 @@ use App\Repositories\ClienteRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @group Clientes
+ *
+ * Gerenciamento de clientes
+ */
+
 class ClienteController extends Controller
 {
 
