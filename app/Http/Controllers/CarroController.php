@@ -26,6 +26,9 @@ class CarroController extends Controller
      *
      * Retorna a lista de carros cadastrados, permitindo filtros,
      * seleção de atributos específicos e exibição de atributos do modelo relacionado.
+     * @queryParam atributos string Lista de atributos do carro que devem ser retornados. Separados por vírgula. Exemplo: id,placa,km,disponivel No-example
+     * @queryParam atributos_modelo string Lista de atributos do modelo relacionado. Separados por vírgula. Exemplo: nome,imagem,id No-example
+     * @queryParam filtro string Filtros no formato campo:operador:valor. Múltiplos filtros separados por ponto e vírgula. Exemplo: placa:=:ABC1D34; No-example
      */
     public function index(Request $request): JsonResponse
     {
@@ -66,8 +69,13 @@ class CarroController extends Controller
     /**
      * Criar um novo carro
      *
-     * Registra um novo carro no sistema, processando dados enviados
-     * pelo cliente e aplicando validações antes da criação.
+     * Registra um novo carro no sistema, validando os dados enviados
+     * pelo cliente antes de criar o registro.
+     *
+     * @bodyParam modelo_id integer required ID do modelo associado ao carro. Exemplo: 1 No-example
+     * @bodyParam placa string required Placa do veículo. Exemplo: ABC1D23 No-example
+     * @bodyParam disponivel boolean required Indica se o carro está disponível para locação. Exemplo: true No-example
+     * @bodyParam km integer required Quilometragem atual do veículo. Exemplo: 15200 No-example
      */
     public function store(Request $request): JsonResponse
     {
@@ -87,6 +95,8 @@ class CarroController extends Controller
      * Exibir um carro
      *
      * Retorna os detalhes de um carro específico com base no ID informado.
+     * 
+     * @urlParam id integer required O id do carro. Exemplo: 1 No-example 
      */
     public function show(int $id)
     {
@@ -103,7 +113,14 @@ class CarroController extends Controller
      * Atualizar um carro
      *
      * Atualiza os dados de um carro existente. Permite atualização total (PUT)
-     * ou parcial (PATCH), incluindo manipulação de atributos específicos.
+     * ou parcial (PATCH), aplicando validações dinâmicas conforme os campos enviados.
+     * 
+     * @urlParam id integer required O ID do carro a ser atualizado. Exemplo: 1 No-example
+     *
+     * @bodyParam modelo_id integer ID do modelo associado ao carro. Exemplo: 2 No-example
+     * @bodyParam placa string Placa do veículo. Exemplo: DEF2G45 No-example
+     * @bodyParam disponivel boolean Indica se o carro está disponível para locação. Exemplo: false No-example
+     * @bodyParam km integer Quilometragem atual do veículo. Exemplo: 20300 No-example
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -137,6 +154,8 @@ class CarroController extends Controller
      * Remover um carro
      *
      * Exclui um carro do sistema com base no ID informado.
+     * 
+     * @urlParam id integer required O id do carro. Exemplo: 1 No-example 
      */
     public function destroy(int $id): JsonResponse
     {

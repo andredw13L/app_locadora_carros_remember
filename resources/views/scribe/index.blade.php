@@ -341,15 +341,52 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos"                data-endpoint="GETapi-carros"
+               value=""
+               data-component="query">
+    <br>
+<p>Lista de atributos do carro que devem ser retornados. Separados por vírgula. Exemplo: id,placa,km,disponivel</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos_modelo</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos_modelo"                data-endpoint="GETapi-carros"
+               value=""
+               data-component="query">
+    <br>
+<p>Lista de atributos do modelo relacionado. Separados por vírgula. Exemplo: nome,imagem,id</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>filtro</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="filtro"                data-endpoint="GETapi-carros"
+               value=""
+               data-component="query">
+    <br>
+<p>Filtros no formato campo:operador:valor. Múltiplos filtros separados por ponto e vírgula. Exemplo: placa:=:ABC1D34;</p>
+            </div>
+                </form>
 
                     <h2 id="carros-POSTapi-carros">Criar um novo carro</h2>
 
 <p>
 </p>
 
-<p>Registra um novo carro no sistema, processando dados enviados
-pelo cliente e aplicando validações antes da criação.</p>
+<p>Registra um novo carro no sistema, validando os dados enviados
+pelo cliente antes de criar o registro.</p>
 
 <span id="example-requests-POSTapi-carros">
 <blockquote>Example request:</blockquote>
@@ -359,7 +396,14 @@ pelo cliente e aplicando validações antes da criação.</p>
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/carros" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"modelo_id\": null,
+    \"placa\": null,
+    \"disponivel\": null,
+    \"km\": null
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -372,9 +416,17 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "modelo_id": null,
+    "placa": null,
+    "disponivel": null,
+    "km": null
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -452,7 +504,66 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>modelo_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="modelo_id"                data-endpoint="POSTapi-carros"
+               value=""
+               data-component="body">
+    <br>
+<p>ID do modelo associado ao carro. Exemplo: 1</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>placa</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="placa"                data-endpoint="POSTapi-carros"
+               value=""
+               data-component="body">
+    <br>
+<p>Placa do veículo. Exemplo: ABC1D23</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>disponivel</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-carros" style="display: none">
+            <input type="radio" name="disponivel"
+                   value="true"
+                   data-endpoint="POSTapi-carros"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-carros" style="display: none">
+            <input type="radio" name="disponivel"
+                   value="false"
+                   data-endpoint="POSTapi-carros"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Indica se o carro está disponível para locação. Exemplo: true</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>km</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="km"                data-endpoint="POSTapi-carros"
+               value=""
+               data-component="body">
+    <br>
+<p>Quilometragem atual do veículo. Exemplo: 15200</p>
+        </div>
+        </form>
 
                     <h2 id="carros-GETapi-carros--id-">Exibir um carro</h2>
 
@@ -467,14 +578,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/carros/16" \
+    --get "http://localhost:8000/api/carros/" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/carros/16"
+    "http://localhost:8000/api/carros/"
 );
 
 const headers = {
@@ -491,7 +602,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-carros--id-">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -502,9 +613,7 @@ content-type: application/json
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
-<code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Carro n&atilde;o encontrado&quot;
-}</code>
+<code class="language-json" style="max-height: 300px;">[]</code>
  </pre>
     </span>
 <span id="execution-results-GETapi-carros--id-" hidden>
@@ -586,10 +695,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-carros--id-"
-               value="16"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the carro. Example: <code>16</code></p>
+<p>O id do carro. Exemplo: 1</p>
             </div>
                     </form>
 
@@ -599,7 +708,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </p>
 
 <p>Atualiza os dados de um carro existente. Permite atualização total (PUT)
-ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
+ou parcial (PATCH), aplicando validações dinâmicas conforme os campos enviados.</p>
 
 <span id="example-requests-PUTapi-carros--id-">
 <blockquote>Example request:</blockquote>
@@ -607,14 +716,15 @@ ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/carros/16" \
+    "http://localhost:8000/api/carros/" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/carros/16"
+    "http://localhost:8000/api/carros/"
 );
 
 const headers = {
@@ -714,12 +824,71 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-carros--id-"
-               value="16"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the carro. Example: <code>16</code></p>
+<p>O ID do carro a ser atualizado. Exemplo: 1</p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>modelo_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="modelo_id"                data-endpoint="PUTapi-carros--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>ID do modelo associado ao carro. Exemplo: 2</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>placa</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="placa"                data-endpoint="PUTapi-carros--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Placa do veículo. Exemplo: DEF2G45</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>disponivel</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-carros--id-" style="display: none">
+            <input type="radio" name="disponivel"
+                   value="true"
+                   data-endpoint="PUTapi-carros--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-carros--id-" style="display: none">
+            <input type="radio" name="disponivel"
+                   value="false"
+                   data-endpoint="PUTapi-carros--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Indica se o carro está disponível para locação. Exemplo: false</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>km</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="km"                data-endpoint="PUTapi-carros--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Quilometragem atual do veículo. Exemplo: 20300</p>
+        </div>
+        </form>
 
                     <h2 id="carros-DELETEapi-carros--id-">Remover um carro</h2>
 
@@ -734,14 +903,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/carros/16" \
+    "http://localhost:8000/api/carros/" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/carros/16"
+    "http://localhost:8000/api/carros/"
 );
 
 const headers = {
@@ -837,10 +1006,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-carros--id-"
-               value="16"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the carro. Example: <code>16</code></p>
+<p>O id do carro. Exemplo: 1</p>
             </div>
                     </form>
 

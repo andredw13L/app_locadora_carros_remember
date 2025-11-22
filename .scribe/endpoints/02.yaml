@@ -27,7 +27,40 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
+    queryParameters:
+      atributos:
+        custom: []
+        name: atributos
+        description: 'Lista de atributos do carro que devem ser retornados. Separados por vírgula. Exemplo: id,placa,km,disponivel'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      atributos_modelo:
+        custom: []
+        name: atributos_modelo
+        description: 'Lista de atributos do modelo relacionado. Separados por vírgula. Exemplo: nome,imagem,id'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      filtro:
+        custom: []
+        name: filtro
+        description: 'Filtros no formato campo:operador:valor. Múltiplos filtros separados por ponto e vírgula. Exemplo: placa:=:ABC1D34;'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
@@ -62,8 +95,8 @@ endpoints:
       subgroupDescription: ''
       title: 'Criar um novo carro'
       description: |-
-        Registra um novo carro no sistema, processando dados enviados
-        pelo cliente e aplicando validações antes da criação.
+        Registra um novo carro no sistema, validando os dados enviados
+        pelo cliente antes de criar o registro.
       authenticated: false
       deprecated: false
     headers:
@@ -73,8 +106,56 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      modelo_id:
+        custom: []
+        name: modelo_id
+        description: 'ID do modelo associado ao carro. Exemplo: 1'
+        required: true
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      placa:
+        custom: []
+        name: placa
+        description: 'Placa do veículo. Exemplo: ABC1D23'
+        required: true
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      disponivel:
+        custom: []
+        name: disponivel
+        description: 'Indica se o carro está disponível para locação. Exemplo: true'
+        required: true
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      km:
+        custom: []
+        name: km
+        description: 'Quilometragem atual do veículo. Exemplo: 15200'
+        required: true
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      modelo_id: null
+      placa: null
+      disponivel: null
+      km: null
     fileParameters: []
     responses: []
     responseFields: []
@@ -106,16 +187,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the carro.'
+        description: 'O id do carro. Exemplo: 1'
         required: true
-        example: 16
+        example: null
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 16
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -124,8 +205,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 404
-        content: '{"message":"Carro n\u00e3o encontrado"}'
+        status: 200
+        content: '[]'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -153,7 +234,7 @@ endpoints:
       title: 'Atualizar um carro'
       description: |-
         Atualiza os dados de um carro existente. Permite atualização total (PUT)
-        ou parcial (PATCH), incluindo manipulação de atributos específicos.
+        ou parcial (PATCH), aplicando validações dinâmicas conforme os campos enviados.
       authenticated: false
       deprecated: false
     headers:
@@ -163,19 +244,63 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the carro.'
+        description: 'O ID do carro a ser atualizado. Exemplo: 1'
         required: true
-        example: 16
+        example: null
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 16
+      id: null
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
+    bodyParameters:
+      modelo_id:
+        custom: []
+        name: modelo_id
+        description: 'ID do modelo associado ao carro. Exemplo: 2'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      placa:
+        custom: []
+        name: placa
+        description: 'Placa do veículo. Exemplo: DEF2G45'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      disponivel:
+        custom: []
+        name: disponivel
+        description: 'Indica se o carro está disponível para locação. Exemplo: false'
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      km:
+        custom: []
+        name: km
+        description: 'Quilometragem atual do veículo. Exemplo: 20300'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters: []
     fileParameters: []
     responses: []
@@ -208,16 +333,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the carro.'
+        description: 'O id do carro. Exemplo: 1'
         required: true
-        example: 16
+        example: null
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 16
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
