@@ -55,7 +55,6 @@ test('Verificar os Feedbacks de validação', function() {
 
     expect($feedback)->toHaveKey('required');
     expect($feedback)->toHaveKey('modelo_id.exists');
-    expect($feedback)->toHaveKey('placa.boolean');
     expect($feedback)->toHaveKey('disponivel.boolean');
     expect($feedback)->toHaveKey('placa.min');
     expect($feedback)->toHaveKey('placa.max');
@@ -64,7 +63,6 @@ test('Verificar os Feedbacks de validação', function() {
 
     expect($feedback['required'])->toBe('O campo :attribute é obrigatório');
     expect($feedback['modelo_id.exists'])->toBe('O modelo informado não existe');
-    expect($feedback['placa.boolean'])->toBe('O campo placa deve ser verdadeiro ou falso');
     expect($feedback['disponivel.boolean'])->toBe('O campo disponível deve ser verdadeiro ou falso');
     expect($feedback['placa.min'])->toBe('O campo placa deve ter 6 caracteres');
     expect($feedback['placa.max'])->toBe('O campo placa deve ter 6 caracteres');

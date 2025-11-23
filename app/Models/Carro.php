@@ -52,7 +52,6 @@ class Carro extends Model
         return [
             'required' => 'O campo :attribute é obrigatório',
             'modelo_id.exists' => 'O modelo informado não existe',
-            'placa.boolean' => 'O campo placa deve ser verdadeiro ou falso',
             'disponivel.boolean' => 'O campo disponível deve ser verdadeiro ou falso',
             'placa.min' => 'O campo placa deve ter 6 caracteres',
             'placa.max' => 'O campo placa deve ter 6 caracteres',
