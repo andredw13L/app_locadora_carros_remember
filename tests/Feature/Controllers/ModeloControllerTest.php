@@ -35,7 +35,7 @@ test('Store - Deve criar um novo modelo', function () {
 
 
     $data_marca = [
-        'nome' => 'Marca Teste',
+        'nome' => 'Marca Teste - Modelo',
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
@@ -573,7 +573,7 @@ test('Show - Deve retornar um modelo existente', function () {
 
     expect($marca->status())->toBe(200);
 
-    $modelo_id = $marca->json()[0]['modelos'][0]['id'];
+    $modelo_id = $marca->json()[0]['modelos'][1]['id'];
 
     $response = $this->getJson("/api/modelos/{$modelo_id}");
 
@@ -797,7 +797,7 @@ test('Destroy - Deve deletar um modelo existente', function () {
 
     expect($modelos->status())->toBe(200);
 
-    $modelo_id = $modelos->json()[0]['id'];
+    $modelo_id = $modelos->json()[1]['id'];
 
     $response = $this->deleteJson("/api/modelos/{$modelo_id}");
 

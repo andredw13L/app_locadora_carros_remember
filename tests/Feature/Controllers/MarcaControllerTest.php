@@ -136,7 +136,7 @@ test('Show - Deve retornar uma marca existente', function () {
 
     expect($marcas->status())->toBe(200);
 
-    $marca_id = $marcas->json()[0]['id'];
+    $marca_id = $marcas->json()[1]['id'];
 
     $response = $this->getJson("/api/marcas/{$marca_id}");
 
@@ -343,7 +343,7 @@ test('Destroy - Deve deletar uma marca existente', function () {
 
     expect($marcas->status())->toBe(200);
 
-    $marca_id = $marcas->json()[0]['id'];
+    $marca_id = $marcas->json()[1]['id'];
     
 
     $response = $this->deleteJson("/api/marcas/{$marca_id}");
