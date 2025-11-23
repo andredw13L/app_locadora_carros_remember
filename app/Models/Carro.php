@@ -40,9 +40,9 @@ class Carro extends Model
     {
         return [
             'modelo_id' => 'exists:modelos,id',
-            'placa' => 'required',
-            'disponivel' => 'required',
-            'km' => 'required'
+            'placa' => 'required|min:6|max:6', // TODO: substituir esa validação pra uma única
+            'disponivel' => 'required|boolean',
+            'km' => 'required|integer'
         ];
     }
 
@@ -52,6 +52,11 @@ class Carro extends Model
         return [
             'required' => 'O campo :attribute é obrigatório',
             'modelo_id.exists' => 'O modelo informado não existe',
+            'placa.boolean' => 'O campo placa deve ser verdadeiro ou falso',
+            'disponivel.boolean' => 'O campo disponível deve ser verdadeiro ou falso',
+            'placa.min' => 'O campo placa deve ter 6 caracteres',
+            'placa.max' => 'O campo placa deve ter 6 caracteres',
+            'km.integer' => 'O campo km deve ser do tipo inteiro',
         ];
     }
 

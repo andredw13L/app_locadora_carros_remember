@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Marca;
-use App\Models\Modelo;
 
 test('Preencher a Marca', function () {
     $marca = new Marca;
