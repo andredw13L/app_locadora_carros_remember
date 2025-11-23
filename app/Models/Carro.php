@@ -39,8 +39,8 @@ class Carro extends Model
     public function rules():array
     {
         return [
-            'modelo_id' => 'exists:modelos,id',
-            'placa' => 'required|min:6|max:6', // TODO: substituir esa validação pra uma única
+            'modelo_id' => 'required|exists:modelos,id',
+            'placa' => 'required|min:6|max:6|unique:carros,placa,' . $this->id . '', // TODO: substituir esa validação pra uma única
             'disponivel' => 'required|boolean',
             'km' => 'required|integer'
         ];
@@ -57,6 +57,7 @@ class Carro extends Model
             'placa.min' => 'O campo placa deve ter 6 caracteres',
             'placa.max' => 'O campo placa deve ter 6 caracteres',
             'km.integer' => 'O campo km deve ser do tipo inteiro',
+            'placa.unique' => 'Já existe um carro com essa placa: :input',
         ];
     }
 
