@@ -41,8 +41,8 @@ test('Verificar as regras de validação', function() {
     expect($rules)->toHaveKey('disponivel');
     expect($rules)->toHaveKey('km');
 
-    expect($rules['modelo_id'])->toBe('exists:modelos,id');
-    expect($rules['placa'])->toBe('required|min:6|max:6');
+    expect($rules['modelo_id'])->toBe('required|exists:modelos,id');
+    expect($rules['placa'])->toBe('required|min:6|max:6|unique:carros,placa,');
     expect($rules['disponivel'])->toBe('required|boolean');
     expect($rules['km'])->toBe('required|integer');
 });
@@ -68,6 +68,7 @@ test('Verificar os Feedbacks de validação', function() {
     expect($feedback['disponivel.boolean'])->toBe('O campo disponível deve ser verdadeiro ou falso');
     expect($feedback['placa.min'])->toBe('O campo placa deve ter 6 caracteres');
     expect($feedback['placa.max'])->toBe('O campo placa deve ter 6 caracteres');
+    expect($feedback['placa.unique'])->toBe('Já existe um carro com essa placa: :input');
     expect($feedback['km.integer'])->toBe('O campo km deve ser do tipo inteiro');
 
 });

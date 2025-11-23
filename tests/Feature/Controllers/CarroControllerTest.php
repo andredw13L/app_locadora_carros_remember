@@ -90,20 +90,47 @@ test('Store - Deve criar uma novo carro', function () {
     ]);
 });
 
-// test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
+test('Store - Deve retornar feedback ao tentar criar carro sem modelo', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
 
-//     $response = $this->postJson('/api/marcas', $data);
+    $data = [
+        'placa' => "1D2CBA",
+        'disponivel' => false,
+        'km' => 100000,
+    ];
 
-//     expect($response->status())->toBe(422);
+    $response = $this->postJson('/api/carros', $data);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-// });
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.modelo_id.0'))->toBe('O campo modelo id é obrigatório');
+});
+
+
+test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', function () {
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => "ABC12D",
+        'disponivel' => true,
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.placa.0'))->toBe('Já existe um carro com essa placa: ' . $data['placa']);
+});
 
 
 // test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
@@ -153,21 +180,6 @@ test('Store - Deve criar uma novo carro', function () {
 //     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
 // });
 
-// test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
-
-//     Storage::fake('public');
-
-//     $data = [
-//         'nome' => 'Marca Teste',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
-
-//     $response = $this->postJson('/api/marcas', $data);
-
-//     expect($response->status())->toBe(422);
-
-//     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-// });
 
 // test('Show - Deve retornar uma marca existente', function () {
 
