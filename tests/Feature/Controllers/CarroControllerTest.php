@@ -133,53 +133,177 @@ test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', fun
 });
 
 
-// test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
+test('Store - Deve retornar feedback ao tentar criar carro com placa muito curta', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'A',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+    $modelo = $this->getJson('/api/modelos/');
 
-//     $response = $this->postJson('/api/marcas', $data);
+    expect($modelo->status())->toBe(200);
 
-//     expect($response->status())->toBe(422);
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => "A",
+        'disponivel' => true,
+        'km' => 200000,
+    ];
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-// });
+    $response = $this->postJson('/api/carros', $data);
 
-// test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
+    expect($response->status())->toBe(422);
 
-//     Storage::fake('public');
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 6 caracteres');
+});
 
-//     $data = [
-//         'nome' => str_repeat('A', 101),
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa', function () {
 
-//     $response = $this->postJson('/api/marcas', $data);
+    Storage::fake('public');
 
-//     expect($response->status())->toBe(422);
+    $modelo = $this->getJson('/api/modelos/');
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-// });
+    expect($modelo->status())->toBe(200);
 
-// test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => str_repeat("A", 7),
+        'disponivel' => true,
+        'km' => 200000,
+    ];
 
-//     Storage::fake('public');
+    $response = $this->postJson('/api/carros', $data);
 
-//     $data = [
-//         'nome' => 'Marca Teste'
-//     ];
+    expect($response->status())->toBe(422);
 
-//     $response = $this->postJson('/api/marcas', $data);
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 6 caracteres');
+});
 
-//     expect($response->status())->toBe(422);
+test('Store - Deve retornar feedback ao tentar criar carro sem placa', function () {
 
-//     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-// });
 
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'disponivel' => true,
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.placa.0'))->toBe('O campo placa é obrigatório');
+});
+
+test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade', function () {
+
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => Str::random(6),
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.disponivel.0'))->toBe('O campo disponivel é obrigatório');
+});
+
+test('Store - Deve retornar feedback ao tentar criar carro sem quilometragem', function () {
+
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => Str::random(6),
+        'disponivel' => false,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.km.0'))->toBe('O campo km é obrigatório');
+});
+
+test('Deve retornar erro ao tentar criar carro com modelo inexistente', function() {
+
+    Storage::fake('public');
+
+    $data = [
+        'modelo_id' => random_int(10, 255),
+        'placa' => Str::random(6),
+        'disponivel' => true,
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.modelo_id.0'))->toBe('O modelo informado não existe');
+});
+
+test('Store - Deve retornar erro ao criar carro com disponibilidade que não seja do tipo boolean', function () {
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => Str::random(6),
+        'disponivel' => random_int(3, 255),
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.disponivel.0'))->toBe('O campo disponível deve ser verdadeiro ou falso');
+});
+
+test('Store - Deve retornar erro ao criar carro com quilometragem que não seja do tipo inteiro', function () {
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => Str::random(6),
+        'disponivel' => true,
+        'km' => Str::random(),
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.km.0'))->toBe('O campo km deve ser do tipo inteiro');
+});
 
 // test('Show - Deve retornar uma marca existente', function () {
 
