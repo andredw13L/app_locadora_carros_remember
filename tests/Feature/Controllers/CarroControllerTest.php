@@ -66,7 +66,7 @@ test('Store - Deve criar uma novo carro', function () {
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => "ABC12D",
+        'placa' => "ABC12DA",
         'disponivel' => true,
         'km' => 200000,
     ];
@@ -94,7 +94,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem modelo', function
 
 
     $data = [
-        'placa' => "1D2CBA",
+        'placa' => "1D2CBA3",
         'disponivel' => false,
         'km' => 100000,
     ];
@@ -118,7 +118,7 @@ test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', fun
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => "ABC12D",
+        'placa' => "ABC12DA",
         'disponivel' => true,
         'km' => 200000,
     ];
@@ -150,7 +150,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito curta
 
     expect($response->status())->toBe(422);
 
-    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 6 caracteres');
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 7 caracteres');
 });
 
 test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa', function () {
@@ -163,7 +163,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => str_repeat("A", 7),
+        'placa' => str_repeat("A", 8),
         'disponivel' => true,
         'km' => 200000,
     ];
@@ -172,7 +172,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa
 
     expect($response->status())->toBe(422);
 
-    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 6 caracteres');
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 7 caracteres');
 });
 
 test('Store - Deve retornar feedback ao tentar criar carro sem placa', function () {
@@ -207,7 +207,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade',
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => Str::random(6),
+        'placa' => Str::random(7),
         'km' => 200000,
     ];
 
@@ -229,7 +229,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem quilometragem', f
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => Str::random(6),
+        'placa' => Str::random(7),
         'disponivel' => false,
     ];
 
@@ -246,7 +246,7 @@ test('Deve retornar erro ao tentar criar carro com modelo inexistente', function
 
     $data = [
         'modelo_id' => random_int(10, 255),
-        'placa' => Str::random(6),
+        'placa' => Str::random(7),
         'disponivel' => true,
         'km' => 200000,
     ];
@@ -268,7 +268,7 @@ test('Store - Deve retornar erro ao criar carro com disponibilidade que não sej
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => Str::random(6),
+        'placa' => Str::random(7),
         'disponivel' => random_int(3, 255),
         'km' => 200000,
     ];
@@ -290,7 +290,7 @@ test('Store - Deve retornar erro ao criar carro com quilometragem que não seja 
 
     $data = [
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => Str::random(6),
+        'placa' => Str::random(7),
         'disponivel' => true,
         'km' => Str::random(),
     ];
@@ -321,7 +321,7 @@ test('Show - Deve retornar um carro existente', function () {
     expect($response->json())->toMatchArray([
         'id' => $response->json('id'),
         'modelo_id' => $modelo->json()[0]['id'],
-        'placa' => "ABC12D",
+        'placa' => "ABC12DA",
         'disponivel' => true,
         'km' => 200000,
     ])->toHaveKeys([
@@ -341,13 +341,19 @@ test('Show - Deve retornar erro ao tentar acessar carro inexistente', function (
     expect($response->json('message'))->toBe('Carro não encontrado');
 });
 
-// test('Update - Deve atualizar uma marca existente', function () {
+// test('Update - Deve atualizar um carro existente', function () {
 
 //     Storage::fake('public');
 
+//     $modelo = $this->getJson('/api/modelos/');
+
+//     expect($modelo->status())->toBe(200);
+
 //     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+//         'modelo_id' => $modelo->json()[0]['id'],
+//         'placa' => "ABC1D34",
+//         'disponivel' => true,
+//         'km' => 200000,
 //     ];
 
 //     $marcas = $this->getJson('/api/marcas');
