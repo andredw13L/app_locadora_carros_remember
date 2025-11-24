@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Storage;
 
 test('Index - Deve retornar uma lista de modelos', function () {
 
-    Storage::fake('public');
-
     $response = $this->getJson('/api/modelos');
 
     expect($response->status())->toBe(200);
@@ -566,9 +564,6 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
 
 test('Show - Deve retornar um modelo existente', function () {
 
-    Storage::fake('public');
-
-
     $marca = $this->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
@@ -595,8 +590,6 @@ test('Show - Deve retornar um modelo existente', function () {
 });
 
 test('Show - Deve retornar erro ao tentar acessar modelo inexistente', function () {
-
-    Storage::fake('public');
 
     $modelo_rand = random_int(10, 255);
 

@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 test('Index - Deve retornar uma lista de marcas', function () {
 
-    Storage::fake('public');
-
     $response = $this->getJson('/api/marcas');
 
     expect($response->status())->toBe(200);
@@ -130,7 +128,6 @@ test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', func
 
 test('Show - Deve retornar uma marca existente', function () {
 
-    Storage::fake('public');
 
     $marcas = $this->getJson('/api/marcas');
 
@@ -153,9 +150,6 @@ test('Show - Deve retornar uma marca existente', function () {
 });
 
 test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
-
-    Storage::fake('public');
-
 
     $marcas_rand = random_int(10, 255);
 
