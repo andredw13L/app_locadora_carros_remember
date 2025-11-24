@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 test('Index - Deve retornar uma lista de carros', function () {
 
-    Storage::fake('public');
-
     $response = $this->getJson('/api/carros');
 
     expect($response->status())->toBe(200);
@@ -179,7 +177,6 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa
 
 test('Store - Deve retornar feedback ao tentar criar carro sem placa', function () {
 
-
     Storage::fake('public');
 
     $modelo = $this->getJson('/api/modelos/');
@@ -305,43 +302,44 @@ test('Store - Deve retornar erro ao criar carro com quilometragem que não seja 
     expect($response->json('errors.km.0'))->toBe('O campo km deve ser do tipo inteiro');
 });
 
-// test('Show - Deve retornar uma marca existente', function () {
+test('Show - Deve retornar um carro existente', function () {
 
-//     Storage::fake('public');
+    $modelo = $this->getJson('/api/modelos/');
 
-//     $marcas = $this->getJson('/api/marcas');
+    expect($modelo->status())->toBe(200);
 
-//     expect($marcas->status())->toBe(200);
+    $carros = $this->getJson('/api/carros');
 
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($carros->status())->toBe(200);
 
-//     $response = $this->getJson("/api/marcas/{$marca_id}");
+    $carro_id = $carros->json()[0]['id'];
 
-//     expect($response->status())->toBe(200);
+    $response = $this->getJson("/api/carros/{$carro_id}");
 
-//     expect($response->json())->toMatchArray([
-//         'id' => $response->json('id'),
-//         'nome' => 'Marca Teste',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    expect($response->status())->toBe(200);
 
-// test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
+    expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => "ABC12D",
+        'disponivel' => true,
+        'km' => 200000,
+    ])->toHaveKeys([
+        'created_at',
+        'updated_at'
+    ]);
+});
 
-//     Storage::fake('public');
+test('Show - Deve retornar erro ao tentar acessar carro inexistente', function () {
 
+    $carros_rand = random_int(10, 255);
 
-//     $marcas_rand = random_int(10, 255);
+    $response = $this->getJson("/api/carros/{$carros_rand}");
 
-//     $response = $this->getJson("/api/marcas/{$marcas_rand}");
+    expect($response->status())->toBe(404);
 
-//     expect($response->status())->toBe(404);
-
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    expect($response->json('message'))->toBe('Carro não encontrado');
+});
 
 // test('Update - Deve atualizar uma marca existente', function () {
 
