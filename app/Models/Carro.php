@@ -40,7 +40,7 @@ class Carro extends Model
     {
         return [
             'modelo_id' => 'required|exists:modelos,id',
-            'placa' => 'required|min:7|max:7|unique:carros,placa,' . $this->id . '', // TODO: substituir esa validação pra uma única
+            'placa' => 'required|string|size:7|unique:carros,placa,' . $this->id . '', // TODO: bloquear o update de placa
             'disponivel' => 'required|boolean',
             'km' => 'required|integer'
         ];
@@ -53,8 +53,8 @@ class Carro extends Model
             'required' => 'O campo :attribute é obrigatório',
             'modelo_id.exists' => 'O modelo informado não existe',
             'disponivel.boolean' => 'O campo disponível deve ser verdadeiro ou falso',
-            'placa.min' => 'O campo placa deve ter 7 caracteres',
-            'placa.max' => 'O campo placa deve ter 7 caracteres',
+            'placa.size' => 'O campo placa deve ter 7 caracteres',
+            'placa.string' => 'O campo placa deve ser do tipo string',
             'km.integer' => 'O campo km deve ser do tipo inteiro',
             'placa.unique' => 'Já existe um carro com essa placa: :input',
         ];
@@ -62,6 +62,6 @@ class Carro extends Model
 
 
     public function modelo(): BelongsTo {
-        return $this->belongsTo(Modelo::class);
+        return $this->belongsTo(Modelo::class); 
     }
 }

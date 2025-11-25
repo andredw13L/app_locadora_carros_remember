@@ -196,6 +196,28 @@ test('Store - Deve retornar feedback ao tentar criar carro sem placa', function 
     expect($response->json('errors.placa.0'))->toBe('O campo placa é obrigatório');
 });
 
+test('Store - Deve retornar feedback ao tentar criar carro com placa que não seja string', function () {
+
+    Storage::fake('public');
+
+    $modelo = $this->getJson('/api/modelos/');
+
+    expect($modelo->status())->toBe(200);
+
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => random_int(1, 255),
+        'disponivel' => true,
+        'km' => 200000,
+    ];
+
+    $response = $this->postJson('/api/carros', $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ser do tipo string');
+});
+
 test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade', function () {
 
 
@@ -341,42 +363,32 @@ test('Show - Deve retornar erro ao tentar acessar carro inexistente', function (
     expect($response->json('message'))->toBe('Carro não encontrado');
 });
 
-// test('Update - Deve atualizar um carro existente', function () {
+test('Update - Deve atualizar um carro existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->getJson('/api/modelos/');
 
-//     expect($modelo->status())->toBe(200);
+    expect($modelo->status())->toBe(200);
 
-//     $data = [
-//         'modelo_id' => $modelo->json()[0]['id'],
-//         'placa' => "ABC1D34",
-//         'disponivel' => true,
-//         'km' => 200000,
-//     ];
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => "ABC12DA",
+        'disponivel' => false,
+        'km' => 200500,
+    ];
 
-//     $marcas = $this->getJson('/api/marcas');
+    $carro = $this->getJson("/api/carros/");
 
-//     expect($marcas->status())->toBe(200);
+    expect($carro->status())->toBe(200);
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $carro_id = $carro->json()[0]['id'];
 
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    expect($response->status())->toBe(200);
 
-//     expect($response->status())->toBe(200);
-
-
-//     expect($response->json())->toMatchArray([
-//         'id' => $response->json('id'),
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+});
 
 // test('Update - Deve atualizar parcialmente uma marca existente', function () {
 
