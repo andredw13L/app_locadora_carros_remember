@@ -40,7 +40,7 @@ class Carro extends Model
     {
         return [
             'modelo_id' => 'required|exists:modelos,id',
-            'placa' => 'required|string|size:7|unique:carros,placa,' . $this->id . '', // TODO: bloquear o update de placa
+            'placa' => 'required|string|size:7|unique:carros,placa,' . $this->id, // TODO: bloquear o update de placa
             'disponivel' => 'required|boolean',
             'km' => 'required|integer'
         ];

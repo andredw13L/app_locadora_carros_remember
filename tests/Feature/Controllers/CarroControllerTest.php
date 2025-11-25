@@ -390,143 +390,166 @@ test('Update - Deve atualizar um carro existente', function () {
 
 });
 
-// test('Update - Deve atualizar parcialmente uma marca existente', function () {
+test('Update - Deve atualizar parcialmente um carro existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'Marca Teste - Patch'
-//     ];
+    $modelo = $this->getJson('/api/modelos/');
 
-//     $marcas = $this->getJson('/api/marcas');
+    expect($modelo->status())->toBe(200);
 
-//     expect($marcas->status())->toBe(200);
+    $data = [
+        'disponivel' => true,
+    ];
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $carro = $this->getJson("/api/carros/");
 
+    expect($carro->status())->toBe(200);
 
-//     $response = $this->patchJson("/api/marcas/{$marca_id}", $data);
+    $carro_id = $carro->json()[0]['id'];
 
+    $response = $this->patchJson("/api/carros/{$carro_id}", $data);
 
-//     expect($response->status())->toBe(200);
+    expect($response->status())->toBe(200);
 
-//     expect($response->json('nome'))->toBe($data['nome']);
-//     expect($response->json())->toHaveKeys([
-//         'id',
-//         'imagem',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+});
 
+test('Update - Deve retornar feedback ao tentar atualizar parcialmente um carro por método Put', function () {
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
+    Storage::fake('public');
 
-//     Storage::fake('public');
+    $modelo = $this->getJson('/api/modelos/');
 
-//     $data = [
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    expect($modelo->status())->toBe(200);
 
-//     $marcas = $this->getJson('/api/marcas');
+    $data = [
+        'disponivel' => true,
+    ];
 
-//     expect($marcas->status())->toBe(200);
+    $carro = $this->getJson("/api/carros/");
 
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($carro->status())->toBe(200);
 
+    $carro_id = $carro->json()[0]['id'];
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
 
-//     expect($response->status())->toBe(422);
+    expect($response->status())->toBe(422);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-// });
+    expect($response->json('errors.modelo_id.0'))->toBe('O campo modelo id é obrigatório');
+    expect($response->json('errors.placa.0'))->toBe('O campo placa é obrigatório');
+    expect($response->json('errors.km.0'))->toBe('O campo km é obrigatório');
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
+});
 
-//     Storage::fake('public');
+test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
 
-//     $data = [
-//         'nome' => 'A',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    Storage::fake('public');
 
-//     $marcas = $this->getJson('/api/marcas');
+    $modelo = $this->getJson('/api/modelos/');
 
-//     expect($marcas->status())->toBe(200);
+    expect($modelo->status())->toBe(200);
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $carro = $this->getJson("/api/carros/");
 
+    expect($carro->status())->toBe(200);
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    $carro_id = $carro->json()[0]['id'];
 
-//     expect($response->status())->toBe(422);
+    $data = [
+        'placa' => "A",
+    ];
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-// });
+    $carro_id = $carro->json()[0]['id'];
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
 
-//     Storage::fake('public');
+    expect($response->status())->toBe(422);
 
-//     $data = [
-//         'nome' => str_repeat('A', 101),
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 7 caracteres');
+});
 
-//     $marcas = $this->getJson('/api/marcas');
+test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
 
-//     expect($marcas->status())->toBe(200);
+    Storage::fake('public');
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $modelo = $this->getJson('/api/modelos/');
 
+    expect($modelo->status())->toBe(200);
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    $carro = $this->getJson("/api/carros/");
 
-//     expect($response->status())->toBe(422);
+    expect($carro->status())->toBe(200);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-// });
+    $carro_id = $carro->json()[0]['id'];
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
+    $data = [
+        'placa' => str_repeat("A", 8),
+    ];
 
-//     Storage::fake('public');
+    $carro_id = $carro->json()[0]['id'];
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada'
-//     ];
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
 
-//     $marcas = $this->getJson('/api/marcas');
+    expect($response->status())->toBe(422);
 
-//     expect($marcas->status())->toBe(200);
-
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($response->json('errors.placa.0'))->toBe('O campo placa deve ter 7 caracteres');
+});
 
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+test('Update - Deve retornar erro ao tentar atualizar carro inexistente', function () {
 
-//     expect($response->status())->toBe(422);
+    Storage::fake('public');
 
-//     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-// });
+    $modelo = $this->getJson('/api/modelos/');
 
-// test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
+    expect($modelo->status())->toBe(200);
 
-//     Storage::fake('public');
+    $data = [
+        'modelo_id' => $modelo->json()[0]['id'],
+        'placa' => "ABC34DA",
+        'disponivel' => false,
+        'km' => 200500,
+    ];
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $carro_id = random_int(10, 255);
 
-//     $marcas_rand = random_int(10, 255);
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
 
-//     $response = $this->putJson("/api/marcas/{$marcas_rand}", $data);
+    expect($response->status())->toBe(404);
 
-//     expect($response->status())->toBe(404);
+    expect($response->json('message'))->toBe('Carro não encontrado');
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+});
+
+
+test('Update - Deve retornar erro ao tentar atualizar carro com modelo inexistente', function () {
+
+    Storage::fake('public');
+
+    $modelo = random_int(10, 255);
+
+    $data = [
+        'modelo_id' => $modelo,
+        'placa' => "ABC12DA",
+        'disponivel' => false,
+        'km' => 200500,
+    ];
+
+    $carro = $this->getJson("/api/carros/");
+
+    expect($carro->status())->toBe(200);
+
+    $carro_id = $carro->json()[0]['id'];
+
+    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+
+    expect($response->status())->toBe(422);
+
+    expect($response->json('errors.modelo_id.0'))->toBe('O modelo informado não existe');    
+
+});
+
 
 // test('Destroy - Deve deletar uma marca existente', function () {
 
