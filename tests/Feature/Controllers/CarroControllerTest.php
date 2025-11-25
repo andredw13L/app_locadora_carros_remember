@@ -551,37 +551,37 @@ test('Update - Deve retornar erro ao tentar atualizar carro com modelo inexisten
 });
 
 
-// test('Destroy - Deve deletar uma marca existente', function () {
+test('Destroy - Deve deletar uma carro existente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $marcas = $this->getJson('/api/marcas');
+    $carro = $this->getJson('/api/carros');
 
-//     expect($marcas->status())->toBe(200);
+    expect($carro->status())->toBe(200);
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $carro_id = $carro->json()[0]['id'];
     
 
-//     $response = $this->deleteJson("/api/marcas/{$marca_id}");
+    $response = $this->deleteJson("/api/carros/{$carro_id}");
 
-//     expect($response->status())->toBe(200);
+    expect($response->status())->toBe(200);
 
-//     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
+    expect($response->json('message'))->toBe('O carro foi removido com sucesso!');
 
-//     $responseGet = $this->getJson("/api/marcas/{$marca_id}");
+    $responseGet = $this->getJson("/api/carros/{$carro_id}");
 
-//     expect($responseGet->status())->toBe(404);
-// });
+    expect($responseGet->status())->toBe(404);
+});
 
-// test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
+test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $marcas_rand = random_int(10, 255);
+    $carro_rand = random_int(10, 255);
 
-//     $response = $this->deleteJson("/api/marcas/{$marcas_rand}");
+    $response = $this->deleteJson("/api/carros/{$carro_rand}");
 
-//     expect($response->status())->toBe(404);
+    expect($response->status())->toBe(404);
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    expect($response->json('message'))->toBe('Carro não encontrado');
+});
