@@ -9,9 +9,9 @@ use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LocacaoController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 
 
