@@ -14,11 +14,15 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('clientes', ClienteController::class);
-Route::apiResource('carros', CarroController::class);
-Route::apiResource('locacoes', LocacaoController::class);
-Route::apiResource('marcas', MarcaController::class);
-Route::apiResource('modelos', ModeloController::class);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('carros', CarroController::class);
+    Route::apiResource('locacoes', LocacaoController::class);
+    Route::apiResource('marcas', MarcaController::class);
+    Route::apiResource('modelos', ModeloController::class);
+});
+
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);

@@ -9,7 +9,6 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-
         $credenciais = $request->only(['email', 'password']);
 
         if (Auth::attempt($credenciais)) {
@@ -18,8 +17,6 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Usuário ou senha inválida'], 401);
-
-        // return ['token' => $token->plainTextToken];
     }
     public function logout()
     {
