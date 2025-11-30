@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @group Autenticação
+ *
+ * Gerenciamento de autenticação
+ */
+
 class AuthController extends Controller
 {
     public function login(Request $request)

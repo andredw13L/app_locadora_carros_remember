@@ -1,25 +1,25 @@
-name: Carros
+name: Locações
 description: |-
 
-  Gerenciamento de carros
+  Gerenciamento de locações
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/carros
+    uri: api/locacoes
     metadata:
       custom: []
-      groupName: Carros
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de carros
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Listar carros'
+      title: 'Listar locações'
       description: |-
-        Retorna a lista de carros cadastrados, permitindo filtros,
-        seleção de atributos específicos e exibição de atributos do modelo relacionado.
+        Retorna a lista de locações cadastradas, permitindo filtros,
+        seleção de atributos específicos e exibição de atributos do locação relacionado.
       authenticated: false
       deprecated: false
     headers:
@@ -27,40 +27,7 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      atributos:
-        custom: []
-        name: atributos
-        description: 'Lista de atributos do carro que devem ser retornados. Separados por vírgula. Exemplo: id,placa,km,disponivel'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      atributos_modelo:
-        custom: []
-        name: atributos_modelo
-        description: 'Lista de atributos do modelo relacionado. Separados por vírgula. Exemplo: nome,imagem,id'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      filtro:
-        custom: []
-        name: filtro
-        description: 'Filtros no formato campo:operador:valor. Múltiplos filtros separados por ponto e vírgula. Exemplo: placa:=:ABC1D34;'
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
+    queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
@@ -68,8 +35,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 200
-        content: '[]'
+        status: 401
+        content: '{"message":"Unauthenticated."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -84,19 +51,19 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/carros
+    uri: api/locacoes
     metadata:
       custom: []
-      groupName: Carros
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de carros
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Criar um novo carro'
+      title: 'Criar uma nova locação'
       description: |-
-        Registra um novo carro no sistema, validando os dados enviados
-        pelo cliente antes de criar o registro.
+        Registra uma nova locação no sistema, processando dados enviados
+        pelo cliente e aplicando validações antes da criação.
       authenticated: false
       deprecated: false
     headers:
@@ -106,56 +73,8 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters:
-      modelo_id:
-        custom: []
-        name: modelo_id
-        description: 'ID do modelo associado ao carro. Exemplo: 1'
-        required: true
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      placa:
-        custom: []
-        name: placa
-        description: 'Placa do veículo. Exemplo: ABC1D23'
-        required: true
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      disponivel:
-        custom: []
-        name: disponivel
-        description: 'Indica se o carro está disponível para locação. Exemplo: true'
-        required: true
-        example: null
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      km:
-        custom: []
-        name: km
-        description: 'Quilometragem atual do veículo. Exemplo: 15200'
-        required: true
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      modelo_id: null
-      placa: null
-      disponivel: null
-      km: null
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses: []
     responseFields: []
@@ -167,17 +86,17 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/carros/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Carros
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de carros
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Exibir um carro'
-      description: 'Retorna os detalhes de um carro específico com base no ID informado.'
+      title: 'Exibir uma locação'
+      description: 'Retorna os detalhes de uma locação específico com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -187,16 +106,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'O id do carro. Exemplo: 1'
+        description: 'The ID of the locaco.'
         required: true
-        example: null
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: null
+      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -205,8 +124,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 200
-        content: '[]'
+        status: 401
+        content: '{"message":"Unauthenticated."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -222,19 +141,19 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'api/carros/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Carros
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de carros
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Atualizar um carro'
+      title: 'Atualizar uma locação'
       description: |-
-        Atualiza os dados de um carro existente. Permite atualização total (PUT)
-        ou parcial (PATCH), aplicando validações dinâmicas conforme os campos enviados.
+        Atualiza os dados de uma locação existente. Permite atualização total (PUT)
+        ou parcial (PATCH), incluindo manipulação de atributos específicos.
       authenticated: false
       deprecated: false
     headers:
@@ -244,63 +163,19 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'O ID do carro a ser atualizado. Exemplo: 1'
+        description: 'The ID of the locaco.'
         required: true
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: null
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      modelo_id:
-        custom: []
-        name: modelo_id
-        description: 'ID do modelo associado ao carro. Exemplo: 2'
-        required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      placa:
-        custom: []
-        name: placa
-        description: 'Placa do veículo. Exemplo: DEF2G45'
-        required: false
-        example: null
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      disponivel:
-        custom: []
-        name: disponivel
-        description: 'Indica se o carro está disponível para locação. Exemplo: false'
-        required: false
-        example: null
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      km:
-        custom: []
-        name: km
-        description: 'Quilometragem atual do veículo. Exemplo: 20300'
-        required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses: []
@@ -313,17 +188,17 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/carros/{id}'
+    uri: 'api/locacoes/{id}'
     metadata:
       custom: []
-      groupName: Carros
+      groupName: Locações
       groupDescription: |-
 
-        Gerenciamento de carros
+        Gerenciamento de locações
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remover um carro'
-      description: 'Exclui um carro do sistema com base no ID informado.'
+      title: 'Remover uma locação'
+      description: 'Exclui uma locação do sistema com base no ID informado.'
       authenticated: false
       deprecated: false
     headers:
@@ -333,16 +208,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'O id do carro. Exemplo: 1'
+        description: 'The ID of the locaco.'
         required: true
-        example: null
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: null
+      id: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
