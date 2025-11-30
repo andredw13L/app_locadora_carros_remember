@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,364 +12,397 @@ test('Verifica se o usuário está autenticado para acessar o endpoint', functio
     expect($response->status())->toBe(200);
 });
 
-// test('Index - Deve retornar uma lista de marcas', function () {
+test('Index - Deve retornar uma lista de marcas', function () {
 
-//     $user = $this->user;
+    $user = $this->user;
 
-//     $response = $this->authenticate($user)->getJson('/api/marcas');
+    $response = $this->authenticate($user)->getJson('/api/marcas');
 
-//     expect($response->status())->toBe(200);
+    expect($response->status())->toBe(200);
 
-//     expect($response->json())->toBeArray(
-//         '*',
-//         [
-//             'id',
-//             'nome',
-//             'imagem',
-//             'created_at',
-//             'updated_at'
-//         ]
-//     );
-// });
+    expect($response->json())->toBeArray(
+        '*',
+        [
+            'id',
+            'nome',
+            'imagem',
+            'created_at',
+            'updated_at'
+        ]
+    );
+});
 
 
-// test('Store - Deve criar uma nova marca', function () {
+test('Store - Deve criar uma nova marca', function () {
 
-//     Storage::fake('public');
+    $user = $this->user;
 
-//     $data = [
-//         'nome' => 'Marca Teste',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+    Storage::fake('public');
 
-//     $response = $this->postJson('/api/marcas', $data);
+    $data = [
+        'nome' => 'Marca Teste',
+        'imagem' => UploadedFile::fake()->image('imagem_teste.png')
+    ];
 
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
-//     expect($response->status())->toBe(201);
 
-//     expect($response->json())->toMatchArray([
-//         'nome' => $data['nome'],
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'id',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    expect($response->status())->toBe(201);
 
-// test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
+    expect($response->json())->toMatchArray([
+        'nome' => $data['nome'],
+        'imagem' => $response->json('imagem')
+    ])->toHaveKeys([
+        'id',
+        'created_at',
+        'updated_at'
+    ]);
+});
 
-//     Storage::fake('public');
+test('Store - Deve retornar feedback ao tentar criar marca sem nome', function () {
 
-//     $data = [
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+    $user = $this->user;
 
-//     $response = $this->postJson('/api/marcas', $data);
+    Storage::fake('public');
 
-//     expect($response->status())->toBe(422);
+    $data = [
+        'imagem' => UploadedFile::fake()->image('imagem_teste.png')
+    ];
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-// });
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
+    expect($response->status())->toBe(422);
 
-// test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
+    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+});
 
-//     Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'A',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+test('Store - Deve retornar feedback ao tentar criar marca com nome muito curto', function () {
 
-//     $response = $this->postJson('/api/marcas', $data);
+    $user = $this->user;
 
-//     expect($response->status())->toBe(422);
+    Storage::fake('public');
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-// });
+    $data = [
+        'nome' => 'A',
+        'imagem' => UploadedFile::fake()->image('imagem_teste.png')
+    ];
 
-// test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
-//     Storage::fake('public');
+    expect($response->status())->toBe(422);
 
-//     $data = [
-//         'nome' => str_repeat('A', 101),
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+});
 
-//     $response = $this->postJson('/api/marcas', $data);
+test('Store - Deve retornar feedback ao tentar criar marca com nome muito longo', function () {
 
-//     expect($response->status())->toBe(422);
+    $user = $this->user;
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-// });
+    Storage::fake('public');
 
-// test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
+    $data = [
+        'nome' => str_repeat('A', 101),
+        'imagem' => UploadedFile::fake()->image('imagem_teste.png')
+    ];
 
-//     Storage::fake('public');
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
-//     $data = [
-//         'nome' => 'Marca Teste'
-//     ];
+    expect($response->status())->toBe(422);
 
-//     $response = $this->postJson('/api/marcas', $data);
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
+});
 
-//     expect($response->status())->toBe(422);
+test('Store - Deve retornar feedback ao tentar criar marca sem imagem', function () {
 
-//     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-// });
+    $user = $this->user;
 
-// test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
+    Storage::fake('public');
 
-//     Storage::fake('public');
+    $data = [
+        'nome' => 'Marca Teste'
+    ];
 
-//     $data = [
-//         'nome' => 'Marca Teste',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
-//     ];
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
-//     $response = $this->postJson('/api/marcas', $data);
+    expect($response->status())->toBe(422);
 
-//     expect($response->status())->toBe(422);
+    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+});
 
-//     expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
-// });
+test('Store - Deve retornar erro ao tentar criar marca com nome duplicado', function () {
 
-// test('Show - Deve retornar uma marca existente', function () {
+    $user = $this->user;
 
+    Storage::fake('public');
 
-//     $marcas = $this->getJson('/api/marcas');
+    $data = [
+        'nome' => 'Marca Teste',
+        'imagem' => UploadedFile::fake()->image('imagem_teste.png')
+    ];
 
-//     expect($marcas->status())->toBe(200);
+    $response = $this->authenticate($user)->postJson('/api/marcas', $data);
 
-//     $marca_id = $marcas->json()[1]['id'];
+    expect($response->status())->toBe(422);
 
-//     $response = $this->getJson("/api/marcas/{$marca_id}");
+    expect($response->json('errors.nome.0'))->toBe('Já existe uma marca com esse nome: ' . $data['nome']);
+});
 
-//     expect($response->status())->toBe(200);
+test('Show - Deve retornar uma marca existente', function () {
 
-//     expect($response->json())->toMatchArray([
-//         'id' => $response->json('id'),
-//         'nome' => 'Marca Teste',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    $user = $this->user;
 
-// test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-//     $marcas_rand = random_int(10, 255);
+    expect($marcas->status())->toBe(200);
 
-//     $response = $this->getJson("/api/marcas/{$marcas_rand}");
+    $marca_id = $marcas->json()[1]['id'];
 
-//     expect($response->status())->toBe(404);
+    $response = $this->authenticate($user)->getJson("/api/marcas/{$marca_id}");
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    expect($response->status())->toBe(200);
 
-// test('Update - Deve atualizar uma marca existente', function () {
+    expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
+        'nome' => 'Marca Teste',
+        'imagem' => $response->json('imagem')
+    ])->toHaveKeys([
+        'created_at',
+        'updated_at'
+    ]);
+});
 
-//     Storage::fake('public');
+test('Show - Deve retornar erro ao tentar acessar marca inexistente', function () {
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $user = $this->user;
 
-//     $marcas = $this->getJson('/api/marcas');
+    $marcas_rand = random_int(10, 255);
 
-//     expect($marcas->status())->toBe(200);
+    $response = $this->authenticate($user)->getJson("/api/marcas/{$marcas_rand}");
 
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($response->status())->toBe(404);
 
+    expect($response->json('message'))->toBe('Marca não encontrada');
+});
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+test('Update - Deve atualizar uma marca existente', function () {
 
-//     expect($response->status())->toBe(200);
+    $user = $this->user;
 
+    Storage::fake('public');
 
-//     expect($response->json())->toMatchArray([
-//         'id' => $response->json('id'),
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => $response->json('imagem')
-//     ])->toHaveKeys([
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    $data = [
+        'nome' => 'Marca Teste - Atualizada',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-// test('Update - Deve atualizar parcialmente uma marca existente', function () {
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-//     Storage::fake('public');
+    expect($marcas->status())->toBe(200);
 
-//     $data = [
-//         'nome' => 'Marca Teste - Patch'
-//     ];
+    $marca_id = $marcas->json()[0]['id'];
 
-//     $marcas = $this->getJson('/api/marcas');
 
-//     expect($marcas->status())->toBe(200);
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marca_id}", $data);
 
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($response->status())->toBe(200);
 
 
-//     $response = $this->patchJson("/api/marcas/{$marca_id}", $data);
+    expect($response->json())->toMatchArray([
+        'id' => $response->json('id'),
+        'nome' => 'Marca Teste - Atualizada',
+        'imagem' => $response->json('imagem')
+    ])->toHaveKeys([
+        'created_at',
+        'updated_at'
+    ]);
+});
 
+test('Update - Deve atualizar parcialmente uma marca existente', function () {
 
-//     expect($response->status())->toBe(200);
+    $user = $this->user;
 
-//     expect($response->json('nome'))->toBe($data['nome']);
-//     expect($response->json())->toHaveKeys([
-//         'id',
-//         'imagem',
-//         'created_at',
-//         'updated_at'
-//     ]);
-// });
+    Storage::fake('public');
 
+    $data = [
+        'nome' => 'Marca Teste - Patch'
+    ];
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-//     Storage::fake('public');
+    expect($marcas->status())->toBe(200);
 
-//     $data = [
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $marca_id = $marcas->json()[0]['id'];
 
-//     $marcas = $this->getJson('/api/marcas');
 
-//     expect($marcas->status())->toBe(200);
+    $response = $this->authenticate($user)->patchJson("/api/marcas/{$marca_id}", $data);
 
-//     $marca_id = $marcas->json()[0]['id'];
 
+    expect($response->status())->toBe(200);
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    expect($response->json('nome'))->toBe($data['nome']);
+    expect($response->json())->toHaveKeys([
+        'id',
+        'imagem',
+        'created_at',
+        'updated_at'
+    ]);
+});
 
-//     expect($response->status())->toBe(422);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
-// });
+test('Update - Deve retornar feedback ao tentar atualizar marca sem nome', function () {
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
+    $user = $this->user;
 
-//     Storage::fake('public');
+    Storage::fake('public');
 
-//     $data = [
-//         'nome' => 'A',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    $data = [
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     $marcas = $this->getJson('/api/marcas');
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-//     expect($marcas->status())->toBe(200);
+    expect($marcas->status())->toBe(200);
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $marca_id = $marcas->json()[0]['id'];
 
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marca_id}", $data);
 
-//     expect($response->status())->toBe(422);
+    expect($response->status())->toBe(422);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
-// });
+    expect($response->json('errors.nome.0'))->toBe('O campo nome é obrigatório');
+});
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
+test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
 
-//     Storage::fake('public');
+    $user = $this->user;
 
-//     $data = [
-//         'nome' => str_repeat('A', 101),
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+    Storage::fake('public');
 
-//     $marcas = $this->getJson('/api/marcas');
+    $data = [
+        'nome' => 'A',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     expect($marcas->status())->toBe(200);
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-//     $marca_id = $marcas->json()[0]['id'];
+    expect($marcas->status())->toBe(200);
 
+    $marca_id = $marcas->json()[0]['id'];
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
 
-//     expect($response->status())->toBe(422);
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marca_id}", $data);
 
-//     expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
-// });
+    expect($response->status())->toBe(422);
 
-// test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no mínimo 2 caracteres');
+});
 
-//     Storage::fake('public');
+test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada'
-//     ];
+    $user = $this->user;
 
-//     $marcas = $this->getJson('/api/marcas');
+    Storage::fake('public');
 
-//     expect($marcas->status())->toBe(200);
+    $data = [
+        'nome' => str_repeat('A', 101),
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     $marca_id = $marcas->json()[0]['id'];
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
+    expect($marcas->status())->toBe(200);
 
-//     $response = $this->putJson("/api/marcas/{$marca_id}", $data);
+    $marca_id = $marcas->json()[0]['id'];
 
-//     expect($response->status())->toBe(422);
 
-//     expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
-// });
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marca_id}", $data);
 
-// test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
+    expect($response->status())->toBe(422);
 
-//     Storage::fake('public');
+    expect($response->json('errors.nome.0'))->toBe('O campo nome deve ter no máximo 100 caracteres');
+});
 
-//     $data = [
-//         'nome' => 'Marca Teste - Atualizada',
-//         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
-//     ];
+test('Update - Deve retornar feedback ao tentar atualizar marca sem imagem', function () {
 
-//     $marcas_rand = random_int(10, 255);
+    $user = $this->user;
 
-//     $response = $this->putJson("/api/marcas/{$marcas_rand}", $data);
+    Storage::fake('public');
 
-//     expect($response->status())->toBe(404);
+    $data = [
+        'nome' => 'Marca Teste - Atualizada'
+    ];
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
 
-// test('Destroy - Deve deletar uma marca existente', function () {
+    expect($marcas->status())->toBe(200);
 
-//     Storage::fake('public');
+    $marca_id = $marcas->json()[0]['id'];
 
-//     $marcas = $this->getJson('/api/marcas');
 
-//     expect($marcas->status())->toBe(200);
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marca_id}", $data);
 
-//     $marca_id = $marcas->json()[1]['id'];
+    expect($response->status())->toBe(422);
 
+    expect($response->json('errors.imagem.0'))->toBe('O campo imagem é obrigatório');
+});
 
-//     $response = $this->deleteJson("/api/marcas/{$marca_id}");
+test('Update - Deve retornar erro ao tentar atualizar marca inexistente', function () {
 
-//     expect($response->status())->toBe(200);
+    $user = $this->user;
 
-//     expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
+    Storage::fake('public');
 
-//     $responseGet = $this->getJson("/api/marcas/{$marca_id}");
+    $data = [
+        'nome' => 'Marca Teste - Atualizada',
+        'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
+    ];
 
-//     expect($responseGet->status())->toBe(404);
-// });
+    $marcas_rand = random_int(10, 255);
 
-// test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
+    $response = $this->authenticate($user)->putJson("/api/marcas/{$marcas_rand}", $data);
 
-//     Storage::fake('public');
+    expect($response->status())->toBe(404);
 
-//     $marcas_rand = random_int(10, 255);
+    expect($response->json('message'))->toBe('Marca não encontrada');
+});
 
-//     $response = $this->deleteJson("/api/marcas/{$marcas_rand}");
+test('Destroy - Deve deletar uma marca existente', function () {
 
-//     expect($response->status())->toBe(404);
+    $user = $this->user;
 
-//     expect($response->json('message'))->toBe('Marca não encontrada');
-// });
+    Storage::fake('public');
+
+    $marcas = $this->authenticate($user)->getJson('/api/marcas');
+
+    expect($marcas->status())->toBe(200);
+
+    $marca_id = $marcas->json()[1]['id'];
+
+
+    $response = $this->authenticate($user)->deleteJson("/api/marcas/{$marca_id}");
+
+    expect($response->status())->toBe(200);
+
+    expect($response->json('message'))->toBe('A marca foi removida com sucesso!');
+
+    $responseGet = $this->authenticate($user)->getJson("/api/marcas/{$marca_id}");
+
+    expect($responseGet->status())->toBe(404);
+});
+
+test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
+
+    $user = $this->user;
+
+    Storage::fake('public');
+
+    $marcas_rand = random_int(10, 255);
+
+    $response = $this->authenticate($user)->deleteJson("/api/marcas/{$marcas_rand}");
+
+    expect($response->status())->toBe(404);
+
+    expect($response->json('message'))->toBe('Marca não encontrada');
+});
