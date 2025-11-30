@@ -18,9 +18,10 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Usuário ou senha inválida'], 401);
     }
-    public function logout()
+    public function logout(Request $request)
     {
-        return 'Logout';
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logout realizado com sucesso!'], 200);
     }
     public function refresh(Request $request)
     {
