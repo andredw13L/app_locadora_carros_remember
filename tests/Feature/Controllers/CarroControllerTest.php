@@ -4,9 +4,21 @@
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
+test('Verifica se o usuário está autenticado para acessar o endpoint', function () {
+
+    $user = $this->user;
+
+    $response = $this->authenticate($user)->getJson('/api/modelos');
+
+    expect($response->status())->toBe(200);
+});
+
+
 test('Index - Deve retornar uma lista de carros', function () {
 
-    $response = $this->getJson('/api/carros');
+    $user = $this->user;
+
+    $response = $this->authenticate($user)->getJson('/api/carros');
 
     expect($response->status())->toBe(200);
 
@@ -27,6 +39,8 @@ test('Index - Deve retornar uma lista de carros', function () {
 
 test('Store - Deve criar uma novo carro', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data_marca = [
@@ -34,13 +48,13 @@ test('Store - Deve criar uma novo carro', function () {
         'imagem' => UploadedFile::fake()->image('imagem_marca.png')
     ];
 
-    $response_marca = $this->postJson('/api/marcas', $data_marca);
+    $response_marca = $this->authenticate($user)->postJson('/api/marcas', $data_marca);
 
 
     expect($response_marca->status())->toBe(201);
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -56,11 +70,11 @@ test('Store - Deve criar uma novo carro', function () {
         'abs' => 0
     ];
 
-    $response_modelo = $this->postJson('/api/modelos', $data_modelo);
+    $response_modelo = $this->authenticate($user)->postJson('/api/modelos', $data_modelo);
     
     expect($response_modelo->status())->toBe(201);
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -71,7 +85,7 @@ test('Store - Deve criar uma novo carro', function () {
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(201);
 
@@ -90,6 +104,8 @@ test('Store - Deve criar uma novo carro', function () {
 
 test('Store - Deve retornar feedback ao tentar criar carro sem modelo', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
@@ -99,7 +115,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem modelo', function
         'km' => 100000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
 
     expect($response->status())->toBe(422);
@@ -110,9 +126,11 @@ test('Store - Deve retornar feedback ao tentar criar carro sem modelo', function
 
 test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -123,7 +141,7 @@ test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', fun
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -133,9 +151,11 @@ test('Store - Deve retornar erro ao tentar criar carro com placa duplicada', fun
 
 test('Store - Deve retornar feedback ao tentar criar carro com placa muito curta', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -146,7 +166,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito curta
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -155,9 +175,11 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito curta
 
 test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -168,7 +190,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -177,9 +199,11 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa muito longa
 
 test('Store - Deve retornar feedback ao tentar criar carro sem placa', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -189,7 +213,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem placa', function 
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -198,9 +222,11 @@ test('Store - Deve retornar feedback ao tentar criar carro sem placa', function 
 
 test('Store - Deve retornar feedback ao tentar criar carro com placa que não seja string', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -211,7 +237,7 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa que não se
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -220,10 +246,11 @@ test('Store - Deve retornar feedback ao tentar criar carro com placa que não se
 
 test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade', function () {
 
+    $user = $this->user;
 
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -233,7 +260,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade',
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -242,10 +269,11 @@ test('Store - Deve retornar feedback ao tentar criar carro sem disponibilidade',
 
 test('Store - Deve retornar feedback ao tentar criar carro sem quilometragem', function () {
 
+    $user = $this->user;
 
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -255,7 +283,7 @@ test('Store - Deve retornar feedback ao tentar criar carro sem quilometragem', f
         'disponivel' => false,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -263,6 +291,8 @@ test('Store - Deve retornar feedback ao tentar criar carro sem quilometragem', f
 });
 
 test('Deve retornar erro ao tentar criar carro com modelo inexistente', function() {
+
+    $user = $this->user;
 
     Storage::fake('public');
 
@@ -273,7 +303,7 @@ test('Deve retornar erro ao tentar criar carro com modelo inexistente', function
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -282,9 +312,11 @@ test('Deve retornar erro ao tentar criar carro com modelo inexistente', function
 
 test('Store - Deve retornar erro ao criar carro com disponibilidade que não seja do tipo boolean', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -295,7 +327,7 @@ test('Store - Deve retornar erro ao criar carro com disponibilidade que não sej
         'km' => 200000,
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -304,9 +336,11 @@ test('Store - Deve retornar erro ao criar carro com disponibilidade que não sej
 
 test('Store - Deve retornar erro ao criar carro com quilometragem que não seja do tipo inteiro', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -317,7 +351,7 @@ test('Store - Deve retornar erro ao criar carro com quilometragem que não seja 
         'km' => Str::random(),
     ];
 
-    $response = $this->postJson('/api/carros', $data);
+    $response = $this->authenticate($user)->postJson('/api/carros', $data);
 
     expect($response->status())->toBe(422);
 
@@ -326,17 +360,19 @@ test('Store - Deve retornar erro ao criar carro com quilometragem que não seja 
 
 test('Show - Deve retornar um carro existente', function () {
 
-    $modelo = $this->getJson('/api/modelos/');
+    $user = $this->user;
+
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
-    $carros = $this->getJson('/api/carros');
+    $carros = $this->authenticate($user)->getJson('/api/carros');
 
     expect($carros->status())->toBe(200);
 
     $carro_id = $carros->json()[0]['id'];
 
-    $response = $this->getJson("/api/carros/{$carro_id}");
+    $response = $this->authenticate($user)->getJson("/api/carros/{$carro_id}");
 
     expect($response->status())->toBe(200);
 
@@ -354,9 +390,11 @@ test('Show - Deve retornar um carro existente', function () {
 
 test('Show - Deve retornar erro ao tentar acessar carro inexistente', function () {
 
+    $user = $this->user;
+
     $carros_rand = random_int(10, 255);
 
-    $response = $this->getJson("/api/carros/{$carros_rand}");
+    $response = $this->authenticate($user)->getJson("/api/carros/{$carros_rand}");
 
     expect($response->status())->toBe(404);
 
@@ -365,9 +403,11 @@ test('Show - Deve retornar erro ao tentar acessar carro inexistente', function (
 
 test('Update - Deve atualizar um carro existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -378,13 +418,13 @@ test('Update - Deve atualizar um carro existente', function () {
         'km' => 200500,
     ];
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(200);
 
@@ -392,9 +432,11 @@ test('Update - Deve atualizar um carro existente', function () {
 
 test('Update - Deve atualizar parcialmente um carro existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -402,13 +444,13 @@ test('Update - Deve atualizar parcialmente um carro existente', function () {
         'disponivel' => true,
     ];
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->patchJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->patchJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(200);
 
@@ -416,9 +458,11 @@ test('Update - Deve atualizar parcialmente um carro existente', function () {
 
 test('Update - Deve retornar feedback ao tentar atualizar parcialmente um carro por método Put', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -426,13 +470,13 @@ test('Update - Deve retornar feedback ao tentar atualizar parcialmente um carro 
         'disponivel' => true,
     ];
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -444,13 +488,15 @@ test('Update - Deve retornar feedback ao tentar atualizar parcialmente um carro 
 
 test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito curto', function () {
 
+    $user = $this->user;
+    
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
@@ -462,7 +508,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito c
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -471,13 +517,15 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito c
 
 test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito longo', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
@@ -489,7 +537,7 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -499,9 +547,11 @@ test('Update - Deve retornar feedback ao tentar atualizar marca com nome muito l
 
 test('Update - Deve retornar erro ao tentar atualizar carro inexistente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelo = $this->getJson('/api/modelos/');
+    $modelo = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelo->status())->toBe(200);
 
@@ -514,7 +564,7 @@ test('Update - Deve retornar erro ao tentar atualizar carro inexistente', functi
 
     $carro_id = random_int(10, 255);
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(404);
 
@@ -524,6 +574,8 @@ test('Update - Deve retornar erro ao tentar atualizar carro inexistente', functi
 
 
 test('Update - Deve retornar erro ao tentar atualizar carro com modelo inexistente', function () {
+
+    $user = $this->user;
 
     Storage::fake('public');
 
@@ -536,13 +588,13 @@ test('Update - Deve retornar erro ao tentar atualizar carro com modelo inexisten
         'km' => 200500,
     ];
 
-    $carro = $this->getJson("/api/carros/");
+    $carro = $this->authenticate($user)->getJson("/api/carros/");
 
     expect($carro->status())->toBe(200);
 
     $carro_id = $carro->json()[0]['id'];
 
-    $response = $this->putJson("/api/carros/{$carro_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/carros/{$carro_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -553,33 +605,37 @@ test('Update - Deve retornar erro ao tentar atualizar carro com modelo inexisten
 
 test('Destroy - Deve deletar uma carro existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $carro = $this->getJson('/api/carros');
+    $carro = $this->authenticate($user)->getJson('/api/carros');
 
     expect($carro->status())->toBe(200);
 
     $carro_id = $carro->json()[0]['id'];
     
 
-    $response = $this->deleteJson("/api/carros/{$carro_id}");
+    $response = $this->authenticate($user)->deleteJson("/api/carros/{$carro_id}");
 
     expect($response->status())->toBe(200);
 
     expect($response->json('message'))->toBe('O carro foi removido com sucesso!');
 
-    $responseGet = $this->getJson("/api/carros/{$carro_id}");
+    $responseGet = $this->authenticate($user)->getJson("/api/carros/{$carro_id}");
 
     expect($responseGet->status())->toBe(404);
 });
 
 test('Destroy - Deve retornar erro ao tentar deletar marca inexistente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $carro_rand = random_int(10, 255);
 
-    $response = $this->deleteJson("/api/carros/{$carro_rand}");
+    $response = $this->authenticate($user)->deleteJson("/api/carros/{$carro_rand}");
 
     expect($response->status())->toBe(404);
 
