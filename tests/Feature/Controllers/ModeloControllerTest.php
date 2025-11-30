@@ -3,9 +3,20 @@
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
+test('Verifica se o usuário está autenticado para acessar o endpoint', function () {
+
+    $user = $this->user;
+
+    $response = $this->authenticate($user)->getJson('/api/carros');
+
+    expect($response->status())->toBe(200);
+});
+
 test('Index - Deve retornar uma lista de modelos', function () {
 
-    $response = $this->getJson('/api/modelos');
+    $user = $this->user;
+
+    $response = $this->authenticate($user)->getJson('/api/modelos');
 
     expect($response->status())->toBe(200);
 
@@ -29,6 +40,8 @@ test('Index - Deve retornar uma lista de modelos', function () {
 
 test('Store - Deve criar um novo modelo', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
@@ -37,13 +50,13 @@ test('Store - Deve criar um novo modelo', function () {
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response_marca = $this->postJson('/api/marcas', $data_marca);
+    $response_marca = $this->authenticate($user)->postJson('/api/marcas', $data_marca);
 
 
     expect($response_marca->status())->toBe(201);
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -58,7 +71,7 @@ test('Store - Deve criar um novo modelo', function () {
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(201);
 
@@ -78,13 +91,15 @@ test('Store - Deve criar um novo modelo', function () {
 
 test('Store - Deve retornar feedback ao tentar criar modelo só com a imagem', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
         'imagem' => UploadedFile::fake()->image('imagem_teste.png')
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -98,9 +113,11 @@ test('Store - Deve retornar feedback ao tentar criar modelo só com a imagem', f
 
 test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -114,7 +131,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -123,9 +140,11 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito curto
 
 test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -139,7 +158,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -148,9 +167,11 @@ test('Store - Deve retornar feedback ao tentar criar modelo com nome muito longo
 
 test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -163,7 +184,7 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
         'abs' => 0
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -172,9 +193,11 @@ test('Store - Deve retornar feedback ao tentar criar modelo sem imagem', functio
 
 test('Store - Deve retornar erro ao tentar criar modelo com nome duplicado', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -189,7 +212,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com nome duplicado', fun
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -199,6 +222,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com nome duplicado', fun
 
 test('Store - Deve existir a marca do modelo', function () {
 
+    $user = $this->user;
 
     Storage::fake('public');
 
@@ -214,7 +238,7 @@ test('Store - Deve existir a marca do modelo', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
     expect($response->status())->toBe(422);
 
@@ -224,10 +248,12 @@ test('Store - Deve existir a marca do modelo', function () {
 
 test('Store - Deve retornar erro ao criar modelo sem lugar', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -241,7 +267,7 @@ test('Store - Deve retornar erro ao criar modelo sem lugar', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -252,10 +278,12 @@ test('Store - Deve retornar erro ao criar modelo sem lugar', function () {
 
 test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja do tipo inteiro', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -270,7 +298,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja 
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -282,10 +310,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com lugar que não seja 
 
 test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -300,7 +330,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', 
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -311,10 +341,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de um lugar', 
 
 test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -329,7 +361,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares',
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -339,10 +371,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 20 lugares',
 
 test('Store - Deve retornar erro ao criar modelo sem porta', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -356,7 +390,7 @@ test('Store - Deve retornar erro ao criar modelo sem porta', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -366,10 +400,12 @@ test('Store - Deve retornar erro ao criar modelo sem porta', function () {
 
 test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja do tipo inteiro', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -384,7 +420,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja 
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -394,10 +430,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com porta que não seja 
 
 test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -412,7 +450,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta',
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -423,10 +461,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com menos de uma porta',
 
 test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -441,7 +481,7 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', f
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -452,10 +492,12 @@ test('Store - Deve retornar erro ao tentar criar modelo com mais de 5 portas', f
 
 test('Store - Deve retornar erro ao criar modelo sem air bag', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -469,7 +511,7 @@ test('Store - Deve retornar erro ao criar modelo sem air bag', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -479,10 +521,12 @@ test('Store - Deve retornar erro ao criar modelo sem air bag', function () {
 
 test('Store - Deve retornar erro ao criar modelo com air bag que não seja do tipo boolean', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -497,7 +541,7 @@ test('Store - Deve retornar erro ao criar modelo com air bag que não seja do ti
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -508,10 +552,12 @@ test('Store - Deve retornar erro ao criar modelo com air bag que não seja do ti
 
 test('Store - Deve retornar erro ao criar modelo sem abs', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -525,7 +571,7 @@ test('Store - Deve retornar erro ao criar modelo sem abs', function () {
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -535,10 +581,12 @@ test('Store - Deve retornar erro ao criar modelo sem abs', function () {
 
 test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo boolean', function () {
 
+    $user = $this->user;
+    
     Storage::fake('public');
 
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -553,7 +601,7 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
 
     ];
 
-    $response = $this->postJson('/api/modelos', $data);
+    $response = $this->authenticate($user)->postJson('/api/modelos', $data);
 
 
     expect($response->status())->toBe(422);
@@ -564,13 +612,15 @@ test('Store - Deve retornar erro ao criar modelo com abs que não seja do tipo b
 
 test('Show - Deve retornar um modelo existente', function () {
 
-    $marca = $this->getJson('/api/marcas/');
+    $user = $this->user;
+
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
     $modelo_id = $marca->json()[0]['modelos'][1]['id'];
 
-    $response = $this->getJson("/api/modelos/{$modelo_id}");
+    $response = $this->authenticate($user)->getJson("/api/modelos/{$modelo_id}");
 
     expect($response->status())->toBe(200);
 
@@ -591,9 +641,11 @@ test('Show - Deve retornar um modelo existente', function () {
 
 test('Show - Deve retornar erro ao tentar acessar modelo inexistente', function () {
 
+    $user = $this->user;
+
     $modelo_rand = random_int(10, 255);
 
-    $response = $this->getJson("/api/modelos/{$modelo_rand}");
+    $response = $this->authenticate($user)->getJson("/api/modelos/{$modelo_rand}");
 
     expect($response->status())->toBe(404);
 
@@ -602,9 +654,11 @@ test('Show - Deve retornar erro ao tentar acessar modelo inexistente', function 
 
 test('Update - Deve atualizar um modelo existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $marca = $this->getJson('/api/marcas/');
+    $marca = $this->authenticate($user)->getJson('/api/marcas/');
 
     expect($marca->status())->toBe(200);
 
@@ -619,7 +673,7 @@ test('Update - Deve atualizar um modelo existente', function () {
         'abs' => 1
     ];
 
-    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(200);
 
@@ -644,6 +698,8 @@ test('Update - Deve atualizar um modelo existente', function () {
 
 test('Update - Deve atualizar parcialmente um modelo existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
@@ -651,13 +707,13 @@ test('Update - Deve atualizar parcialmente um modelo existente', function () {
     ];
 
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
-    $response = $this->patchJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->patchJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(200);
 
@@ -676,19 +732,21 @@ test('Update - Deve atualizar parcialmente um modelo existente', function () {
 
 test('Update - Deve retornar feedback ao tentar atualizar um modelo só com imagem', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
-    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -701,6 +759,8 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo só com imag
 
 test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito curto', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
@@ -708,13 +768,13 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito 
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
-    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -723,6 +783,8 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo com nome muito 
 
 test('Update - Deve retornar feedback ao tentar atualizar um modelo com nome muito longo', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
@@ -730,13 +792,13 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo com nome mui
         'imagem' => UploadedFile::fake()->image('imagem_teste_atualizada.png')
     ];
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
-    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -745,19 +807,21 @@ test('Update - Deve retornar feedback ao tentar atualizar um modelo com nome mui
 
 test('Update - Deve retornar feedback ao tentar atualizar modelo sem imagem', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
     $data = [
         'nome' => 'Modelo Teste - Atualizado'
     ];
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[0]['id'];
 
-    $response = $this->putJson("/api/modelos/{$modelo_id}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_id}", $data);
 
     expect($response->status())->toBe(422);
 
@@ -765,6 +829,8 @@ test('Update - Deve retornar feedback ao tentar atualizar modelo sem imagem', fu
 });
 
 test('Update - Deve retornar erro ao tentar atualizar modelo inexistente', function () {
+
+    $user = $this->user;
 
     Storage::fake('public');
 
@@ -775,7 +841,7 @@ test('Update - Deve retornar erro ao tentar atualizar modelo inexistente', funct
 
     $modelo_rand = random_int(10, 255);
 
-    $response = $this->putJson("/api/modelos/{$modelo_rand}", $data);
+    $response = $this->authenticate($user)->putJson("/api/modelos/{$modelo_rand}", $data);
 
     expect($response->status())->toBe(404);
 
@@ -784,21 +850,23 @@ test('Update - Deve retornar erro ao tentar atualizar modelo inexistente', funct
 
 test('Destroy - Deve deletar um modelo existente', function () {
 
+    $user = $this->user;
+
     Storage::fake('public');
 
-    $modelos = $this->getJson('/api/modelos/');
+    $modelos = $this->authenticate($user)->getJson('/api/modelos/');
 
     expect($modelos->status())->toBe(200);
 
     $modelo_id = $modelos->json()[1]['id'];
 
-    $response = $this->deleteJson("/api/modelos/{$modelo_id}");
+    $response = $this->authenticate($user)->deleteJson("/api/modelos/{$modelo_id}");
 
     expect($response->status())->toBe(200);
 
     expect($response->json('message'))->toBe('O Modelo foi removido com sucesso!');
 
-    $responseGet = $this->getJson("/api/modelos/{$modelo_id}");
+    $responseGet = $this->authenticate($user)->getJson("/api/modelos/{$modelo_id}");
 
 
     expect($responseGet->status())->toBe(404);
@@ -806,11 +874,14 @@ test('Destroy - Deve deletar um modelo existente', function () {
 
 test('Destroy - Deve retornar erro ao tentar deletar modelo inexistente', function () {
 
+    $user = $this->user;
+
+
     Storage::fake('public');
 
     $modelo_rand = random_int(10, 255);
 
-    $response = $this->deleteJson("/api/modelos/{$modelo_rand}");
+    $response = $this->authenticate($user)->deleteJson("/api/modelos/{$modelo_rand}");
 
     expect($response->status())->toBe(404);
 
