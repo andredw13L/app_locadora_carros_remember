@@ -22,9 +22,12 @@ class AuthController extends Controller
     {
         return 'Logout';
     }
-    public function refresh()
+    public function refresh(Request $request)
     {
-        return 'Refresh';
+        $request->user()->currentAccessToken()->delete();
+        $token = $request->user()->createToken('auth_token');
+
+        return response()->json(['token' => $token->plainTextToken], 200);
     }
     public function me()
     {
