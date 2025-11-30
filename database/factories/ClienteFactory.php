@@ -17,7 +17,7 @@ class ClienteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nome' => fake('pt_BR')->name()
         ];
     }
 }
