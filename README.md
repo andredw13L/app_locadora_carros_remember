@@ -13,7 +13,7 @@ O projeto representa uma **evolução de um sistema anterior**, com foco em **bo
 | Banco de Dados | MySQL |
 | Container | Docker (com MySQL) |
 | Servidor HTTP | FrankenPHP (Octane) |
-| ORM | Eloquent |
+| Autenticação | Sanctum |
 | Monitoramento | Laravel Telescope |
 | Testes | Pest |
 | Documentação | Scribe |
