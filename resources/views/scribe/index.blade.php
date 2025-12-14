@@ -157,7 +157,7 @@
                 </li>
                                     <ul id="tocify-subheader-marcas" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="marcas-GETapi-marcas">
-                                <a href="#marcas-GETapi-marcas">Listar Marcas</a>
+                                <a href="#marcas-GETapi-marcas">Listar marcas</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="marcas-POSTapi-marcas">
                                 <a href="#marcas-POSTapi-marcas">Criar uma nova marca</a>
@@ -204,7 +204,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 30, 2025</li>
+        <li>Last updated: December 14, 2025</li>
     </ul>
 </div>
 
@@ -3007,14 +3007,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>Gerenciamento de marcas</p>
 
-                                <h2 id="marcas-GETapi-marcas">Listar Marcas</h2>
+                                <h2 id="marcas-GETapi-marcas">Listar marcas</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Retorna a lista de marcas cadastradas, permitindo filtros,
-seleção de atributos específicos e exibição de atributos do modelo relacionado.</p>
+<p>Retorna a lista de marcas cadastradas. Permite aplicar filtros,
+selecionar atributos específicos e definir atributos do relacionamento
+com modelos.</p>
 
 <span id="example-requests-GETapi-marcas">
 <blockquote>Example request:</blockquote>
@@ -3147,7 +3148,44 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>filtro</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="filtro"                data-endpoint="GETapi-marcas"
+               value=""
+               data-component="query">
+    <br>
+<p>Filtro aplicado aos campos da marca. Exemplo: nome:Toyota</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos"                data-endpoint="GETapi-marcas"
+               value=""
+               data-component="query">
+    <br>
+<p>Lista de atributos da marca a serem retornados. Exemplo: id,nome</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos_modelo</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos_modelo"                data-endpoint="GETapi-marcas"
+               value=""
+               data-component="query">
+    <br>
+<p>Atributos do relacionamento modelo. Exemplo: id,nome</p>
+            </div>
+                </form>
 
                     <h2 id="marcas-POSTapi-marcas">Criar uma nova marca</h2>
 
@@ -3167,7 +3205,11 @@ pelo cliente e aplicando validações antes da criação.</p>
     "http://localhost:8000/api/marcas" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"nome\": null
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -3181,9 +3223,14 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "nome": null
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -3273,7 +3320,32 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>nome</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="nome"                data-endpoint="POSTapi-marcas"
+               value=""
+               data-component="body">
+    <br>
+<p>Nome da marca. Exemplo: Volkswagen</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>imagem</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="imagem"                data-endpoint="POSTapi-marcas"
+               value=""
+               data-component="body">
+    <br>
+<p>Imagem da marca. Exemplo: logo-volkswagen.png</p>
+        </div>
+        </form>
 
                     <h2 id="marcas-GETapi-marcas--id-">Exibir uma marca</h2>
 
@@ -3281,7 +3353,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Retorna os detalhes de uma marca específico com base no ID informado.</p>
+<p>Retorna os detalhes de uma marca específica com base no ID informado,
+incluindo os modelos relacionados.</p>
 
 <span id="example-requests-GETapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -3289,7 +3362,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/marcas/architecto" \
+    --get "http://localhost:8000/api/marcas/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3297,7 +3370,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/marcas/architecto"
+    "http://localhost:8000/api/marcas/"
 );
 
 const headers = {
@@ -3417,15 +3490,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="GETapi-marcas--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-marcas--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the marca. Example: <code>architecto</code></p>
+<p>ID da marca. Exemplo: 1</p>
             </div>
                     </form>
 
@@ -3436,7 +3509,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </p>
 
 <p>Atualiza os dados de uma marca existente. Permite atualização total (PUT)
-ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
+ou parcial (PATCH), processando apenas os campos enviados.</p>
 
 <span id="example-requests-PUTapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -3444,15 +3517,16 @@ ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/marcas/architecto" \
+    "http://localhost:8000/api/marcas/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/marcas/architecto"
+    "http://localhost:8000/api/marcas/"
 );
 
 const headers = {
@@ -3560,17 +3634,42 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="PUTapi-marcas--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-marcas--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the marca. Example: <code>architecto</code></p>
+<p>ID da marca. Exemplo: 1</p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>nome</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="nome"                data-endpoint="PUTapi-marcas--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Nome da marca. Exemplo: Ford</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>imagem</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="imagem"                data-endpoint="PUTapi-marcas--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Nova imagem da marca. Exemplo: logo-ford.png</p>
+        </div>
+        </form>
 
                     <h2 id="marcas-DELETEapi-marcas--id-">Remover uma marca</h2>
 
@@ -3578,7 +3677,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-<p>Exclui uma marca do sistema com base no ID informado.</p>
+<p>Remove uma marca do sistema com base no ID informado,
+excluindo também sua imagem associada.</p>
 
 <span id="example-requests-DELETEapi-marcas--id-">
 <blockquote>Example request:</blockquote>
@@ -3586,7 +3686,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/marcas/architecto" \
+    "http://localhost:8000/api/marcas/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3594,7 +3694,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/marcas/architecto"
+    "http://localhost:8000/api/marcas/"
 );
 
 const headers = {
@@ -3698,15 +3798,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="DELETEapi-marcas--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-marcas--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the marca. Example: <code>architecto</code></p>
+<p>ID da marca. Exemplo: 1</p>
             </div>
                     </form>
 

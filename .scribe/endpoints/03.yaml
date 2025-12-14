@@ -16,10 +16,11 @@ endpoints:
         Gerenciamento de marcas
       subgroup: ''
       subgroupDescription: ''
-      title: 'Listar Marcas'
+      title: 'Listar marcas'
       description: |-
-        Retorna a lista de marcas cadastradas, permitindo filtros,
-        seleção de atributos específicos e exibição de atributos do modelo relacionado.
+        Retorna a lista de marcas cadastradas. Permite aplicar filtros,
+        selecionar atributos específicos e definir atributos do relacionamento
+        com modelos.
       authenticated: true
       deprecated: false
     headers:
@@ -28,7 +29,40 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
+    queryParameters:
+      filtro:
+        custom: []
+        name: filtro
+        description: 'Filtro aplicado aos campos da marca. Exemplo: nome:Toyota'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      atributos:
+        custom: []
+        name: atributos
+        description: 'Lista de atributos da marca a serem retornados. Exemplo: id,nome'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      atributos_modelo:
+        custom: []
+        name: atributos_modelo
+        description: 'Atributos do relacionamento modelo. Exemplo: id,nome'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
@@ -78,8 +112,31 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      nome:
+        custom: []
+        name: nome
+        description: 'Nome da marca. Exemplo: Volkswagen'
+        required: true
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      imagem:
+        custom: []
+        name: imagem
+        description: 'Imagem da marca. Exemplo: logo-volkswagen.png'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      nome: null
     fileParameters: []
     responses: []
     responseFields: []
@@ -104,7 +161,9 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Exibir uma marca'
-      description: 'Retorna os detalhes de uma marca específico com base no ID informado.'
+      description: |-
+        Retorna os detalhes de uma marca específica com base no ID informado,
+        incluindo os modelos relacionados.
       authenticated: true
       deprecated: false
     headers:
@@ -115,16 +174,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'ID da marca. Exemplo: 1'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -165,7 +224,7 @@ endpoints:
       title: 'Atualizar uma marca'
       description: |-
         Atualiza os dados de uma marca existente. Permite atualização total (PUT)
-        ou parcial (PATCH), incluindo manipulação de atributos específicos.
+        ou parcial (PATCH), processando apenas os campos enviados.
       authenticated: true
       deprecated: false
     headers:
@@ -176,19 +235,41 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'ID da marca. Exemplo: 1'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
+    bodyParameters:
+      nome:
+        custom: []
+        name: nome
+        description: 'Nome da marca. Exemplo: Ford'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      imagem:
+        custom: []
+        name: imagem
+        description: 'Nova imagem da marca. Exemplo: logo-ford.png'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters: []
     fileParameters: []
     responses: []
@@ -214,7 +295,9 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Remover uma marca'
-      description: 'Exclui uma marca do sistema com base no ID informado.'
+      description: |-
+        Remove uma marca do sistema com base no ID informado,
+        excluindo também sua imagem associada.
       authenticated: true
       deprecated: false
     headers:
@@ -225,16 +308,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the marca.'
+        description: 'ID da marca. Exemplo: 1'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
