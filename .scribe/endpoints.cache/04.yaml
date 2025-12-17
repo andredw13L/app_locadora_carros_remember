@@ -21,7 +21,7 @@ endpoints:
       title: 'Listar modelos'
       description: |-
         Retorna a lista de modelos cadastrados, permitindo filtros,
-        seleção de atributos específicos e exibição de atributos do modelo relacionado.
+        seleção de atributos específicos e exibição de relacionamentos.
       authenticated: true
       deprecated: false
     headers:
@@ -30,7 +30,40 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
+    queryParameters:
+      atributos:
+        custom: []
+        name: atributos
+        description: 'Atributos específicos do modelo separados por vírgula'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      filtro:
+        custom: []
+        name: filtro
+        description: 'Filtros aplicados à consulta'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      atributos_marca:
+        custom: []
+        name: atributos_marca
+        description: 'Atributos específicos da marca relacionada'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
@@ -74,15 +107,99 @@ endpoints:
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
+    bodyParameters:
+      marca_id:
+        custom: []
+        name: marca_id
+        description: 'ID da marca associada ao modelo'
+        required: true
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      nome:
+        custom: []
+        name: nome
+        description: 'Nome do modelo'
+        required: true
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      imagem:
+        custom: []
+        name: imagem
+        description: 'Imagem representativa do modelo'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      numero_portas:
+        custom: []
+        name: numero_portas
+        description: 'Número de portas do veículo'
+        required: true
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      lugares:
+        custom: []
+        name: lugares
+        description: 'Quantidade de lugares'
+        required: true
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      air_bag:
+        custom: []
+        name: air_bag
+        description: 'Indica se possui airbag'
+        required: true
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      abs:
+        custom: []
+        name: abs
+        description: 'Indica se possui ABS'
+        required: true
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      marca_id: null
+      nome: null
+      numero_portas: null
+      lugares: null
+      air_bag: null
+      abs: null
+    fileParameters:
+      imagem: null
     responses: []
     responseFields: []
     auth:
@@ -117,16 +234,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'ID do modelo'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -178,19 +295,96 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'ID do modelo'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
+    bodyParameters:
+      marca_id:
+        custom: []
+        name: marca_id
+        description: 'ID da marca'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      nome:
+        custom: []
+        name: nome
+        description: 'Nome do modelo'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      imagem:
+        custom: []
+        name: imagem
+        description: 'Imagem representativa do modelo'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      numero_portas:
+        custom: []
+        name: numero_portas
+        description: 'Número de portas'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      lugares:
+        custom: []
+        name: lugares
+        description: 'Quantidade de lugares'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      air_bag:
+        custom: []
+        name: air_bag
+        description: 'Possui airbag'
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      abs:
+        custom: []
+        name: abs
+        description: 'Possui ABS'
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters: []
     fileParameters: []
     responses: []
@@ -227,16 +421,16 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the modelo.'
+        description: 'ID do modelo'
         required: true
-        example: architecto
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: null
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

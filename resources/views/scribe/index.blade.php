@@ -204,7 +204,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: December 14, 2025</li>
+        <li>Last updated: December 17, 2025</li>
     </ul>
 </div>
 
@@ -3821,7 +3821,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </p>
 
 <p>Retorna a lista de modelos cadastrados, permitindo filtros,
-seleção de atributos específicos e exibição de atributos do modelo relacionado.</p>
+seleção de atributos específicos e exibição de relacionamentos.</p>
 
 <span id="example-requests-GETapi-modelos">
 <blockquote>Example request:</blockquote>
@@ -3954,7 +3954,44 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos"                data-endpoint="GETapi-modelos"
+               value=""
+               data-component="query">
+    <br>
+<p>Atributos específicos do modelo separados por vírgula</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>filtro</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="filtro"                data-endpoint="GETapi-modelos"
+               value=""
+               data-component="query">
+    <br>
+<p>Filtros aplicados à consulta</p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>atributos_marca</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="atributos_marca"                data-endpoint="GETapi-modelos"
+               value=""
+               data-component="query">
+    <br>
+<p>Atributos específicos da marca relacionada</p>
+            </div>
+                </form>
 
                     <h2 id="modelos-POSTapi-modelos">Criar um novo modelo</h2>
 
@@ -3973,8 +4010,15 @@ pelo cliente e aplicando validações antes da criação.</p>
     <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/modelos" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "marca_id="\
+    --form "nome="\
+    --form "numero_portas="\
+    --form "lugares="\
+    --form "air_bag="\
+    --form "abs="\
+    --form "imagem=@/tmp/phpjt1972rdgf9u3tDksVM" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -3984,13 +4028,23 @@ pelo cliente e aplicando validações antes da criação.</p>
 
 const headers = {
     "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
+
+const body = new FormData();
+body.append('marca_id', '');
+body.append('nome', '');
+body.append('numero_portas', '');
+body.append('lugares', '');
+body.append('air_bag', '');
+body.append('abs', '');
+body.append('imagem', document.querySelector('input[name="imagem"]').files[0]);
 
 fetch(url, {
     method: "POST",
     headers,
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -4015,7 +4069,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-modelos" data-method="POST"
       data-path="api/modelos"
       data-authed="1"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-modelos', this);">
@@ -4063,10 +4117,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="POSTapi-modelos"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -4080,7 +4134,112 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>marca_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="marca_id"                data-endpoint="POSTapi-modelos"
+               value=""
+               data-component="body">
+    <br>
+<p>ID da marca associada ao modelo</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>nome</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="nome"                data-endpoint="POSTapi-modelos"
+               value=""
+               data-component="body">
+    <br>
+<p>Nome do modelo</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>imagem</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="imagem"                data-endpoint="POSTapi-modelos"
+               value=""
+               data-component="body">
+    <br>
+<p>Imagem representativa do modelo Example: <code>/tmp/phpjt1972rdgf9u3tDksVM</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>numero_portas</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="numero_portas"                data-endpoint="POSTapi-modelos"
+               value=""
+               data-component="body">
+    <br>
+<p>Número de portas do veículo</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>lugares</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="lugares"                data-endpoint="POSTapi-modelos"
+               value=""
+               data-component="body">
+    <br>
+<p>Quantidade de lugares</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>air_bag</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-modelos" style="display: none">
+            <input type="radio" name="air_bag"
+                   value="true"
+                   data-endpoint="POSTapi-modelos"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-modelos" style="display: none">
+            <input type="radio" name="air_bag"
+                   value="false"
+                   data-endpoint="POSTapi-modelos"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Indica se possui airbag</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>abs</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-modelos" style="display: none">
+            <input type="radio" name="abs"
+                   value="true"
+                   data-endpoint="POSTapi-modelos"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-modelos" style="display: none">
+            <input type="radio" name="abs"
+                   value="false"
+                   data-endpoint="POSTapi-modelos"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Indica se possui ABS</p>
+        </div>
+        </form>
 
                     <h2 id="modelos-GETapi-modelos--id-">Exibir um modelo</h2>
 
@@ -4096,7 +4255,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/modelos/architecto" \
+    --get "http://localhost:8000/api/modelos/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4104,7 +4263,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/modelos/architecto"
+    "http://localhost:8000/api/modelos/"
 );
 
 const headers = {
@@ -4224,15 +4383,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="GETapi-modelos--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-modelos--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the modelo. Example: <code>architecto</code></p>
+<p>ID do modelo</p>
             </div>
                     </form>
 
@@ -4251,15 +4410,16 @@ ou parcial (PATCH), incluindo manipulação de atributos específicos.</p>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/modelos/architecto" \
+    "http://localhost:8000/api/modelos/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/modelos/architecto"
+    "http://localhost:8000/api/modelos/"
 );
 
 const headers = {
@@ -4367,17 +4527,122 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="PUTapi-modelos--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-modelos--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the modelo. Example: <code>architecto</code></p>
+<p>ID do modelo</p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>marca_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="marca_id"                data-endpoint="PUTapi-modelos--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>ID da marca</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>nome</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="nome"                data-endpoint="PUTapi-modelos--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Nome do modelo</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>imagem</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="file" style="display: none"
+                              name="imagem"                data-endpoint="PUTapi-modelos--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Imagem representativa do modelo</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>numero_portas</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="numero_portas"                data-endpoint="PUTapi-modelos--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Número de portas</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>lugares</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="lugares"                data-endpoint="PUTapi-modelos--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Quantidade de lugares</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>air_bag</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-modelos--id-" style="display: none">
+            <input type="radio" name="air_bag"
+                   value="true"
+                   data-endpoint="PUTapi-modelos--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-modelos--id-" style="display: none">
+            <input type="radio" name="air_bag"
+                   value="false"
+                   data-endpoint="PUTapi-modelos--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Possui airbag</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>abs</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-modelos--id-" style="display: none">
+            <input type="radio" name="abs"
+                   value="true"
+                   data-endpoint="PUTapi-modelos--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-modelos--id-" style="display: none">
+            <input type="radio" name="abs"
+                   value="false"
+                   data-endpoint="PUTapi-modelos--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Possui ABS</p>
+        </div>
+        </form>
 
                     <h2 id="modelos-DELETEapi-modelos--id-">Remover um modelo</h2>
 
@@ -4393,7 +4658,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/modelos/architecto" \
+    "http://localhost:8000/api/modelos/" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4401,7 +4666,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/modelos/architecto"
+    "http://localhost:8000/api/modelos/"
 );
 
 const headers = {
@@ -4505,15 +4770,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="id"                data-endpoint="DELETEapi-modelos--id-"
-               value="architecto"
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-modelos--id-"
+               value=""
                data-component="url">
     <br>
-<p>The ID of the modelo. Example: <code>architecto</code></p>
+<p>ID do modelo</p>
             </div>
                     </form>
 

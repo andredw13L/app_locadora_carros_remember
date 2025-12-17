@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
+// TODO: Escrever os exemplos
+
 /**
  * @group Modelos
  *
@@ -18,12 +20,15 @@ class ModeloController extends Controller
 {
 
     public function __construct(protected Modelo $modelo) {}
-
     /**
      * Listar modelos
      *
      * Retorna a lista de modelos cadastrados, permitindo filtros,
-     * seleção de atributos específicos e exibição de atributos do modelo relacionado.
+     * seleção de atributos específicos e exibição de relacionamentos.
+     *
+     * @queryParam atributos string Atributos específicos do modelo separados por vírgula No-example
+     * @queryParam filtro string Filtros aplicados à consulta No-example
+     * @queryParam atributos_marca string Atributos específicos da marca relacionada No-example
      */
     public function index(Request $request, ListarModelos $listarModelos): JsonResponse
     {
@@ -39,6 +44,14 @@ class ModeloController extends Controller
      *
      * Registra um novo modelo no sistema, processando dados enviados
      * pelo cliente e aplicando validações antes da criação.
+     *
+     * @bodyParam marca_id integer required ID da marca associada ao modelo No-example
+     * @bodyParam nome string required Nome do modelo No-example
+     * @bodyParam imagem file required Imagem representativa do modelo No-example
+     * @bodyParam numero_portas integer required Número de portas do veículo No-example
+     * @bodyParam lugares integer required Quantidade de lugares No-example
+     * @bodyParam air_bag boolean required Indica se possui airbag No-example
+     * @bodyParam abs boolean required Indica se possui ABS No-example
      */
     public function store(Request $request): JsonResponse
     {
@@ -64,6 +77,8 @@ class ModeloController extends Controller
      * Exibir um modelo
      *
      * Retorna os detalhes de um modelo específico com base no ID informado.
+     *
+     * @urlParam id integer required ID do modelo No-example
      */
     public function show(int $id): JsonResponse
     {
@@ -81,6 +96,15 @@ class ModeloController extends Controller
      *
      * Atualiza os dados de um modelo existente. Permite atualização total (PUT)
      * ou parcial (PATCH), incluindo manipulação de atributos específicos.
+     *
+     * @urlParam id integer required ID do modelo No-example
+     * @bodyParam marca_id integer ID da marca No-example
+     * @bodyParam nome string Nome do modelo No-example
+     * @bodyParam imagem file Imagem representativa do modelo No-example
+     * @bodyParam numero_portas integer Número de portas No-example
+     * @bodyParam lugares integer Quantidade de lugares No-example
+     * @bodyParam air_bag boolean Possui airbag No-example
+     * @bodyParam abs boolean Possui ABS No-example
      */
     public function update(Request $request, int $id, AtualizarModelo $atualizarModelo): JsonResponse
     {
@@ -95,10 +119,13 @@ class ModeloController extends Controller
         return response()->json($modelo, 200);
     }
 
+
     /**
      * Remover um modelo
      *
      * Exclui um modelo do sistema com base no ID informado.
+     *
+     * @urlParam id integer required ID do modelo No-example
      */
     public function destroy(int $id): JsonResponse
     {
