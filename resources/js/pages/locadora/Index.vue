@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/vue3";
-import { login } from "@/routes";
+import { login, register } from "@/routes";
 </script>
 
 
@@ -12,15 +12,22 @@ import { login } from "@/routes";
     </h1>
 
     <p class="text-muted-foreground text-center mb-6 max-w-md">
-      Alugue carros de forma rápida, simples e sem burocracia.
+      Gerencie sua locadora de forma simples e rápida.
     </p>
 
 
-    <Link :href="login()">
+    <div class="flex gap-x-4 ">
+      <Link :href="login()">
         <Button class="cursor-pointer">
-        Entrar ou criar conta
+          Entrar
         </Button>
-    </Link>
+      </Link>
+      <Link :href="register()">
+        <Button class="cursor-pointer">
+          Criar sua conta
+        </Button>
+      </Link>
+    </div>
 
   </div>
 </template>
