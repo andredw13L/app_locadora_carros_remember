@@ -71,7 +71,7 @@ defineProps<{
                     </Label>
                 </div>
 
-                <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="processing" data-test="login-button">
+                <Button type="submit" class="mt-4 w-full cursor-pointer" :tabindex="4" :disabled="processing" data-test="login-button">
                     <LoaderCircle v-if="processing" class="h-4 w-4 animate-spin" />
                     Log in
                 </Button>
