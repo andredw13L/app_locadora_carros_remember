@@ -3,6 +3,8 @@ import { marcas } from '@/routes';
 import { BreadcrumbItem } from '@/types';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import DataTable from '@/components/marcas/DataTable.vue';
+import { columns } from '@/components/marcas/columns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -10,6 +12,15 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: marcas().url,
     },
 ];
+
+interface Props {
+  marcas: {
+    id: string
+    nome: string
+  }[]
+}
+
+const props = defineProps<Props>()
 
 </script>
 
@@ -19,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
         <Head title="Marcas"></Head>
         <AppLayout :breadcrumbs="breadcrumbs">
-            <h1>Marcas</h1>
+           <DataTable :columns="columns" :data="props.marcas"></DataTable>
         </AppLayout>
     </div>
 </template>
