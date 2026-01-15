@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\Marca\AtualizarMarca;
 use App\Actions\Marca\ListarMarcas;
@@ -8,6 +8,7 @@ use App\Models\Marca;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 /**
  * @group Marcas

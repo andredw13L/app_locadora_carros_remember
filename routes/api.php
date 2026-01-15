@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CarroController;
-use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\ModeloController;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\LocacaoController;
+use App\Http\Controllers\Api\CarroController;
+use App\Http\Controllers\Api\MarcaController;
+use App\Http\Controllers\Api\ModeloController;
+use App\Http\Controllers\Api\ClienteController;
+use App\Http\Controllers\Api\LocacaoController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

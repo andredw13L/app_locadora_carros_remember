@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\Modelo\AtualizarModelo;
 use App\Actions\Modelo\ListarModelos;
@@ -8,6 +8,7 @@ use App\Models\Modelo;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 // TODO: Escrever os exemplos
 

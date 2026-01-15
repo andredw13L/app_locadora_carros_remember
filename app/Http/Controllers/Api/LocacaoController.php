@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\Locacao\AtualizarLocacao;
 use App\Actions\Locacao\ListarLocacoes;
 use App\Models\Locacao;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 /**
  * @group Locações

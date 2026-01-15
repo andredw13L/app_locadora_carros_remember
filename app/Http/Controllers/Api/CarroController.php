@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\Carro\AtualizarCarro;
 use App\Actions\Carro\ListarCarros;
 use App\Models\Carro;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\CarroRepository;
+use App\Http\Controllers\Controller;
 
 /**
  * @group Carros

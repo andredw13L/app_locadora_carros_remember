@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\MarcaWebController;
-use App\Models\Marca;
+use App\Http\Controllers\Web\MarcaWebController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
