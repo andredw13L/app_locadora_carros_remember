@@ -20,7 +20,7 @@ class MarcaWebController extends Controller
         $marcas = $listarMarcas->execute($request, $this->marca);
 
         return Inertia::render('locadora/Marcas', [
-            'marcas' => $marcas->setVisible(['id', 'nome'])
+            'marcas' => $marcas
         ]);
     }
 

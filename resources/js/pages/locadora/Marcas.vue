@@ -16,7 +16,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Props {
   marcas: {
     id: string
-    nome: string
+    nome: string,
+    imagem: string,
+    created_at: Date,
+    updated_at: Date
   }[]
 }
 
