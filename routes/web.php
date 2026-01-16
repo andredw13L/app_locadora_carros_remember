@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\MarcaWebController;
+use App\Http\Controllers\Web\MarcaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,7 +12,7 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-route::get('/marcas', [MarcaWebController::class, 'index'])->name('marcas')->middleware('auth:sanctum');
+route::get('/marcas', [MarcaController::class, 'index'])->name('marcas')->middleware('auth:sanctum');
 
 // TODO: Rota de fallback e página em Vue.js
 

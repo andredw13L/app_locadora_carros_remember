@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 
-class MarcaWebController extends Controller
+class MarcaController extends Controller
 {
     public function __construct(protected Marca $marca) {}
 
