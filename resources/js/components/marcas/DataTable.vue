@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   useVueTable,
   getFilteredRowModel,
+  getPaginationRowModel,
 } from '@tanstack/vue-table'
 
 import {
@@ -19,11 +20,17 @@ import {
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue';
 import { valueUpdater } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }>()
+
+const pagination = ref({
+  pageIndex: 0,
+  pageSize: 8,
+})
 
 const columnFilters = ref<ColumnFiltersState>([])
 
@@ -35,8 +42,10 @@ const table = useVueTable({
   getFilteredRowModel: getFilteredRowModel(),
   state: {
     get columnFilters() { return columnFilters.value },
-  }
-
+    get pagination() { return pagination.value }
+  },
+  getPaginationRowModel: getPaginationRowModel(),
+  onPaginationChange: (updaterOrValue) => valueUpdater(updaterOrValue, pagination),
 })
 </script>
 
@@ -75,5 +84,15 @@ const table = useVueTable({
         </template>
       </TableBody>
     </Table>
+    <div class="flex items-center justify-center py-4 space-x-2">
+      <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()" @click="table.previousPage()"
+        class="cursor-pointer">
+        Anterior
+      </Button>
+      <Button variant="outline" size="sm" :disabled="!table.getCanNextPage()" @click="table.nextPage()"
+        class="cursor-pointer">
+        Próxima
+      </Button>
+    </div>
   </div>
 </template>
