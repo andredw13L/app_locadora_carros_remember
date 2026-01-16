@@ -79,8 +79,7 @@ php artisan migrate
 ### 8. (Opcional) Popule o banco com dados de teste
 
 ```bash
-php artisan db:seed --class=MarcaSeeder
-php artisan db:seed --class=ModeloSeeder
+php artisan db:seed
 ```
 
 ### 9. Compile os assets do frontend
